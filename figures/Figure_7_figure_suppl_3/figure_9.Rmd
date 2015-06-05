@@ -1,0 +1,74 @@
+---
+title: "figure_9"
+author: "Rubén Rellán-Ávarez"
+output: html_document
+---
+
+library(tidyr)
+library(dplyr)
+library(RColorBrewer)
+library(ggplot2)
+library(magrittr)
+library(gridExtra)
+library(rmarkdown)
+
+
+Directionality analysis of plants exposed to light
+
+```{r}
+
+dir_light <- read.csv("data/root-data-dir-light.csv")
+dir_light$angle <- abs(dir_light$angle)
+
+dir_light_tidy <- dir_light %>%
+        separate(image, into = c("experiment", "das", "genotype", "light", 
+                                 "plant", "aq"), sep = "-")
+
+dir_light_tidy %>%
+        filter(genotype == "col" | genotype == "pht") %>%
+ggplot(aes(x = angle, y = count, colour = light)) +
+        geom_smooth()+
+        ylim(0, 2) +
+        labs(x = "Angle", y = "count") +
+        facet_grid(genotype ~.) +
+        theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank()) +
+        theme_bw() +
+        ggsave("directionality-light.pdf", height = 14, width = 10, units = 
+                       "cm", useDingbats = FALSE) 
+
+write.csv(dir_light_tidy, file="dir_light_tidy")
+        
+dir_light_ks <- read.csv("data/root-data-dir-light-ks.csv")
+
+ks.test(dir_light_ks$col_dark, dir_light_ks$col_light)
+ks.test(dir_light_ks$pht_dark, dir_light_ks$pht_light)
+
+```
+
+Analysis based on depth:
+
+```{r}
+
+dir_light_depth <- read.csv("data/root-data-dir-depth.csv")
+dir_light_depth$angle <- abs(dir_light_depth$angle)
+
+dir_light_depth_tidy <- dir_light_depth %>%
+        separate(image, into = c("experiment", "das", "genotype", "light", 
+                                 "plant", "aq"), sep = "-")
+
+dir_light_depth_tidy %>%
+        filter(y < 14) %>%
+ggplot(aes(x = angle, y = count, colour = light)) +
+        geom_smooth()+
+        ylim(0, 2) +
+        labs(x = "Angle", y = "count") +
+        facet_grid(y ~.) +
+        theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank()) +
+        theme_bw() +
+        ggsave("directionality-light-depth.pdf", height = 14, width = 10, units = 
+                       "cm", useDingbats = FALSE) 
+
+```
+

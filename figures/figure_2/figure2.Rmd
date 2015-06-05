@@ -1,0 +1,227 @@
+---
+title: "figure3"
+author: "Rubén Rellán Álvarez"
+date: "December 26, 2014"
+output: html_document
+---
+
+```{r}
+library(tidyr)
+library(dplyr)
+library(RColorBrewer)
+library(ggplot2)
+library(magrittr)
+library(gridExtra)
+library(stringr)
+
+```
+
+Global analysis of example of root growth. We include in this file the manual measurements.
+`
+```{r}
+
+global <- read.csv("data/root-data-global.csv")
+global <- tbl_df(global)
+
+
+```
+
+We will first do some correlation analysis between the automatic measurements and the manual quantification
+
+```{r}
+
+# Depth can be a proxy for PR length
+ggplot(global, aes(x=PrPathLength, y=depth))  +
+        geom_point(size=3) +
+        geom_smooth(method = "lm", colour = "grey60") +
+        labs(x = "PR Lenght Manual (cm)", y = "Depth automatic (cm)")
+ggsave("9_PRPath_DepthCorr.pdf", height = 8, width = 8, units = "cm", 
+         useDingbats = FALSE)
+
+modeldepth <- lm(depth ~ PrPathLength, global)
+summary(modeldepth)
+
+
+# Convex Hull as a proxy for Root Systems area
+ggplot(global, aes(x=AreaManual, y=convexhull))  +
+        geom_point(size=3) +
+        geom_smooth(method = "lm", colour = "grey60") +
+        labs(x = "Area Manual (cm2)", y = "Area automatic (cm2)")
+ggsave("9_AreaManual_AutomCorr.pdf", height = 8, width = 8, units = "cm", 
+         useDingbats = FALSE)
+
+modelarea <- lm(convexhull ~ AreaManual, global)
+summary(modelarea)
+
+```
+
+Nice, now, let´s plot some data
+
+
+```{r}
+# PR Growth Rate
+
+p1 <- ggplot(global, aes(x=das, y=PrGrowthRate)) + 
+        geom_point(size=3, colour = "grey20") +
+        labs(x = "Days after Sowing", y = "PR Growth rate (cm/day)") +
+        theme_bw() +
+ggsave("9_PRGrowthRate.pdf", height = 8, width = 8, units = "cm", 
+         useDingbats = FALSE)
+
+
+# Depth
+
+p2 <-ggplot(global, aes(x=das, y=desc(depth))) +
+        geom_point(size=3, colour = "grey20") +
+        labs(x = "Days after Sowing", y = "Depth(cm)") +
+        theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank()) +
+        theme_bw() +
+        ggsave("9_depth.pdf", width = 8, height = 8, units = "cm", useDingbats = FALSE)
+
+# Root System Area
+
+p3 <- ggplot(global, aes(x=das, y=AreaManual)) + 
+        geom_point(size=3, colour = "grey20") +
+        labs(x = "Days after Sowing", y = "Area(cm2)") +
+        theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank()) +
+        theme_bw() +
+        ggsave("9_area.pdf", width = 8, height = 8, units = "cm", useDingbats = FALSE)
+
+
+# Width
+p4 <- ggplot(global, aes(x=das, y=width)) +
+        geom_point(size=3, colour = "grey20") +
+        labs(x = "Days after Sowing", y = "Width(cm)") +
+        theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank()) +
+        theme_bw() +
+        ggsave("9_width.pdf", width = 8, height = 8, units = "cm", useDingbats = FALSE)
+
+# Aspect ratio
+p5 <- ggplot(global, aes(x=das, y=ar))  + 
+        geom_point(size=3, colour = "grey20") +
+        labs(x = "Days after Sowing", y = "depth/width") +
+        theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank()) +
+        theme_bw() +
+        ggsave("9_ar.pdf", width = 8, height = 8, units = "cm", useDingbats = FALSE)
+
+# lateral root number
+p6 <- ggplot(global, aes(x=das, y=LrNumber) ) +
+        geom_point(size=3, colour = "grey20") +
+        labs(x = "Days after Sowing", y = "Lateral root number") +
+        theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank()) +
+        theme_bw() +
+        ggsave("9_LR#.pdf", width = 8, height = 8, units = "cm", useDingbats = FALSE)
+
+# branched zone area
+p7 <- ggplot(global, aes(x=das, y=BranchedZone)) + 
+        geom_point(size=3, colour = "grey20") +
+        labs(x = "Days after Sowing", y = "Branched Zone Area") +
+        theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank()) +
+        theme_bw() +
+        ggsave("9_branched_zone.pdf", width = 8, height = 8, units = "cm", useDingbats = FALSE)
+
+# LR density in PR
+p8 <- ggplot(global, aes(x=das, y=LRDensityPrPath) )  +
+        geom_point(size=3, colour = "grey20") +
+        labs(x = "Days after Sowing", y = "# LR / PR length")+ 
+        theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank()) +
+        theme_bw() +
+        ggsave("9_LR_density.pdf", width = 8, height = 8, units = "cm", useDingbats = FALSE)
+
+grid.arrange(p1, p2, p4, p3, p8, nrow = 1) +
+        ggsave("combined.pdf", width = 14, height = 8, units = "cm", useDingbats = FALSE)
+
+```
+
+I will now do some analysis on the directionality data.
+
+```{r}
+
+dir <- read.csv("data/root-data-dir.csv")
+dir$angle <- abs(dir$angle)
+
+dir_tidy <- dir %>%
+        separate(image, into = c("experiment", "plant", "das", sep="_"))
+
+ggplot(dir_tidy, aes(x=angle, y=count)) +
+        geom_smooth() +
+  facet_grid (~das) +
+        theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank()) +
+theme_bw()
+        ggsave("directionality_line.pdf", width = 14, height = 5 , units = "cm", useDingbats = FALSE)
+
+```
+
+              
+new GLO-RIA version with depth data  
+
+````{r}
+dir3 <- read.csv("data/root-data-dir2.csv")
+dir3$angle <- abs(dir3$angle)
+
+dir3_tidy <- dir3 %>%
+        separate(image, into = c("experiment", "plant", "das", sep="_"))
+
+ggplot(dir3_tidy, aes(x=angle, y=count, fill = y))+
+  geom_point(size=2, aes(alpha = 0.8)) +
+        ylim(0, 6) +
+  facet_grid (y ~ das) +
+        theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank())
+ 
+```
+
+new GLO-RIA version with fourier
+
+````{r}
+
+dir_fou <- read.csv("data/root-data-fou-dir.csv")
+dir_fou$angle <- abs(dir_fou$angle)
+
+dir_fou_tidy <- dir_fou %>%
+        separate(image, into = c("experiment", "plant", "das", sep="_"))
+
+ggplot(dir_fou_tidy, aes(x=angle, y=count)) +
+  geom_point(size=3, aes(alpha = 0.5)) +
+        ylim(0, 6) +
+  facet_grid (~das) +
+        theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank())
+
+```
+
+Testing out GLO_RIA´s new version of local.
+
+```{r}
+
+dir_local <- read.csv("data/root-data-local.csv")
+dir_local$angle <- abs(dir_local$angle)
+
+dir_local_tidy <- dir_local %>%
+        separate(image, into = c("experiment", "plant", "das", sep="_"))
+
+dir_local_tidy[,4] <- NULL
+
+ggplot(dir_local_tidy, aes(x=angle, fill = plant))+
+  geom_density(alpha=.5) +
+  facet_grid (~ das) +
+        theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank())
+
+ggplot(dir_local_tidy, aes(x=x, y= desc(y), colour = angle ))+
+  geom_point(alpha=0.5) +
+  facet_grid (~ das) +
+        theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank())
+
+```
+
+

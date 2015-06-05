@@ -1,0 +1,146 @@
+---
+title: "figure_8"
+author: "Rubén Rellán-Ávarez"
+output: html_document
+---
+
+library(tidyr)
+library(dplyr)
+library(RColorBrewer)
+library(ggplot2)
+library(magrittr)
+library(gridExtra)
+library(rmarkdown)
+
+
+It does seem that the width of the low phosphorus plants is larger they are 
+shorter. Let´s take a look at the global data.
+
+```{r}
+global <- read.csv("data/root-data-global.csv")
+
+# some data tyding 
+
+global_tidy <- global %>%
+        separate(image, into = c("experiment", "das", "phosphorus", "plant", 
+                                 "aq"), sep = "-")
+
+ggplot(global_tidy, aes(x = phosphorus, y = width, colour = phosphorus)) +
+        geom_boxplot() +
+        geom_point(size = 3, position=position_jitter()) +
+        labs(x = "Phosphorus availability", y = "Width (cm)") +
+        facet_grid(das ~.) +
+        theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank())
+
+ggsave("width.pdf", height = 10, width = 10, units = "cm", 
+         useDingbats = FALSE)
+
+aov.width <- aov(width ~ phosphorus * das, data = global_tidy)
+summary(aov.width)
+
+```
+
+
+However it seems that the area is pretty similar. Let´s check that and also the 
+depth, and AR.
+
+```{r}
+
+# area
+
+ggplot(global_tidy, aes(x = phosphorus, y = convexhull, colour = phosphorus)) +
+        geom_boxplot() +
+        geom_point(size = 3, position=position_jitter()) +
+        labs(x = "Phosphorus availability", y = "Area (cm2)") +
+        facet_grid(das ~.) +
+        theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank()) +
+        ggsave("area.pdf", height = 14, width = 10, units = "cm", 
+         useDingbats = FALSE)
+
+aov.area <- aov(convexhull ~ phosphorus * das, data = global_tidy)
+summary(aov.area)
+
+# depth
+
+ggplot(global_tidy, aes(x = phosphorus, y = depth, colour = phosphorus)) +
+        geom_boxplot() +
+        geom_point(size = 3, position=position_jitter()) +
+        labs(x = "Phosphorus availability", y = "Depth (cm)") +
+        facet_grid(das ~.) +
+        theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank()) +
+        ggsave("depth.pdf", height = 14, width = 12, units = "cm", 
+         useDingbats = FALSE)
+
+aov.depth <- aov(depth ~ phosphorus * das, data = global_tidy)
+summary(aov.depth)
+
+# Aspect ratio
+
+ggplot(global_tidy, aes(x = phosphorus, y = ar, colour = phosphorus)) +
+        geom_boxplot() +
+        geom_point(size = 3, position=position_jitter()) +
+        labs(x = "Phosphorus availability", y = "Depth/width") +
+        facet_grid(das ~.) +
+        theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank()) +
+        theme_bw()
+        ggsave("ar.pdf", height = 14, width = 10, units = "cm", 
+         useDingbats = FALSE)
+
+aov.ar <- aov(ar ~ phosphorus * das, data = global_tidy)
+summary(aov.ar)
+
+```
+
+I will now take a look at root-shoots correlations.
+
+```{r}
+
+# shoot/root correlations (areas)
+
+ggplot(global_tidy, aes(x = convexhull, y = shoot_area, colour = phosphorus)) +
+        geom_point(size = 4) +
+        labs(x = "Root Area (cm2)", y = "Shoot Area (cm2)") +
+        facet_grid(das ~.) +
+        theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank()) +
+        theme_bw()
+        ggsave("root-shoot-correlation.pdf", height = 14, width = 10, units = 
+                       "cm", useDingbats = FALSE)
+
+```
+
+
+I don´t see very apparent changes in term of angles. Let´s see. 
+
+
+```{r}
+dir <- read.csv("data/root-data-dir.csv")
+dir$angle <- abs(dir$angle)
+
+dir_tidy <- dir %>%
+        separate(image, into = c("experiment", "das", "phosphorus", "plant", 
+                                 "aq"), sep = "-")
+
+ggplot(dir_tidy, aes(x = angle, y = count, colour = phosphorus)) +
+        labs(x = "Angle", y = "count") +
+        geom_smooth() +
+        facet_grid(das ~.) +
+        theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank()) +
+        theme_bw() +
+        ggsave("directionality-P.pdf", height = 15, width = 11, units = 
+                       "cm", useDingbats = FALSE) 
+
+
+# Kolmogorov-Smirnoff analysis of the directionality distributions
+
+dir_P_ks <- read.csv("data/root-data-dir-P-ks.csv")
+
+ks.test(dir_P_ks$early_high, dir_P_ks$early_low)
+ks.test(dir_P_ks$late_high, dir_P_ks$late_low)
+
+```

@@ -1,0 +1,289 @@
+---
+title: "figure_5"
+author: "Guillaume Lobet & and Ruben Rellan"
+date: "February 4, 2015"
+output: pdf_document
+---
+
+```{r}
+library(tidyr)
+library(dplyr)
+library(RColorBrewer)
+library(ggplot2)
+library(magrittr)
+library(png)
+library(grid)
+library(plotly)
+
+```
+
+
+
+Plotting reporter data from the ZAT12:LUC2 salt addition experiment
+
+
+```{r}
+# Load the reporter data
+reporter <- read.csv("data/reporter.csv")
+
+# Load the segment data
+segments <- read.csv("data/seg.csv")
+# Use for each time point the complete structure (from time point 1)
+seg <- segments[segments$time_in_serie == 1,]
+segments <- seg
+for(i in 2:max(reporter$time_in_serie)){
+  seg$time_in_serie <- i
+  segments <- rbind(segments, seg)
+}
+
+#calculate growth data
+
+reporter$growth = 0
+reporter$growth.x = 0
+reporter$growth.y = 0
+for(n in reps){
+temp <- reporter[reporter$rep_id == n,]
+reporter$growth.x[reporter$rep_id == n] <- c(0, abs(diff(temp$rep_x)))
+reporter$growth.y[reporter$rep_id == n] <- c(0, abs(diff(temp$rep_y)))
+}
+reporter$growth <- sqrt(reporter$growth.x^2 + reporter$growth.y^2)
+reps <- unique(reporter$rep_id)
+reporter$growth = 0
+reporter$growth.x = 0
+reporter$growth.y = 0
+for(n in reps){
+temp <- reporter[reporter$rep_id == n,]
+reporter$growth.x[reporter$rep_id == n] <- c(0, abs(diff(temp$rep_x)))
+reporter$growth.y[reporter$rep_id == n] <- c(0, abs(diff(temp$rep_y)))
+}
+reporter$growth <- sqrt(reporter$growth.x^2 + reporter$growth.y^2)
+reporter <- reporter[reporter$growth < 30,]
+
+
+reporter1 <- reporter[,c(2,4:9)]
+reporter1$diameter <- round(reporter1$diameter, 2)
+reporter1$intensity <- round(reporter1$intensity, 2)
+reporter1$intensity_ratio <- round(reporter1$intensity_ratio, 2)
+reporter1$growth <- round(reporter1$growth , 2)
+write.csv(reporter1, "~/Dropbox/research/scripts/websites/gloroot_d3/reporters.csv", row.names=F)
+
+
+
+# transform pixels into cm:
+
+reporter <- reporter %>%
+  mutate(depth = rep_y/138.6, width=rep_x/138,6)
+
+segments <- segments %>%
+  mutate(start_depth = start_y/138.6, start_width=start_x/138.6, end_depth = end_y/138.6, end_width=end_x/138.6)
+
+
+ggplot(reporter, aes(x = rep_x, y = desc(rep_y), size = intensity)) +
+
+# Add the segment data
+
+geom_segment(data=segments,aes(data=segments,aes(x = start_width, y = -start_depth, xend = end_width, yend = -end_depth), size=0.5, colour="grey", show_guide=F) + facet_grid(~ time_in_serie) +
+
+# Add the reporter data
+
+  geom_point(colour = "magenta", alpha=0.7) +
+  coord_fixed(ratio = 1) +
+  theme_bw() +
+  ggsave("zat12_intensity.pdf", height = 12, width = 8, units = "cm", 
+         useDingbats = FALSE)
+
+```
+
+
+Now we will plot the growth data wit some intensity as an aesthetic depending on zat12 intensity
+
+```{r}
+
+
+p <- ggplot(reporter, aes(x = width, y = desc(depth), colour = intensity)) +
+
+# Add the segment data
+
+geom_segment(data=segments,aes(x = start_width, y = -start_depth, xend = end_width, yend = -end_depth), size=0.5, colour="grey", show_guide=F) +
+facet_grid(~ time_in_serie) +
+
+# Add the reporter data
+
+geom_point() +
+scale_colour_gradientn(colours=rainbow(6))+
+coord_fixed(ratio = 1) +
+theme_bw() +
+  ggsave("growth_intensity.pdf", height = 20, width = 22, units = "cm", 
+         useDingbats = FALSE)
+
+
+```
+
+r <- py$ggplotly(p)
+
+Correlation between growth and zat12 expression?
+
+```{r}
+reporter %>%
+  filter(growth != 0)  %>%
+ggplot(aes(x = growth, y = intensity, alpha= time_in_serie)) +
+  geom_point(size = 3) +
+  theme_bw() +
+  ggsave("growth_intensity_correlation.pdf", height = 8, width = 8, units = "cm", 
+         useDingbats = FALSE)
+
+```
+
+
+Root-root interactions data
+
+```{r}
+root_root <- read.csv("data/root-root.csv")
+
+p1 <-root_root %>%
+        filter(genotype == "Col-LUC2" | genotype == "Sha-LUC2") %>%
+        ggplot(aes(x = factor(plants), y = rsa_area, color = factor(plants))) +
+        geom_boxplot() +
+        geom_point(aes(size =3)) +
+        facet_grid(~genotype) +
+        labs(x = "Number of plants in rhizotron", y = "Root system area (cm2)") +
+        theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank()) +
+        theme_bw() 
+ggsave("r_r_root_area.pdf", height = 8, width = 12, units = "cm", 
+         useDingbats = FALSE)
+
+p2 <-root_root %>%
+        filter(genotype == "Col-LUC2" | genotype == "Sha-LUC2") %>%
+        ggplot(aes(x = factor(plants), y = shoot_area, color = factor(plants))) +
+        geom_boxplot() +
+        geom_point(aes(size =3)) +
+        facet_grid(~genotype) +
+        labs(x = "Number of plants in rhizotron", y = "Shoot area (cm2)") +
+        theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank()) +
+        theme_bw()
+ggsave("r_r_shoot_area.pdf", height = 8, width = 12, units = "cm", 
+         useDingbats = FALSE)
+
+grid.arrange(p1, p2, ncol=1)
+
+ggsave("r_r_combined_area.pdf", height = 10, width = 12, units = "cm", 
+         useDingbats = FALSE)
+        
+```
+
+
+SR9 Experiment
+
+Plotting reporter data from the ZAT12:LUC2 salt addition experiment
+
+
+```{r}
+# Load the reporter data
+reporter <- read.csv("data/sr10-reporter.csv")
+
+# Load the segment data
+segments <- read.csv("data/sr10-seg.csv")
+# Use for each time point the complete structure (from time point 1)
+seg <- segments[segments$time_in_serie == 1,]
+segments <- seg
+for(i in 2:max(reporter$time_in_serie)){
+  seg$time_in_serie <- i
+  segments <- rbind(segments, seg)
+}
+
+#calculate growth data
+
+reporter$growth = 0
+reporter$growth.x = 0
+reporter$growth.y = 0
+for(n in reps){
+temp <- reporter[reporter$rep_id == n,]
+reporter$growth.x[reporter$rep_id == n] <- c(0, abs(diff(temp$rep_x)))
+reporter$growth.y[reporter$rep_id == n] <- c(0, abs(diff(temp$rep_y)))
+}
+reporter$growth <- sqrt(reporter$growth.x^2 + reporter$growth.y^2)
+reps <- unique(reporter$rep_id)
+reporter$growth = 0
+reporter$growth.x = 0
+reporter$growth.y = 0
+for(n in reps){
+temp <- reporter[reporter$rep_id == n,]
+reporter$growth.x[reporter$rep_id == n] <- c(0, abs(diff(temp$rep_x)))
+reporter$growth.y[reporter$rep_id == n] <- c(0, abs(diff(temp$rep_y)))
+}
+reporter$growth <- sqrt(reporter$growth.x^2 + reporter$growth.y^2)
+reporter <- reporter[reporter$growth < 30,]
+
+
+reporter1 <- reporter[,c(2,4:9)]
+reporter1$diameter <- round(reporter1$diameter, 2)
+reporter1$intensity <- round(reporter1$intensity, 2)
+reporter1$intensity_ratio <- round(reporter1$intensity_ratio, 2)
+reporter1$growth <- round(reporter1$growth , 2)
+write.csv(reporter1, "reporters.csv", row.names=F)
+
+
+
+# transform pixels into cm:
+
+reporter <- reporter %>%
+  mutate(depth = rep_y/138.6, width=rep_x/138,6)
+
+segments <- segments %>%
+  mutate(start_depth = start_y/138.6, start_width=start_x/138.6, end_depth = end_y/138.6, end_width=end_x/138.6)
+
+
+ggplot(reporter, aes(x = rep_x, y = desc(rep_y), size = intensity)) + 
+  geom_segment(data =segments, aes(x = start_width, y = -start_depth, xend = end_width, yend = -end_depth), size=0.5, colour="grey", show_guide=F) +                                                                                      facet_grid(~ time_in_serie) +
+  geom_point(colour = "magenta", alpha=0.7) +
+  coord_fixed(ratio = 1) +
+  theme_bw() +
+  ggsave("zat12_intensity.pdf", height = 12, width = 8, units = "cm", 
+         useDingbats = FALSE)
+
+```
+
+
+Now we will plot the growth data wit some intensity as an aesthetic depending on zat12 intensity
+
+```{r}
+
+
+p <- ggplot(reporter, aes(x = width, y = desc(depth), colour = intensity)) +
+
+# Add the segment data
+
+geom_segment(data=segments,aes(x = start_width, y = -start_depth, xend = end_width, yend = -end_depth), size=0.5, colour="grey", show_guide=F) +
+facet_grid(~ time_in_serie) +
+
+# Add the reporter data
+
+geom_point() +
+scale_colour_gradientn(colours=rainbow(6))+
+coord_fixed(ratio = 1) +
+theme_bw() +
+  ggsave("growth_intensity.pdf", height = 20, width = 22, units = "cm", 
+         useDingbats = FALSE)
+
+
+```
+
+comparison of root intensity profiles along lateral roots
+
+
+```{r}
+
+root_intensity <- read.csv("data/reporter_intensity.csv")
+
+root_intensity %>%
+  ggplot(aes(x = Distance_From_Tip, y = Intensity, colour = Reporter)) +
+  geom_point(size = 3, alpha = 0.6) +
+  facet_wrap(~ Reporter, scales="free") +
+  theme_bw() +
+  ggsave("reporter_intensity.pdf", height = 10, width = 18, units = "cm", 
+         useDingbats = FALSE)
+
+```
+

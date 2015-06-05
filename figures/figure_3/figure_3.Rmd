@@ -1,0 +1,591 @@
+---
+title: "figure_3"
+author: "Rubén Rellán-Ávarez", "Guillaume Lobet"
+output: html_document
+---
+
+```{r}
+
+library(tidyr)
+library(dplyr)
+library(RColorBrewer)
+library(ggplot2)
+library(magrittr)
+library(gridExtra)
+library(rmarkdown)
+library(shapes)
+library(geomorph)
+
+
+```
+
+
+
+
+First let´s take a look at the basic global descriptors
+
+```{r}
+global <- read.csv("data/high-root-data-global.csv")
+
+# some data tyding 
+
+global_tidy <- global %>%
+        separate(image, into = c("experiment", "das", "accession", "plant", 
+                                 "aq"), sep = "-")
+
+ggplot(global_tidy, aes(x = accession, y = width, colour = accession)) +
+        geom_boxplot() +
+        geom_point(size = 3, position=position_jitter()) +
+        labs(x = "accession", y = "Width (cm)") +
+        theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank()) +
+        theme_bw()
+
+ggsave("width.pdf", height = 8, width = 8, units = "cm", 
+         useDingbats = FALSE)
+
+aov.width <- aov(width ~ accession, data = global_tidy)
+summary(aov.width)
+
+# area
+
+ggplot(global_tidy, aes(x = accession, y = convexhull, colour = accession)) +
+        geom_boxplot() +
+        geom_point(size = 3, position=position_jitter()) +
+        labs(x = "accession", y = "Root Area (cm2)") +
+        theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank()) +
+        theme_bw()
+        ggsave("area.pdf", height = 8, width = 8, units = "cm", 
+         useDingbats = FALSE)
+
+aov.area <- aov(convexhull ~ accession, data = global_tidy)
+summary(aov.area)
+
+bay_sha <- global_tidy %>%
+        filter (accession == "bay" | accession == "sha"),
+wilcox.test(area ~ accession, data = bay_sha)
+
+bay_col <- global_tidy %>%
+        filter (accession == "bay" | accession == "col") 
+wilcox.test(area ~ accession, data = bay_col)
+
+sha_col <- global_tidy %>%
+        filter (accession == "sha" | accession == "col") 
+wilcox.test(area ~ accession, data = sha_col)
+
+# shoot area
+
+ggplot(global_tidy, aes(x = accession, y = shoot_area, colour = accession)) +
+        geom_boxplot() +
+        geom_point(size = 3, position=position_jitter()) +
+        labs(x = "accession", y = "Shoot Area (cm2)") +
+        theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank()) +
+        theme_bw()
+        ggsave("shoot_area.pdf", height = 8, width = 8, units = "cm", 
+         useDingbats = FALSE)
+
+aov.shoot_area <- aov(shoot_area ~ accession, data = global_tidy)
+summary(aov.shoot_area)
+
+# depth
+
+ggplot(global_tidy, aes(x = accession, y = depth, colour = accession)) +
+        geom_boxplot() +
+        geom_point(size = 3, position=position_jitter()) +
+        labs(x = "accession ", y = "Depth (cm)") +
+        theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank()) +
+        theme_bw()
+        ggsave("depth.pdf", height = 8, width = 8, units = "cm", 
+         useDingbats = FALSE)
+
+aov.depth <- aov(depth ~ accession, data = global_tidy)
+summary(aov.depth)
+
+# Aspect ratio
+
+ggplot(global_tidy, aes(x = accession, y = ar, colour = accession)) +
+        geom_boxplot() +
+        geom_point(size = 3, position=position_jitter()) +
+        labs(x = "accession ", y = "Depth/width") +
+        theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank()) +
+        theme_bw()
+        ggsave("ar.pdf", height = 8, width = 8, units = "cm", 
+         useDingbats = FALSE)
+
+aov.ar <- aov(ar ~ accession, data = global_tidy)
+summary(aov.ar)
+
+# wilcox test
+
+bay_sha <- global_tidy %>%
+        filter (accession == "bay" | accession == "sha"),
+wilcox.test(ar ~ accession, data = bay_sha)
+
+bay_col <- global_tidy %>%
+        filter (accession == "bay" | accession == "col") 
+wilcox.test(ar ~ accession, data = bay_col)
+
+sha_col <- global_tidy %>%
+        filter (accession == "sha" | accession == "col") 
+wilcox.test(ar ~ accession, data = sha_col)
+
+ 
+
+# MasssY
+
+ggplot(global_tidy, aes(x = accession, y = massY, colour = accession)) +
+        geom_boxplot() +
+        geom_point(size = 3, position=position_jitter()) +
+        labs(x = "accession ", y = "massY") +
+        theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank()) +
+        theme_bw
+        ggsave("massY.pdf", height = 8, width = 8, units = "cm", 
+         useDingbats = FALSE)
+
+aov.massY <- aov(massY ~ accession, data = global_tidy)
+summary(aov.massY)
+
+# wilcox test
+
+bay_sha <- global_tidy %>%
+        filter (accession == "bay" | accession == "sha"),
+wilcox.test(massY ~ accession, data = bay_sha)
+
+bay_col <- global_tidy %>%
+        filter (accession == "bay" | accession == "col") 
+wilcox.test(massY ~ accession, data = bay_col)
+
+sha_col <- global_tidy %>%
+        filter (accession == "sha" | accession == "col") 
+wilcox.test(massY ~ accession, data = sha_col)
+
+```
+
+I will now take a look at root-shoots correlations.
+
+```{r}
+
+# shoot/root correlations (areas)
+
+ggplot(global_tidy, aes(x = convexhull, y = shoot_area, colour = accession)) +
+        geom_point(size = 3) +
+        labs(x = "Root Area", y = "Shoot Area") +
+        facet_wrap(~ accession, scales = "free") +
+        theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank()) +
+        ggsave("root-shoot-correlation.pdf", height = 16, width = 16, units = 
+                       "cm",useDingbats = FALSE)
+
+```
+
+
+Now lets take a look at the directionality 
+
+
+```{r}
+dir <- read.csv("data/high-root-data-dir.csv")
+dir$angle <- abs(dir$angle)
+
+dir_tidy <- dir %>%
+        separate(image, into = c("experiment", "das", "accession", "plant", "aq"), sep = "-")
+
+ggplot(dir_tidy, aes(x = angle, y = count, colour = accession)) +
+       facet_grid(~ accession) +
+        geom_smooth()+
+        geom_point(size = 3, alpha = 0.5) +
+        labs(x = "Angle", y = "count") +
+              theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank()) +
+        theme_bw()
+        ggsave("directionality.pdf", height = 8, width = 12, units = 
+                       "cm",useDingbats = FALSE) 
+
+ggplot(dir_tidy, aes(x = angle, y = count, colour = accession)) +
+        geom_point(alpha = 0.5) +
+        geom_smooth()+
+        facet_grid(~ accession) +
+        labs(x = "Angle", y = "count") +
+              theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank())
+
+# separated by experiments 
+dir_tidy %>%
+        filter(experiment == 50) %>%
+ggplot(aes(x = angle, y = count, shape = experiment)) +
+       facet_grid(plant ~ accession, scales = "free") +
+        geom_point(size = 2, alpha = 0.2) +
+        ylim(0, 2.5) +
+        labs(x = "Angle", y = "count") +
+              theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank()) +
+        ggsave("directionality-50.pdf", height = 16, width = 12, units = 
+                       "cm",useDingbats = FALSE)
+
+dir_tidy %>%
+        filter(experiment == 59) %>%
+ggplot(aes(x = angle, y = count, shape = experiment)) +
+       facet_grid(plant ~ accession, scales = "free") +
+        geom_point(size = 2, alpha = 0.2) +
+        labs(x = "Angle", y = "count") +
+         ylim(0, 2.5) +
+              theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank()) +
+        ggsave("directionality-59.pdf", height = 16, width = 12, units = 
+                       "cm",useDingbats = FALSE)
+
+```
+
+Now, lets work on the heritability:
+
+```{r}
+
+# Example for aspect to ratio:
+
+aov.ar <- aov(ar ~ accession, data = global_tidy)
+summary(aov.ar)
+
+# According to Olivier Loudet, the genetic variance is estimated by:
+
+VG = (Var'Genotype' - Var'Residuals') / n
+
+# where n is the (mean) number of replicate measurements for each genotype in the experiment. Not sure what this could be in our case.
+
+# The 'Residuals' are a good estimator of the environmental variance in the experiment: 
+
+VE = Var"Residuals" / n
+
+# Total phenotipic variance would then be:
+
+VP (Total Phenotypic variance) = VG + VE
+
+# and therefore the (broad sense) heritability would be:
+
+h2 = VG / VP
+
+# So in our case for AR, we get:
+
+# summary(aov.ar)
+#            Df Sum Sq Mean Sq F value   Pr(>F)    
+# accession    2  8.581   4.291   45.16 8.96e-10 ***
+# Residuals   30  2.850   0.095 
+
+# VG <- (30.67 - 1.32)/9 
+# VE <- 1.32/9
+# VP <- VG + VE 
+# h2 <- (VG/VP)*100
+# h2
+
+# Would be nice to write a function to calculate this straigth from the aov summary. 
+
+# Lets save the values of the summary for the differen aov
+
+width <- do.call(rbind.data.frame, summary(aov.width))
+massY <- do.call(rbind.data.frame, summary(aov.massY))
+area <- do.call(rbind.data.frame, summary(aov.area))
+depth <- do.call(rbind.data.frame,summary(aov.depth))
+ar <- do.call(rbind.data.frame,summary(aov.ar))
+
+width$trait <- c("width", "width")
+massY$trait <- c("massY", "massY")
+area$trait <- c("area", "area")
+depth$trait <- c("depth", "depth")
+ar$trait <- c("ar", "ar")
+
+
+width <- width %>%
+        mutate(h2 = (((width[1,3] - width[2,3])/9)/ 
+        (((width[1,3] - width[2,3])/9) + ((width[2,3])/9)))*100)
+
+massY <- massY %>%
+        mutate(h2 = (((massY[1,3] - massY[2,3])/9)/ 
+        (((massY[1,3] - massY[2,3])/9) + ((massY[2,3])/9)))*100)
+
+area <- area %>%
+        mutate(h2 = (((area[1,3] - area[2,3])/9)/ 
+        (((area[1,3] - area[2,3])/9) + ((area[2,3])/9)))*100)
+        
+depth <- depth %>%
+        mutate(h2 = (((depth[1,3] - depth[2,3])/9)/ 
+        (((depth[1,3] - depth[2,3])/9) + ((depth[2,3])/9)))*100)
+
+ar <- ar %>%
+        mutate(h2 = (((ar[1,3] - ar[2,3])/9)/ 
+        (((ar[1,3] - ar[2,3])/9) + ((ar[2,3])/9)))*100)
+
+all_traits <- rbind(width, massY, area, depth, ar)
+
+h2 <- all_traits %>%
+        filter(Df == 2) %>%
+        select(trait, h2)
+
+
+# there has to be an easiest way to do this. 
+
+
+
+dir2 <- read.csv("data/high-root-data-dir.csv")
+
+dir_tidy2 <- dir2 %>%
+        separate(image, into = c("experiment", "das", "accession", "plant", 
+                                 "aq"), sep = "-")
+dir_tidy3 <- dir_tidy2 %>%
+        group_by(accession, plant, angle) %>%
+        mutate(count = mean(count))
+                       
+
+write.csv(dir_tidy3, file="dir_tidy")
+
+
+PCA_data <- read.csv("data/dir_tidy_wide_PCA_variable_info.csv")
+PCA_data <- arrange(PCA_data, loadings.PC1)
+
+PCA_data %>%
+        ggplot(aes(x = angle, y = loadings.PC1 )) +
+        geom_point(size = 3, alpha = 0.6) +
+        labs(x = "Angle", y = "loadings") +
+              theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank()) +
+              ggsave("PCA_loadings.pdf", height = 10, width = 10, units = 
+                       "cm",useDingbats = FALSE)
+
+
+ANOVA_data <- read.csv("data/dir_tidy_wide_ANOVA.csv")
+
+ANOVA_data %>%
+        ggplot(aes(x = angles, y = p.values.accession_adjusted.p.values )) +
+        geom_point(size = 3, alpha = 0.6) +
+        labs(x = "Angle", y = "P-values") +
+              theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank()) +
+              ggsave("P-values-.pdf", height = 10, width = 10, units = 
+                       "cm",useDingbats = FALSE)
+
+
+ANOVA_data %>%
+        ggplot(aes(x = angles, y = p.values.accession_q.values)) +
+        geom_point(size = 3, alpha = 0.6) +
+        labs(x = "Angle", y = "P-values") +
+              theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank()) +
+              ggsave("PCA_loadings.pdf", height = 10, width = 10, units = 
+                       "cm",useDingbats = FALSE)
+
+ANOVA_data %>%
+        ggplot(aes(x = angles, y = p.values.accession_q.values)) +
+        geom_point(size = 3, alpha = 0.6) +
+        labs(x = "Angle", y = "P-values") +
+              theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank()) +
+              ggsave("PCA_loadings.pdf", height = 10, width = 10, units = 
+                       "cm",useDingbats = FALSE)
+      
+```
+
+Directionality using the new local analysis.
+
+```{r}
+
+dir_local <- read.csv("data/root-data-local.csv")
+dir_local$angle <- abs(dir_local$angle)
+
+dir_local_tidy <- dir_local %>%
+        separate(image, into = c("experiment", "das", "accession", "plant", 
+                                 "aq", sep="-"))
+
+dir_local_tidy[,6] <- NULL
+
+ggplot(dir_local_tidy, aes(x=length, fill = accession))+
+  geom_histogram(alpha=.5, binwidth = 5) +
+  facet_grid (~ accession) +
+        theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank())
+
+
+
+ggplot(dir_local_tidy, aes(x=angle, fill = accession))+
+  geom_density(alpha=.5) +
+  facet_grid (~ accession) +
+        theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank())
+
+ggplot(dir_local_tidy, aes(x=x, y= desc(y), colour = angle ))+
+  geom_point(alpha=0.5) +
+  facet_grid (~ accession) +
+        theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank())
+
+```
+
+I was getting very small segments with the high contrast option so I run it
+on low contrast:
+
+```{r}
+
+dir_local_low <- read.csv("data/root-data-low-local.csv")
+dir_local_low$angle <- abs(dir_local_low$angle)
+
+dir_local_low_tidy <- dir_local_low %>%
+        separate(image, into = c("experiment", "das", "accession", "plant", 
+                                 "aq", sep="-"))
+
+dir_local_low_tidy[,6] <- NULL
+
+ggplot(dir_local_low_tidy, aes(x=length, fill = accession))+
+  geom_histogram(alpha=.5, binwidth = 5) +
+  facet_grid (~ accession) +
+        theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank())
+
+
+
+ggplot(dir_local_low_tidy, aes(x=angle, fill = accession))+
+  geom_density(alpha=.5) +
+  facet_grid (~ accession) +
+        theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank())
+
+ggplot(dir_local_low_tidy, aes(x=x, y= desc(y), colour = angle ))+
+  geom_point(alpha=0.5) +
+  facet_grid (~ accession) +
+        theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank())
+
+```
+
+testing the Kolmogorov-Smirnoff test:
+
+```{r}
+
+dir_local_low <- read.csv("data/root-data-low-local.csv")
+dir_local_low$angle <- abs(dir_local_low$angle)
+
+dir_local_low_tidy <- dir_local_low %>%
+        separate(image, into = c("experiment", "das", "accession", "plant", 
+                                 "aq", sep="-"))
+
+dir_local_low_tidy[,6] <- NULL
+
+ggplot(dir_local_low_tidy, aes(x=length, fill = accession))+
+  geom_histogram(alpha=.5, binwidth = 5) +
+  facet_grid (~ accession) +
+        theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank())
+
+
+
+ggplot(dir_local_low_tidy, aes(x=angle, fill = accession))+
+  geom_density(alpha=.5) +
+  facet_grid (~ accession) +
+        theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank())
+
+ggplot(dir_local_low_tidy, aes(x=x, y= desc(y), colour = angle ))+
+  geom_point(alpha=0.5) +
+  facet_grid (~ accession) +
+        theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank())
+
+```
+
+Shape analysis
+
+```{r}
+
+
+#read your tps file with landmarkcoordinates, create 2D array
+myData <- readland.tps("data/root-data-shape.tps", specID = "ID")
+
+#read your csv with classifiers
+temp <- read.csv("data/root-data-shape.csv")
+classifier <- data.frame(name=temp$image)
+for(i in 1:nrow(classifier)){
+        temp <- strsplit(as.character(classifier$name[i]), "-")    
+        classifier$genotype[i] <- temp[[1]][3]
+        classifier$treatment[i] <- temp[[1]][4]
+}
+
+# Make the procust analysis
+proc <- procGPA(myData)
+
+# Get the values from the PCA
+classifier$PC1 <- proc$scores[,1]
+classifier$PC2 <- proc$scores[,2]
+classifier$PC3 <- proc$scores[,3]
+
+# get the mean shape
+shape <- data.frame(x = proc$mshape[,1], y = -proc$mshape[,2])
+
+# Get the deviations
+rotPC1 <-  proc$pcar[, 1]
+rotPC2 <-  proc$pcar[, 2]
+rotPC3 <-  proc$pcar[, 3]
+sdPC1 <- proc$pcasd[1]
+sdPC2 <- proc$pcasd[2]
+sdPC3 <- proc$pcasd[3]
+
+# Base plot
+plot <- ggplot(data = shape, aes(x=x, y=y)) 
+for(i in 1:proc$n){
+        temp <- data.frame(x=proc$rotated[,1,i], y=-proc$rotated[,2,i])
+        plot <- plot + geom_polygon(data=temp, aes(x=x, y=y), fill="transparent",colour="#00000030") 
+}
+plot <- plot + geom_polygon(fill="transparent", size=2, colour="#00000080")  + theme_bw()
+devs <- c(-3, 3)
+col <- c("#FF605D", "#00B94E")
+
+### PC1
+plot1 <- plot + ggtitle(paste("PC1 [",round(proc$percent[1],2),"%]"))
+for(i in 1:length(devs)){
+        fig <- proc$mshape + devs[i] * rotPC1 * sdPC1
+        k <- length(proc$mshape[,1])
+        temp <- data.frame(x= fig[1:k], y=-fig[(k + 1):(2 * k)])
+        plot1 <- plot1 + geom_polygon(data=temp, aes(x=x, y=y), fill="transparent",colour=col[i], size=1) 
+}
+
+### PC2
+plot2 <- plot + ggtitle(paste("PC2 [",round(proc$percent[2],2),"%]"))
+for(i in 1:length(devs)){
+        fig <- proc$mshape + devs[i] * rotPC2 * sdPC2
+        k <- length(proc$mshape)/2
+        temp <- data.frame(x= fig[1:k], y=-fig[(k + 1):(2 * k)])
+        plot2 <- plot2 + geom_polygon(data=temp, aes(x=x, y=y), fill="transparent",colour=col[i], size=1) 
+}
+
+### PC3
+plot3 <- plot + ggtitle(paste("PC3 [",round(proc$percent[3],2),"%]"))
+for(i in 1:length(devs)){
+        fig <- proc$mshape + devs[i] * rotPC3 * sdPC3
+        k <- length(proc$mshape)/2
+        temp <- data.frame(x= fig[1:k], y=-fig[(k + 1):(2 * k)])
+        plot3 <- plot3 + geom_polygon(data=temp, aes(x=x, y=y), fill="transparent",colour=col[i], size=1) 
+}
+
+pcaplot <- qplot(data = classifier, x = PC1, y = PC2, colour = genotype, main="Shape Analysis") + 
+        stat_ellipse(level = 0.95, size=1, fill = genotype) + 
+        coord_fixed(ratio = 1) +
+        theme_bw() + 
+        scale_x_continuous(name=paste("PC1 (",round(proc$percent[1],2),"%)",sep="")) +
+        scale_y_continuous(name=paste("PC2 (",round(proc$percent[2],2),"%)",sep="")) +
+        ggsave("shape_PCA.pdf", height = 10, width = 12, units = "cm", 
+         useDingbats = FALSE)
+
+grid.arrange(arrangeGrob(plot1, plot2, ncol=1), pcaplot, ncol=2)
+grid.arrange(plot1, plot2, pcaplot, ncol=3) 
+g <- arrangeGrob(plot1, plot2, pcaplot,  ncol=3, widths=c(1, 1, 1.75))
+  ggsave("shape.pdf", g,  height = 8, width = 18, units = "cm", 
+         useDingbats = FALSE)
+
+```
+
+ggplot(global_tidy, aes(x = circularity, y = ar, colour = accession)) +
+        geom_point(size = 3) +
+        theme_bw()
+        
+ggplot(global_tidy, aes(x = round, y = ar, colour = accession)) +
+        geom_point(size = 3) +
+        theme_bw()
