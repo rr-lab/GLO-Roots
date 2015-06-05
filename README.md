@@ -1,16 +1,12 @@
-## GLO-Roots project
-
-Growth and Luminescence Observatory for Roots (GLO-Roots) is a root imaging platform to study
-root system architecture and gene expression of plants growing in soil.
+#GLO-Roots: an imaging platform enabling multidimensional characterization of soil-grown roots systems
 
 ![Logo](gloria/GLORIA/manual/images/glo_roots_logo.png)
 
 
 
 ## Multidimensional mapping of root responses to environmental cues using a luminescence-based imaging system  
-Rubén Rellán-Álvarez<sup>1, 9</sup>, Guillaume Lobet<sup>2</sup>, Heike Lindner<sup>1, 8</sup>, Pierre-Luc Pradier<sup>1, 8, 10</sup>, Muh-Ching Yee<sup>1</sup>, Jose Sebastian<sup>1</sup>, Yu Geng<sup>1, 7</sup>, Charlotte Trontin<sup>1</sup>, Therese LaRue<sup>3</sup>, Amanda Schrager<sup>4</sup>, Cara Haney<sup>5</sup>, Rita Nieu<sup>6</sup>, Julin Maloof<sup>4</sup>, John P. Vogel<sup>7</sup>, José R. Dinneny<sup>1,12 </sup>
+Rubén Rellán-Álvarez<sup>1, 9</sup>, Guillaume Lobet<sup>2</sup>, Heike Lindner<sup>1, 8</sup>, Pierre-Luc Pradier<sup>1, 8, 10</sup>, Jose Sebastian<sup>1, 8</sup>, Muh-Ching Yee<sup>1</sup>, Yu Geng<sup>1, 7</sup>, Charlotte Trontin<sup>1</sup>, Therese LaRue<sup>3</sup>, Amanda Schrager<sup>4</sup>, Cara Haney<sup>5</sup>, Rita Nieu<sup>6</sup>, Julin Maloof<sup>4</sup>, John P. Vogel<sup>7</sup>, José R. Dinneny<sup>1,12 </sup>
 
-Preprint - BioRxiv 03-30-2015 [http://dx.doi.org/10.1101/016931](http://biorxiv.org/content/early/2015/03/30/016931)
 
 ## Abstract
 
