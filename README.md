@@ -1,16 +1,16 @@
-#GLO-Roots: an imaging platform enabling multidimensional characterization of soil-grown roots systems
 
 ![Logo](gloria/GLORIA/manual/images/glo_roots_logo.png)
 
 
 
-## Multidimensional mapping of root responses to environmental cues using a luminescence-based imaging system  
+## GLO-Roots: an imaging platform enabling multidimensional characterization of soil-grown roots systems  
+
 Rubén Rellán-Álvarez<sup>1, 9</sup>, Guillaume Lobet<sup>2</sup>, Heike Lindner<sup>1, 8</sup>, Pierre-Luc Pradier<sup>1, 8, 10</sup>, Jose Sebastian<sup>1, 8</sup>, Muh-Ching Yee<sup>1</sup>, Yu Geng<sup>1, 7</sup>, Charlotte Trontin<sup>1</sup>, Therese LaRue<sup>3</sup>, Amanda Schrager<sup>4</sup>, Cara Haney<sup>5</sup>, Rita Nieu<sup>6</sup>, Julin Maloof<sup>4</sup>, John P. Vogel<sup>7</sup>, José R. Dinneny<sup>1,12 </sup>
 
 
 ## Abstract
 
-Root systems develop different root types that individually sense cues from their local environment and integrate this with systemic signals. This complex multi-dimensional amalgam of inputs leads to continuous adjustment of root growth rates, direction and metabolic activity to define a dynamic physical network. Current methods for analyzing root biology balance physiological relevance with imaging capability. To bridge this divide, we developed an integrated imaging system called Growth and Luminescence Observatory for Roots (GLO-Roots) that uses luminescence-based reporters to enable studies of root architecture and gene expression patterns in soil-grown, light-shielded roots. We have developed image analysis algorithms that allow the spatial integration of soil properties such as soil moisture with root traits. We propose GLO-Roots as a system that has great utility in both presenting environmental stimuli to roots in ways that evoke natural adaptive responses, and in providing tools for developing a multi-dimensional understanding of such processes.
+Root systems develop different root types that individually sense cues from their local environment and integrate this information with systemic signals. This complex multi-dimensional amalgam of inputs enables continuous adjustment of root growth rates, direction and metabolic activity that define a dynamic physical network. Current methods for analyzing root biology balance physiological relevance with imaging capability. To bridge this divide, we developed an integrated imaging system called Growth and Luminescence Observatory for Roots (GLO-Roots) that uses luminescence-based reporters to enable studies of root architecture and gene expression patterns in soil-grown, light-shielded roots. We have developed image analysis algorithms that allow the spatial integration of soil properties such as soil moisture with root traits. We propose GLO-Roots as a system that has great utility in presenting environmental stimuli to roots in ways that evoke natural adaptive responses and in providing tools for studying the multi-dimensional nature of such processes.
 
 <sup>1</sup> Department of Plant Biology, Carnegie Institution for Science, Stanford, CA, USA.
 
