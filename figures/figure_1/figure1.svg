@@ -15491,7 +15491,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.49497475"
-     inkscape:cx="429.85052"
+     inkscape:cx="101.55095"
      inkscape:cy="685.33471"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -15521,7 +15521,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -16381,7 +16381,7 @@
            sodipodi:role="line">D</tspan></text>
       <image
          sodipodi:absref="/Users/rrellan/Dropbox/repos/glo_roots/figures/figure_1/imaging_system.tiff"
-         xlink:href="imaging_system.tiff"
+         xlink:href="file:///Users/rrellan/Dropbox/repos/glo_roots/figures/figure_1/imaging_system.tiff"
          y="224.55452"
          x="35.716534"
          id="image31488"
@@ -16417,7 +16417,7 @@
            id="g7483">
           <image
              sodipodi:absref="/Users/rrellan/Dropbox/repos/glo_roots/figures/figure_1/Montage_two_sides.tif"
-             xlink:href="Montage_two_sides.tif"
+             xlink:href="file:///Users/rrellan/Dropbox/repos/glo_roots/figures/figure_1/Montage_two_sides.tif"
              y="255.11809"
              x="35.433071"
              id="image6517"
@@ -16425,7 +16425,7 @@
              width="450.31616" />
           <image
              sodipodi:absref="/Users/rrellan/Dropbox/repos/glo_roots/figures/figure_1/blowups/RR09-R21-SR10-FLOP2-Composite.tif"
-             xlink:href="blowups/RR09-R21-SR10-FLOP2-Composite.tif"
+             xlink:href="file:///Users/rrellan/Dropbox/repos/glo_roots/figures/figure_1/blowups/RR09-R21-SR10-FLOP2-Composite.tif"
              y="367.32529"
              x="141.73228"
              id="image6598"
@@ -40841,7 +40841,7 @@
            style="font-size:16px">A</tspan></text>
       <image
          sodipodi:absref="/Users/rrellan/Dropbox/repos/glo_roots/figures/figure_1/box_top_view.tiff"
-         xlink:href="box_top_view.tiff"
+         xlink:href="file:///Users/rrellan/Dropbox/repos/glo_roots/figures/figure_1/box_top_view.tiff"
          y="35.018559"
          x="467.46405"
          id="image100727"
@@ -40853,7 +40853,7 @@
          transform="matrix(0.99999139,0.00414967,-0.00414967,0.99999139,0,0)" />
       <image
          sodipodi:absref="/Users/rrellan/Dropbox/repos/glo_roots/figures/figure_1/full_rhizotron.tiff"
-         xlink:href="full_rhizotron.tiff"
+         xlink:href="file:///Users/rrellan/Dropbox/repos/glo_roots/figures/figure_1/full_rhizotron.tiff"
          y="36.992104"
          x="366.89352"
          id="image100795"
