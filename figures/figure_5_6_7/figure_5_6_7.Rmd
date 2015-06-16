@@ -1,5 +1,5 @@
 ---
-title: "figure_10"
+title: "figure_5_6_7"
 author: "Rubén Rellán-Ávarez & Guillaume Lobet"
 output: html_document
 ---
@@ -15,7 +15,6 @@ library(magrittr)
 library(gridExtra)
 library(rmarkdown)
 library(hexbin)
-library(ggsubplot)
 library(cowplot)
 
 
@@ -478,10 +477,10 @@ empty <- ggplot()+geom_point(aes(1,1), colour="white") +
        axis.text.y = element_blank(),
        axis.ticks = element_blank()
      )
+blankPanel<-grid.rect(gp=gpar(col="white"))
 
-grid.arrange(histogram_x, empty, scatter, histogram_y, ncol=2, nrow=2, widths=c(3.5, 1), heights=c(1, 3.5)) +
-  ggsave("angle_moisture_histogram_scatter_density.pdf", height = 10, width = 10, units = 
-                       "cm",useDingbats = FALSE)
+grid.arrange(histogram_x, blankPanel, scatter, histogram_y, ncol=2, nrow=2, widths=c(3.5, 1), heights=c(1, 3.5)) +
+  ggsave("angle_moisture_histogram_scatter_density.pdf", height = 10, width = 10, units = "cm",useDingbats = FALSE)
 
 ```
 
@@ -517,4 +516,19 @@ moist_cal %>%
 
 ```
 
-plot.grid(histogram_x, empty, scatter, histogram_y, ncol=2, nrow=2, widths=c(3.5, 1), heights=c(1, 3.5))
+# root brightness
+
+```{r}
+
+root_brightness <- read.csv("data/root-brightness.csv")
+root_brightness %>%
+  ggplot(aes(x = water, y = intensity, colour = root_presence)) +
+  geom_boxplot() +
+  labs(colour = "Root Presence") +
+  xlab("Water treatment") +
+  ylab("Intensity") 
+
+  ggsave("root_brightness.pdf", height = 10, width = 10, units = "cm", useDingbats = FALSE)
+
+```
+

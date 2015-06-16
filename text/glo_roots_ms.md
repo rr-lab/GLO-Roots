@@ -10,7 +10,7 @@ Rubén Rellán-Álvarez^1,\ 9^, Guillaume Lobet^2^, Heike Lindner^1,\ 8^, Pierre
 
 ^4^ Department of Plant Biology, UC Davis, Davis, CA, USA.
 
-^5^ Harvard Medical School/Massachusetts General Hospital, Department of Genetics/Department of Molecular Biology Boston, MA, USA
+^5^ Harvard Medical School, Massachusetts General Hospital, Department of Genetics, Department of Molecular Biology Boston, MA, USA
 
 ^6^ USDA Western Regional Research Center, Albany, CA, USA
 
@@ -93,7 +93,7 @@ GLO-Roots is comprised of four parts: i) growth vessels called rhizotrons that a
 
 GLO-Roots utilizes custom designed growth vessels classically known as rhizotrons, which hold a thin volume of soil between two sheets of polycarbonate plastic. Acrylic spacers provide a 2-mm space in which standard peat-based potting mix is added. Black vinyl sheets protect roots from light and rubber U-channels clamp the rhizotron materials together. Plastic racks hold the rhizotrons vertically and further protect the roots from light. Rhizotrons and rack are placed in a black tub and water are added, to a depth of about 2 cm, at the bottom to maintain moisture in the rhizotrons during plant growth. The volume of soil in the rhizotrons (100 cm^3^) is similar to small pots commonly used for Arabidopsis and supports growth throughout the entire life cycle (Fig 1A-C and Supplement 1).
 
-To determine how the biology of plants grown in rhizotrons compares to other standard growth systems, we utilized high-throughput qRT-PCR to study how these conditions affect expression of 77 marker genes in root and shoot samples.  These genes were curated from the literature and belong to a wide array of biological pathways including nutrient acquisition, hormone and light response and abiotic stress. Whole roots and shoot samples were collected at the end of the light and dark periods (Long-day conditions: 16 hour light, 8 hours dark) from plants grown in rhizotrons, pots, and petri dishes with two different media compositions (1X Murashige and Skoog basal salts (MS), 1% sucrose or 0.25X MS, no sucrose). Principal component analysis of the gene expression values showed a separation of soil and gel-grown root systems in the the first principal components (Figure 1-figure supplement 1A). We observed enhanced expression of genes associated with light-regulated pathways (flavonoid biosynthesis: *FLAVINOL SYNTHASE1, FLS1*, *CHALCONE SYNTHASE, CHS*), (photosynthesis: *RUBSICO SUBUNITS1A, RBCS1A* *CYCLOPHILIN 38, CYP38*), which is expected due to the exposure of gel-grown roots to light.  In addition, genes associated with phosphorus nutrition (*LOW PHOSPHATE RESPONSE1*, *LPR1, PHOSPHATE STARVATION RESPONSE1, PHR1*) were among others (Figure 1-figure table supplement 1) expressed predominantly in soil-grown roots, suggesting differences in nutrient availability between the different growth systems. Interestingly, shoot samples where not clearly distinguished by growth media and, instead, time of day had a greater effect (Figure 1-Supplement 2). These data suggest root systems may be particularly sensitive to media conditions and indicate that rhizotron-grown root systems more closely approximate the biology of pot-grown plants than standard gel-based media.
+To determine how the biology of plants grown in rhizotrons compares to other standard growth systems, we utilized high-throughput qRT-PCR to study how these conditions affect expression of 77 marker genes in root and shoot samples.  These genes were curated from the literature and belong to a wide array of biological pathways including nutrient acquisition, hormone and light response and abiotic stress. Whole roots and shoot samples were collected at the end of the light and dark periods (Long-day conditions: 16 hour light, 8 hours dark) from plants grown in rhizotrons, pots, and petri dishes with two different media compositions (1X Murashige and Skoog basal salts (MS), 1% sucrose or 0.25X MS, no sucrose). Principal component analysis of the gene expression values showed a separation of soil and gel-grown root systems in the the first principal components (Figure 1-figure supplement 1A). In roots grown on gel-based media, we observed enhanced expression of genes associated with light-regulated pathways (flavonoid biosynthesis: *FLAVINOL SYNTHASE1, FLS1*, *CHALCONE SYNTHASE, CHS* and photosynthesis: *RUBSICO SUBUNITS1A, RBCS1A* *CYCLOPHILIN 38, CYP38*), which is expected due to the exposure of gel-grown roots to light.  In addition, genes associated with phosphorus nutrition (*LOW PHOSPHATE RESPONSE1*, *LPR1, PHOSPHATE STARVATION RESPONSE1, PHR1*) were  (Figure 1-figure table supplement 1) less expressed in soil-grown roots, suggesting differences in nutrient availability between the different growth systems. Interestingly, shoot samples where not clearly distinguished by growth media and, instead, time of day had a greater effect (Figure 1-Supplement 2). These data suggest root systems may be particularly sensitive to media conditions and indicate that rhizotron-grown root systems more closely approximate the biology of pot-grown plants than standard gel-based media.
 Shoot weight and primary root length were significantly reduced for gel-grown plants compared to rhizotron- or pot-grown plants suggesting significant differences in the biology of plants grown under these conditions (Figure 1-figure supplement 1B-C).
 While the 2 mm depth of the soil sheet is 10 to 20 times the average diameter of an Arabidopsis root (between 100-200 microns  [@Meijon:2013fs]), we evaluated whether rhizotron-grown plants exhibited any obvious stress as a consequence of physical constriction. We compared traits of plants growing in vessels that hold similar volumes of soil but in different volumetric shapes. The number of lateral roots was significantly lower in pot and cylinder-grown plants compared to rhizotron-grown plants (Figure 1-figure supplement 1D) whereas primary root length of rhizotron and cylinder-grown plants was significantly greater than pot-grown plants (Figure 1-figure supplement 1E). No significant differences in shoot area were observed between the three systems (Figure 1-figure supplement 1-data). Thus, these data do not support the hypothesis that rhizotron-grown plants experience physical constriction greater than other vessels holding the same volume of soil.
 
@@ -109,7 +109,7 @@ Continuous addition of luciferin did not have any significant effect on shoot we
 
 Luminescence imaging systems commercially available for biomedical research are usually optimized for imaging horizontally held specimens or samples in microtiter plates. Placing rhizotrons in this position would induce a gravitropic response in plants. Working with Bioimaging Solutions (San Diego, CA) we designed and built a luminescence imaging system optimized for rhizotron-grown plants. GLO1 (Growth and Luminescence Observatory 1) uses two back-thinned CCD cameras (Princeton Instruments, USA) to capture partially-overlapping images of rhizotrons while a motorized stage automatically rotates the rhizotron to capture images of both sides (Fig 1E). A composite image is generated from the images captured of each side; Fig 1F shows that approximately half of the root system is revealed on each side with few roots being visible on both sides. Apparently, the soil sheet is thick enough to block portions of the root system but thin enough to ensure its continuous structure can be compiled from opposite face views. We tested the ability of GLO1-generated images to reveal complete root systems by manually quantifying the number of lateral roots in excavated root systems of 8 different plants and testing these results against estimates of lateral root number from images of the same plants visually inspected by 4 different persons. These comparisons revealed good correlation ((R^2^= 0.974)) between actual lateral root counts and image-based estimation, indicating GLO1-generated root images provide an accurate representation of the in soil root system.  
 
-#### [GLO-RIA](https://github.com/rr-lab/glo_roots/blob/master/gloria/GLORIA/manual/GLO_RIA_manual.md): GLO-Roots Image Analysis
+#### [GLO-RIA](https://github.com/rr-lab/GLO-Roots/blob/master/gloria/GLORIA/manual/GLO_RIA_manual.md): GLO-Roots Image Analysis
 
 We developed a set of image analysis algorithms that were well suited for the complex root systems that GLO-Roots is able to capture. GLO-RIA (Growth and Luminescence Observatory Root Image Analysis) is an ImageJ plugin divided in two modules.
 The first module (RootSystem) performs four different types of analysis: i) a local analysis that detects all root particles in the image and computes their position, length and direction; ii) the global analysis performs a root system level analysis and computes the total visible surface, convex hull, width and depth; iii) the shape analysis uses Elliptic Fourier Descriptors or pseudo-landmarks similarly to RootScape [@Ristova:2013kx] to perform a shape analysis on the root system iv) the directionality analysis computes the mean direction of root particles in a root system (either on the full image or by a user-defined region of interest in the image). These four analysis methods are fully automated by default, but can be manually adjusted if needed.
@@ -184,7 +184,7 @@ Understanding plant biology requires a sophisticated understanding of how enviro
 
 ### qRT-PCR analysis.
 
-Seeds were surface sterilized as described before [@Duan:2013cf] and grown in rhizotrons, 100 cm^3^ pots, or on two types of 1% agar (Duchefa) media containing either 1x MS nutrients (Caisson) and 1% Sucrose, (termed ms media) or ¼x MS nutrients only (termed ms25 media). Both media were buffered using 0.5 g/L MES and pH was adjusted to 5.7 with KOH. All plants were grown together in a growth cabinet with LED lights under long day conditions (16h day/8h night). Root and shoot tissue was collected separately from individual plants at the end of the day (1 hour before the lights shut off) and at the end of the night (1 hour before lights came on). Three biological replicates were collected for each condition. RNA was extracted using the Plant RNA MiniPrepTM kit (ZYMO Research) according to manufacturer’s instructions with on-column DNase treatment (Qiagen). cDNA was made using the iScript Advanced cDNA Synthesis for RT-qPCR kit (Bio-Rad) from 200 ng of total RNA. qRT-PCR was performed using a Fluidigm BioMarkTM 96.96 Dynamic Array IFC with the EvaGreen® (Bio-Rad) fluorescence probe according to the Fluidigm Advanced Development Protocol number 37. For the analysis, all the reactions with no amplification (Ct =999) were either removed (if the other technical duplicate amplified) or set to the maximal Ct for that assay type. The two technical replicates were then averaged and dCt values calculated using AT3G07480, AT4G37830, At1g13320 and At1g13440 as reference internal controls. PCA plots were generated with Devium Web [@DeviumWebDynamicM:hl] using log dCt values. Primers used are listed in file Supplement 8.
+Seeds were surface sterilized as described before [@Duan:2013cf] and grown in rhizotrons, 100 cm^3^ pots, or on two types of 1% agar (Duchefa) media containing either 1x MS nutrients (Caisson) and 1% Sucrose, (termed ms media) or ¼x MS nutrients only (termed ms25 media). Both media were buffered using 0.5 g/L MES and pH was adjusted to 5.7 with KOH. All plants were grown together in a growth cabinet with LED lights under long day conditions (16h day/8h night). Root and shoot tissue was collected separately from individual plants at the end of the day (1 hour before the lights shut off) and at the end of the night (1 hour before lights came on). Three biological replicates were collected for each condition. RNA was extracted using the Plant RNA MiniPrepTM kit (ZYMO Research) according to manufacturer’s instructions with on-column DNase treatment (Qiagen). cDNA was made using the iScript Advanced cDNA Synthesis for RT-qPCR kit (Bio-Rad) from 200 ng of total RNA. qRT-PCR was performed using a Fluidigm BioMarkTM 96.96 Dynamic Array IFC with the EvaGreen® (Bio-Rad) fluorescence probe according to the Fluidigm Advanced Development Protocol number 37. For the analysis, all the reactions with no amplification (Ct =999) were set to the maximal Ct for that assay type. The two technical replicates were then averaged and dCt values calculated using AT3G07480, AT4G37830, At1g13320 and At1g13440 as reference internal controls. PCA plots were generated with Devium Web [@DeviumWebDynamicM:hl] using dCt values. dCT values were calculated as dCT = CT~gene interest~ - mean(CT~reference gene~). Primers used are listed in file Supplement 8.
 
 
 ### Biological components
@@ -242,7 +242,7 @@ Around 50 mL of 300 µM D-luciferin (Biosynth, Itasca, IL) was added to soil at 
 
 #### Image Preparation
 
-Four individual images are collected: top front, bottom front, top back and bottom back.  Using an automated [ImageJ macro](https://github.com/rr-lab/glo_roots/blob/master/gloria/gloroot_combine.ijm), a composite image is generated as follows: 1)To correct for differences in background values between the two cameras the mean background value of each image is subtracted from 200; 2) images are rotated and translated to control for small misalignments between the two cameras; 3) the top and bottom images of each side are merged; 4) the back image is flipped horizontally; 5) the front and back images are combined using the maximum values. When dual color images are acquired this operation is repeated for each channel. The final images produced are 16-bit depth and 4096 x 2048 pixels. The scale of the images is 138.6 pixels per cm. Considering that an Arabidopsis roots is 100 µm this results in 1.39 pixels across an Arabidopsis root.
+Four individual images are collected: top front, bottom front, top back and bottom back.  Using an automated [ImageJ macro](https://github.com/rr-lab/GLO-Roots/blob/master/gloria/gloroot_combine.ijm), a composite image is generated as follows: 1)To correct for differences in background values between the two cameras the mean background value of each image is subtracted from 200; 2) images are rotated and translated to control for small misalignments between the two cameras; 3) the top and bottom images of each side are merged; 4) the back image is flipped horizontally; 5) the front and back images are combined using the maximum values. When dual color images are acquired this operation is repeated for each channel. The final images produced are 16-bit depth and 4096 x 2048 pixels. The scale of the images is 138.6 pixels per cm. Considering that an Arabidopsis roots is 100 µm this results in 1.39 pixels across an Arabidopsis root.
 
 #### GLO-RIA imageJ plug-in
 
@@ -250,13 +250,13 @@ GLO-RIA uses a combination of existing tools to extract relevant root architectu
 Directionality is acquired using the  [directionality plugin](http://fiji.sc/Directionality) from ImageJ. After the number of direction bins (we usually use bins of 2 º)  is defined by the user, a 5x5 sobel operator is used to derive the local gradient orientation. This orientation is then used to build a distribution of directions by assigning the square of the orientation into the appropriate bin. Instead of representing the total counts at each orientation a relative value is calculated by dividing the individual values at each bin by the total sum of the histogram (and multiplying by 100). Similar algorithms have been used to quantify dynamic changes in the plant cytoskeleton [@Lindeboom:2013hqa].  
 The Elliptic Fourier Descriptors are aquired using the [Fourier Shape Analysis plugin](http://imagejdocu.tudor.lu/doku.php?id=plugin:analysis:fourier_shape_analysis:start) on convex hull shape of the root system. Elliptic Fourier Descriptors have been used in numerous studies to analyse variations in shapes, notably in leaves (e.g [@Chitwood:2014cc, @Iwata:2002wf])
 The shape analysis is inspired by RootScape [@Ristova:2013kx]. Due to the absence of fixed, recognisable structures in root system (that are required for the position of true landmarks), pseudo-landmarks are automatically extracted from the root systems. Shortly, the image is divided vertically at equidistant positions (with the number defined by the user) and for each of the image stripes, the minimum and maximum x coordinates are computed. The shape analysis is therefore able to discriminate root system with different vertical root distributions or global root system orientation (e.g. chemotropism) .
-The code source for the plugin, manual and sample images can be found in the [github repository](https://github.com/rr-lab/glo_roots/tree/master/gloria) of the project.
+The code source for the plugin, manual and sample images can be found in the [github repository](https://github.com/rr-lab/GLO-Roots/tree/master/gloria) of the project.
 
-Statistical analysis was performed in  R [@RCoreTeam:2014Raa]. The tidyr [@Wickham:2014aa], dplyr [@Wickham:2014aa], gridExtra[@Auguie:2012aa], shapes [@Dryden:2014aa], geomorph [@Adams:2013bb] and ggplot2[@Wickham:2009aa] packages were used for data preparation, analysis and plotting. Final figure preparation was done in [Inkscape](https://inkscape.org/en/).
+Statistical analysis was performed in  R [@RCoreTeam:2014Raa]. The tidyr [@Wickham:2014aa], dplyr [@Wickham:2014aa], gridExtra[@Auguie:2012aa], shapes [@Dryden:2014aa], geomorph [@Adams:2013bb], ggplot2[@Wickham:2009aa] and cowplot [@Wilke:2015bp] packages were used for data preparation, analysis and plotting. Final figure preparation was done in [Inkscape](https://inkscape.org/en/).
 
 #### Data availability
 
-All the scripts and original data used to analyze and produce the images can be accessed in the Github repository of the project: github.com/rr-lab/glo_roots. Raw files of all the images used in the paper are availabe in [Dryad](http://datadryad.org/review?doi=doi:10.5061/dryad.4k37q).
+All the scripts and original data used to analyze and produce the images can be accessed in the Github repository of the project: github.com/rr-lab/GLO-Roots. Raw files of all the images used in the paper are availabe in [Dryad](http://datadryad.org/review?doi=doi:10.5061/dryad.4k37q).
 
 ## Acknowledgements
 Work in the lab of JRD was funded by the Carnegie Institution for Science Endowment and grants from the National Science Foundation (MCB-115795) and Department of Energy, Biological and Environmental Research program (DE-SC0008769). RRA was supported by a Carnegie Postdoc Fellowship and currently by Conacyt Ciencia Básica Joven Investigador grant number (CB-2014-01-238101). GL was supported by the Belgian Fonds de la Recherche Scientifique. JM was funded by the National Science Foundation (IOS-0820854). CH is funded by MGH Toteston & Fund for Medical Discovery Fellowship grant 2014A051303 and NIH R37 grant GM48707 and NSF grant MCB-0519898 awarded to Frederick Ausubel, and previously by the Gordon and Betty Moore Foundation through Grant GBMF 2550.01 from the Life Sciences Research Foundation. JV was funded by the Office of Biological and Environmental Research, Office of Science, US Department of Energy, interagency agreements DE-SC0001526 and DE-AI02-07ER64452. We thank Robert Mittler and Philip Benfey for providing seeds of ZAT12:LUC and DR5:LUC+ respectively.
@@ -309,23 +309,23 @@ We do not have any competing interests that we are aware of.
 **Figure 2. Time-lapse imaging of root systems and quantification using GLO-RIA.** A) Typical daily time-lapse image series from 11 to 35 DAS of a _ProUBQ10:LUC2o_ Col-0 plant. B) Directionality of the root system of plants in panel A calculated using the directionality plugin implemented in GLO-RIA. C) Color coded projection of root growth using the images in panel A. D) Primary root growth rate, depth, width, root system area are automatically calculated from the convex hull, which is  semi-automatically determined with GLO-RIA. Lateral root number and number of lateral roots divided by the primary root length were quantified manually. A Local Polynomial Regression Fitting with 95% confidence interval (grey) was used to represent the directionality distribution curve. (0º is the direction of the gravity vector).  
 
 ![Figure 3](/Users/rrellan/Dropbox/repos/GLO-Roots/figures/figure_pngs/figure_3.png)  
-**Figure 3. Variation in root architecture between accessions of Arabidopsis.** Representative root and shoot images of A) Bay-0, B) Col-0 and C) Sha accessions transformed with _ProUBQ10:LUC2o_and imaged after  22 DAS. D) Directionality of the root systems, E) depth/width ratio, F) Pseudo-landmarks describing shape variation in root system architecture. Eigenvalues derived from the analysis of 9-12 plants per accession is shown. The first two Principal Components explaining 38% (PC1) and 22% (PC2) of the shape variation are plotted. PC1 captures homogeneity of root system width along the vertical axis and PC2 a combination of depth and width in top parts of the root system. Red and green lines indicate -3SD and +3SD (Standard Deviations), respectively G) PC separation of the different ecotypes using the PCs described in (F). A Local Polynomial Regression Fitting with 95% confidence interval (grey) was used to represent the directionality distribution curve. (0º is the direction of the gravity vector). Wilcoxon test analysis with p < 0.01 was used to test significant differences between the different accession (n = 9-12 plants).
+**Figure 3. Variation in root architecture between accessions of Arabidopsis.** Representative root and shoot images of A) Bay-0, B) Col-0 and C) Sha accessions transformed with _ProUBQ10:LUC2o_and imaged after  22 DAS. D) Directionality of the root systems, E) depth/width ratio, F) Pseudo-landmarks describing shape variation in root system architecture. Eigenvalues derived from the analysis of 9-12 plants per accession is shown. The first two Principal Components explaining 38% (PC1) and 22% (PC2) of the shape variation are plotted. PC1 captures homogeneity of root system width along the vertical axis and PC2 a combination of depth and width in top parts of the root system. Red and green lines indicate -3SD and +3SD (Standard Deviations), respectively G) PC separation of the different ecotypes using the PCs described in (F). A Local Polynomial Regression Fitting with 95% confidence interval (grey) was used to represent the directionality distribution curve. 0º is the direction of the gravity vector. Wilcoxon test analysis with p < 0.01 was used to test significant differences between the different accession (n = 9-12 plants).
 
 
 ![Figure 4](/Users/rrellan/Dropbox/repos/GLO-Roots/figures/figure_pngs/figure_4.png)  
-**Figure 4. Dual-color reporter visualization of structure and gene expression.** Images of whole root systems (A, ) or magnified portion of roots (B, D) at 22 DAS expressing _ProDR5rev:LUC+_ (magenta, A, B) or _ProZAT12:LUC_ signal (magenta, C, D)with skeletonized representation of roots generated using the _ProACT2:PpyRE8o_ reporter expression (in grey). E) Visualization of the results obtained by analyzing the ZAT12:LUC image with the GLO-RIA Root Reporter module. Blue circles are proportional in size to the ZAT12:LUC intensity value. Hovering over the points will reveal numerical values for the ZAT12:LUC intensity
+**Figure 4. Dual-color reporter visualization of structure and gene expression.** Images of whole root systems (A, ) or magnified portion of roots (C, F) at 22 DAS expressing _ProDR5rev:LUC+_ (green, A, B) or _ProZAT12:LUC_ signal (green, C, D)with skeletonized representation of roots generated using the _ProACT2:PpyRE8o_ reporter expression (in grey). E) Visualization of the results obtained by analyzing the ZAT12:LUC image with the GLO-RIA Root Reporter module. Blue circles are proportional in size to the ZAT12:LUC intensity value. Hovering over the points will reveal numerical values for the ZAT12:LUC intensity
 
 ![Figure 5](/Users/rrellan/Dropbox/repos/GLO-Roots/figures/figure_pngs/figure_5.png)  
-**Figure 5. Soil moisture and root architecture mapping in rhizotrons. A) Composite image showing regions of soil made from rhizotrons prepared with different moisture levels. B) Differences in grey-scale intensity values were enhanced using a 16-color Look Up Table (LUT). Brightfield image of soil in rhizotron (C)  and converted using 16-color LUT to enhance visualization of distribution of moisture (D) . E) Root system of a Bay-0 22 DAS and subjected to water deprivation since 13 DAS. Root system visualized using luminescence and overlaid on brightfield image of soil in (C).
+**Figure 5. Soil moisture and root architecture mapping in rhizotrons.** A) Composite image showing regions of soil made from rhizotrons prepared with different moisture levels. B) Differences in grey-scale intensity values were enhanced using a 16-color Look Up Table (LUT). Brightfield image of soil in rhizotron (C)  and converted using 16-color LUT to enhance visualization of distribution of moisture (D) . E) Root system of a Bay-0 22 DAS and subjected to water deprivation since 13 DAS. Root system visualized using luminescence and overlaid on brightfield image of soil in (C).
 
 ![Figure 6](/Users/rrellan/Dropbox/repos/GLO-Roots/figures/figure_pngs/figure_6.png)  
 **Figure 6. Study of effect of water deficit on root system architecture.** A-D) Root systems 22 DAS and exposed to water deficit 13 DAS onwards. Sample images of well watered (left panels) and water deficit (right panels) root systems treated from 13 DAS and directionality (line graphs to left of images) for (A) Col-0 (B) Bay-0 (C) _miz1_ mutant and (D) _tir1-1_ . E) Root system of a 22 DAS plant exposed to water deprivation from 9 DAS onwards with magnified view of lateral root primordia (F). G) The same root as in (E) 24 hours after rewatering and magnified view of lateral root primordia (H). Kolmogorov-Smirnov test at p < 0.001 was used to compare directionality distributions between the different treatments and genotypes. A Local Polynomial Regression Fitting with 95% confidence interval (grey) was used to represent the directionality distribution curve. 0º is the direction of the gravity vector.  
 
 ![Figure 7](/Users/rrellan/Dropbox/repos/GLO-Roots/figures/figure_pngs/figure_7.png)  
-**Figure 7**: Relationship between local soil moisture content and root growth direction. Data quantified from the time lapse series shown in [Video 2](https://www.dropbox.com/s/x24x1uhvc8x0ou9/Video_3.avi?dl=0). Density plots shown at periphery of graph for root direction (x-axis) and soil moisture (y-axis). (0º is the direction of the gravity vector). Data represents 948 root tips measured in a series encompassing 10 time points.
+**Figure 7. Relationship between local soil moisture content and root growth direction.** Data quantified from the time lapse series shown in [Video 2](https://www.dropbox.com/s/x24x1uhvc8x0ou9/Video_3.avi?dl=0). Density plots shown at periphery of graph for root direction (x-axis) and soil moisture (y-axis). 0º is the direction of the gravity vector. Data represents 2535 root tips measured in a series encompassing 10 time points.
 
 ![Figure 8](/Users/rrellan/Dropbox/repos/GLO-Roots/figures/figure_pngs/figure_8.png)  
-**Figure 8**: Roots of _Brachypodium distachyon_ transformed with *ProZmUB1:LUC2o* and imaged at 15 (A) and 24 (B) DAS grown in control conditions. C) 17 DAS tomato plant transformed with *ProeDR5rev:LUC2o* and _Pro35S:PPyRE8o_ D) Zoomed inset of root in panel D showing increased expression of *ProeDR5rev:LUC2o* reporter in early-stage lateral roots.
+**Figure 8**: Roots of _Brachypodium distachyon_ transformed with *ProZmUB1:LUC2o* and imaged at 15 (A) and 24 (B) DAS grown in control conditions. C) Open channel of 17 DAS tomato plant transformed with *ProeDR5rev:LUC2o* and _Pro35S:PPyRE8o_ D) Green channel showing only *ProeDR5rev:LUC2o* E) Amplification of the open and green channel showing increased expression of *ProeDR5rev:LUC2o* reporter in early-stage lateral roots.
 
 ## Videos
 
@@ -333,10 +333,14 @@ We do not have any competing interests that we are aware of.
 
 [**Video 2**](https://www.dropbox.com/s/x24x1uhvc8x0ou9/Video_3.avi?dl=0) Time lapse from 16 to 24 DAS of Col-0 plants expressing _ProUBQ10:LUC2o_ growing in water deficient (left) and control (right) conditions. Plants were sown under control conditions and water deficit treatment started 11 DAS. Images were taked every day.
 
+***
+
 ## Supplementary Material
 
+### Supplementary figures
+
 ![Figure 1-figure supplement 1](/Users/rrellan/Dropbox/repos/GLO-Roots/figures/Supplements/Figure_1_figure_supplement_1.png)  
-**Figure 1-figure supplement 1. Effect of different growth systems on plant biology.** A) Principal Components Analysis (PCA) score plot of a set of 77 genes analyzed by qPCR from root samples of plants grown in MS plates, pots, and rhizotrons. After 15 DAS three plants were collected at the end of the day (D) and three were collected at the end of the night (N). (ms = plant grown in full ms and 1% sucrose, ms25 = plants grown in 25% of full ms) B) Lateral root number and G) primary root length of 18 DAS plants grown in 30 cm tall cylinders, pots and rhizotrons, all with a volume of 100 cm^3^ (n = 6-12 plants). D) Leaf area and E) primary root length of plants of the same age (15 DAS) as the ones used for the qPCR experiment (n= 6-7). ANOVA analysis with p < 0.01 was used to test significant differences between the different parameters.  
+**Figure 1-figure supplement 1. Effect of different growth systems on plant biology.** A) Principal Components Analysis (PCA) score plot of a set of 76 genes analyzed by qPCR from root samples of plants grown in MS plates, pots, and rhizotrons. After 15 DAS three plants were collected at the end of the day (D) and three were collected at the end of the night (N). (ms = plant grown in full ms and 1% sucrose, ms25 = plants grown in 25% of full ms) B) Lateral root number and G) primary root length of 18 DAS plants grown in 30 cm tall cylinders, pots and rhizotrons, all with a volume of 100 cm^3^ (n = 6-12 plants). D) Leaf area and E) primary root length of plants of the same age (15 DAS) as the ones used for the qPCR experiment (n= 6-7). ANOVA analysis with p < 0.01 was used to test significant differences between the different parameters.  
 
 
 ![Figure 1-figure supplement 2](/Users/rrellan/Dropbox/repos/GLO-Roots/figures/Supplements/Figure_1_figure_supplement_2.png)  
@@ -350,7 +354,7 @@ We do not have any competing interests that we are aware of.
 ![Figure 1-figure supplement 4](/Users/rrellan/Dropbox/repos/GLO-Roots/figures/Supplements/Figure_1_figure_supplement_4.png)  
 **Figure 1-figure supplement 4** Effect of luciferin addition on primary root length and shoot size of 14 DAS seedlings that were either continuously exposed to 300 µM luciferin from 9 DAS after sowing or not.  
 
-**Figure 1-figure supplement_data_1**: Two way ANOVA P-values comparing plants grown in MS media vs. plants grown in soil (pots or rhizotrons) and plants collected at day or night. We used p-value < 0.00065 threshold based on Bonferoni adjustment for multiple testing.
+**Figure 1-figure supplement data 1**: Two way ANOVA P-values comparing plants grown in MS media vs. plants grown in soil (pots or rhizotrons) and plants collected at day or night. We used p-value < 0.00065 threshold based on Bonferoni adjustment for multiple testing.
 
 
 ![Figure 3-figure supplement 1](/Users/rrellan/Dropbox/repos/GLO-Roots/figures/Supplements/Figure_3_figure_supplement_1.png)  
@@ -365,11 +369,11 @@ We do not have any competing interests that we are aware of.
 ![Figure 4-figure supplement 3](/Users/rrellan/Dropbox/repos/GLO-Roots/figures/Supplements/Figure_4_figure_supplement_3.png)  
 **Figure 4-figure supplement 3. Three-reporter-based analysis of root-root-microbe interactions.** A) Image showing a 22 DAS _ProUBQ10:LUC2o_ plant (magenta) grown in the same rhizotron with _ProACT2:PpyRE8o_ plants (grey). Plants were inoculated with _Pseudomonas fluorescens CH267_ (green). Magnified portion of root systems colonized by _Pseudomonas fluorescens_ showing _P. fluorescences_ (B) only or all three reporters together (C).  
 
-![Figure 5-figure supplement 1](/Users/rrellan/Dropbox/repos/GLO-Roots/figures/Supplements/Figure_5_figure_supplement_1.png)
-**Figure 5-figure supplement 1**: Moisture calibration curve. Rhizotrons with different levels of moisture were prepared and scanned to obtain readings of pixel intensity. Soil from rhizotrons was then weighed, dried down in an oven at 70 ºC for 48 hours and percent water content quantified.  
+![Figure 5-figure supplement 1](/Users/rrellan/Dropbox/repos/GLO-Roots/figures/Supplements/Figure_5_figure_supplement_1.png)  
+**Figure 5-figure supplement 1**: Moisture calibration curve. Rhizotrons with different levels of moisture were prepared and scanned to obtain readings of pixel intensity. Soil from rhizotrons was then weighed, dried down in an oven at 70 ºC for 48 hours and percent water content quantified.
 
 ![Figure 5-figure supplement 2](/Users/rrellan/Dropbox/repos/GLO-Roots/figures/Supplements/Figure_5_figure_supplement_2.png)  
-**Figure 5-figure supplement 2. Comparison of soil intensity values between areas of the rhizotron with or without the presence of roots, determined based on luminescence data.** Mean intensity values from 100 x 100 pixel squares samples of both areas were obtained from 10 different rhizotrons.  
+**Figure 5-figure supplement 2. Comparison of soil intensity values between areas of the rhizotron with or without the presence of roots, determined based on luminescence data.** Mean intensity values from 100 x 100 pixel squares samples of both areas were obtained from 10 different rhizotrons. Wilcoxon test analysis with p < 0.01 was used to test significant differences between areas with our without root presence.  
 
 
 ![Figure 6-figure supplement 1](/Users/rrellan/Dropbox/repos/GLO-Roots/figures/Supplements/Figure_6_figure_supplement_1.png)  
@@ -393,6 +397,8 @@ We do not have any competing interests that we are aware of.
 ![Figure 8-figure supplement 1](/Users/rrellan/Dropbox/repos/GLO-Roots/figures/Supplements/Figure_8_figure_supplement_1.png)  
 **Figure 8-figure supplement 1** Depth of the primary root of Brachypodium plants grown in rhizotrons or on gel-based media (n=8-11).  
 
+### Supplementary material
+
 **[Supplemental Material 1](https://www.dropbox.com/s/f01cg10hqehpnv6/supplement_1.zip?dl=0)**  
 Blueprints of the holders, clear sheets and spacers needed to built the rhizotrons. Additional details are provided in the materials and methods. Files are provided in Adobe Illustrator .ai and Autocad .dxf formats.
 
@@ -401,7 +407,39 @@ Primers used in the qPCR experiment.
 
 
 **[Supplemental Material 3](https://www.dropbox.com/s/kg0r5df4nx3tjpy/supplement_3.zip?dl=0)**  
-Vector maps of all the constructs used in this work.  
+Vector maps of all the constructs used in this work.
 
+## Source data files
+
+Source data files used for building the following figures are provided:
+
+figure_1D.csv  
+figure_1_figure_supplement_1A-B.csv  
+figure_1_figure_supplement_1C_D.csv  
+figure_1_figure_supplement_1E-F.csv  
+figure_1_figure_supplement_2.csv  
+figure_1_figure_supplement_3.csv  
+figure_2C.csv  
+figure_2D.csv  
+figure_3D.csv  
+figure_3E.csv  
+figure_3F-G_1.csv  
+figure_3F-G_2.tps  
+figure_3_figure_supplement_1A-B.csv  
+figure_4G_reporter.csv  
+figure_4G_root_segment.csv  
+figure_4_figure_supplement_1.csv  
+figure_4_figure_supplement_2.csv  
+figure_5_figure_supplement_1.csv  
+figure_6_A-D.csv  
+figure_6_figure_supplement_2-C-D.csv  
+figure_6_figure_supplement_2-E.csv  
+figure_6_figure_supplement_3.csv  
+figure_6_figure_supplement_4.csv  
+figure_6_figure_supplement_5.csv  
+figure_7.csv  
+figure_8_figure_supplement_1.csv  
+
+***
 
 ## References
