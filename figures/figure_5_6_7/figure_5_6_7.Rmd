@@ -511,8 +511,8 @@ moist_cal %>%
   stat_smooth(method=lm) +
   xlab("Pixel intensity") +
   ylab("Water content (%)") +
-  theme_bw() +
-  ggsave("moisture_calibration.pdf", height = 8, width = 8, units = "cm", useDingbats = FALSE)
+  draw_text("r2 = 0.85", angle = 0, size = 12, alpha = .8)
+  ggsave("moisture_calibration.png", height = 10, width = 10, units = "cm")
 
 ```
 
@@ -524,11 +524,22 @@ root_brightness <- read.csv("data/root-brightness.csv")
 root_brightness %>%
   ggplot(aes(x = water, y = intensity, colour = root_presence)) +
   geom_boxplot() +
+  geom_point(size = 3, alpha = 0.7, position=position_jitter(w = 0.5)) +
   labs(colour = "Root Presence") +
   xlab("Water treatment") +
-  ylab("Intensity") 
+  ylab("Intensity") +
+  ggsave("root_brightness.png", height = 10, width = 10, units = "cm")
+  
+root_brightness %>%
+wilcox.test(intensity ~ root_presence , data = root_brightness)
 
-  ggsave("root_brightness.pdf", height = 10, width = 10, units = "cm", useDingbats = FALSE)
+root_WD <- root_brightness %>%
+  filter (water == "WD")
+wilcox.test(intensity ~ root_presence , data = root_WD)
+
+root_WW <- root_brightness %>%
+  filter (water == "WW")
+wilcox.test(intensity ~ root_presence , data = root_WW)
 
 ```
 
