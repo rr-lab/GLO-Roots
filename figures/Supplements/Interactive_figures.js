@@ -1,0 +1,373 @@
+
+   <section>
+
+      <p class="time">
+        <label for="nTime"
+              style="display: inline-block; width: 240px; text-align: right">
+              Time in serie: <span id="nTime-value">1</span>
+           </label>
+        <input type="range" min="1" max="10" id="nTime" value="1">
+      </p>
+
+
+      <span class="plot-div" id="plot1"></span><span  class="plot-div" id="plot1b"></span>
+
+
+      <script>
+        var margin = {top: 10, right: 10, bottom: 50, left: 50},
+            width = 350 - margin.left - margin.right,
+            height = 350 - margin.top - margin.bottom;
+        var x = d3.scale.linear().range([0, width]);
+        var y = d3.scale.linear().range([height, 0]);
+        var rad = d3.scale.linear().range([0, 5]);
+        var color = d3.scale.linear().domain([40, 60]).range(["red","blue"]);
+
+        var xAxis = d3.svg.axis()
+                      .scale(x)
+                      .orient("bottom");
+        var yAxis = d3.svg.axis()
+                      .scale(y)
+                      .orient("left");
+
+        var yAxisInv = d3.svg.axis()
+                      .scale(y)
+                      .orient("left")
+                      .tickFormat(function(d) {
+                        return -18+d;
+                      });
+
+        var svg1 = d3.select("#plot1").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        var svg1b = d3.select("#plot1b").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        var scale = 138.6;
+
+        var scalex = d3.scale.linear().range([0, width]);
+
+        var scaley = d3.scale.linear().range([height, 0]);
+        function lineAnimate(selection) {
+            selection
+              .attr("x1", function(d) { return x(d.startx / scale); })
+              .attr("y1", function(d) { return y(d.starty / scale); })
+              .attr("x2", function(d) { return x(d.startx / scale); })
+              .attr("y2", function(d) { return y(d.starty / scale); })
+              .style('opacity', 0.5)
+              .transition()
+                  .ease('linear')
+                  .duration(3000)
+                  .delay(function(d) {return d.time_in_serie*10;})
+                  .attr("x2", function(d) { return x(d.endx / scale); })
+                  .attr("y2", function(d){ return y(d.endy / scale); })
+              .each('end', function() {d3.select(this).call(lineAnimate)});
+        }
+        var vertices = [];
+        var voronoi = d3.geom.voronoi()
+                        .clipExtent([[0, 0], [width, height]]);
+
+        // Create a scale for the voronoi data
+        d3.csv("humidity.csv", function(error, data) {
+
+            scalex.domain(d3.extent(data, function(d) { return (d.startx / scale); })).nice();
+            scaley.domain(d3.extent(data, function(d) { return (d.starty / scale); })).nice();
+            x.domain(d3.extent(data, function(d) { return (d.startx / scale); })).nice();
+            y.domain(d3.extent(data, function(d) { return (d.starty / scale); })).nice();
+            // Get the vertices data
+            vertices = data.filter(function(d){ return d.group == 2  && d.time_in_serie == 10})
+                          .map(function(d) { return [scalex(d["startx"]/scale), scaley(d["starty"]/scale) ]; });
+
+            // Get the corresponding envi data
+            envi = data.filter(function(d) { return d.group == 2  && d.time_in_serie == 10})
+                        .map(function(d) { return [ color(d["environment"])  ]; });
+            water = data.filter(function(d) { return d.group == 2  && d.time_in_serie == 10})
+                        .map(function(d) { return [ d["environment"] ]; });
+            console.log(water);
+            var tooltip = svg1.selectAll("path")
+              .data(data)
+              .enter()
+              .append("div")
+              .filter(function(d) { return d.group == 2  && d.time_in_serie == 10})
+              .style("position", "absolute")
+              .style("z-index", "10")
+              .style("visibility", "hidden")
+              .text();
+            // Plot the voronoi on the data
+            svg1.selectAll("path")
+              .data(voronoi(vertices))
+              .enter()
+              .append("path")
+              .attr("d", function(d) {return "M" + d.join("L") + "Z"; })
+              .attr("fill",function(d, i) {return envi[i]; });
+            svg1.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(0," + height + ")")
+                .call(xAxis)
+                .append("text")
+                .attr("class", "label")
+                .attr("x", width)
+                .attr("y", 40)
+                .style("text-anchor", "end")
+                .text("Width (cm)");
+            svg1.append("g")
+                .attr("class", "y axis")
+                .call(yAxisInv)
+                .append("text")
+                .attr("class", "label")
+                .attr("transform", "rotate(-90)")
+                .attr("y", -40)
+                .attr("dy", ".71em")
+                .style("text-anchor", "end")
+                .text("Depth (cm)");
+            svg1.selectAll('.seg1')
+              .data(data)
+              .enter()
+              .append('line')
+              .filter(function(d) { return d.group == 2  && d.time_in_serie == 10})
+              .attr("class", "seg1")
+              .attr("stroke", "black")
+              .attr("stroke-width", 2)
+              .attr("x1", function(d) { return x(d.startx / scale); })
+              .attr("y1", function(d) { return y(d.starty / scale); })
+              .attr("x2", function(d) { return x(d.startx / scale); })
+              .attr("y2", function(d) { return y(d.starty / scale); })
+              .style('opacity', 0.9)
+              .transition()
+                  .ease('linear')
+                  .duration(2000)
+                  .attr("x2", function(d) { return x(d.endx / scale); })
+                  .attr("y2", function(d){ return y(d.endy / scale); });
+/*------------------------------------------------------------------------------------*/
+            // Get the vertices data
+            vertices = data.filter(function(d){ return d.group == 3  && d.time_in_serie == 10})
+                          .map(function(d) { return [scalex(d["startx"]/scale), scaley(d["starty"]/scale) ]; });
+
+            // Get the corresponding envi data
+            envi = data.filter(function(d) { return d.group == 3  && d.time_in_serie == 10})
+                      .map(function(d) { return [ color(d["environment"])  ]; });
+            // Plot the voronoi on the data
+            svg1b.selectAll("path")
+              .data(voronoi(vertices))
+              .enter()
+              .append("path")
+              .attr("d", function(d) {return "M" + d.join("L") + "Z"; })
+              .attr("fill",function(d, i) {return envi[i]; });
+              //.attr("transform", "rotate(180) translate(-"+width+", -"+height+")");
+            svg1b.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(0," + height + ")")
+                .call(xAxis)
+                .append("text")
+                .attr("class", "label")
+                .attr("x", width)
+                .attr("y", 40)
+                .style("text-anchor", "end")
+                .text("Width (cm)");
+            svg1b.append("g")
+                .attr("class", "y axis")
+                .call(yAxisInv)
+                .append("text")
+                .attr("class", "label")
+                .attr("transform", "rotate(-90)")
+                .attr("y", -40)
+                .attr("dy", ".71em")
+                .style("text-anchor", "end")
+                .text("Depth (cm)");
+            svg1b.selectAll('.seg1')
+              .data(data)
+              .enter()
+              .append('line')
+              .filter(function(d) { return d.group == 3  && d.time_in_serie == 10})
+              .attr("class", "seg1")
+              .attr("stroke", "black")
+              .attr("stroke-width", 2)
+              .attr("x1", function(d) { return x(d.startx / scale); })
+              .attr("y1", function(d) { return y(d.starty / scale); })
+              .attr("x2", function(d) { return x(d.startx / scale); })
+              .attr("y2", function(d) { return y(d.starty / scale); })
+              .style('opacity', 0.9)
+              .transition()
+                  .ease('linear')
+                  .duration(2000)
+                  .attr("x2", function(d) { return x(d.endx / scale); })
+                  .attr("y2", function(d){ return y(d.endy / scale); });
+
+        });
+
+        d3.select("#nTime").on("input", function() {
+            update1(+this.value);
+        });
+        function update1(nTime) {
+          // adjust the text on the range slider
+          d3.select("#nTime-value").text(nTime);
+          d3.select("#nTime").property("value", nTime);
+          d3.csv("humidity.csv", function(error, data) {
+              // Get the vertices data
+              vertices = data.filter(function(d){ return d.group == 2  && d.time_in_serie == nTime})
+                            .map(function(d) { return [scalex(d["startx"]/scale), scaley(d["starty"]/scale)]; });
+
+              // Get the corresponding envi data
+              envi = data.filter(function(d) { return d.group == 2  && d.time_in_serie == nTime})
+                        .map(function(d) { return [ color(d["environment"])  ]; });
+              svg1.selectAll("path").remove("path");
+              // Plot the voronoi on the data
+              svg1.selectAll("path")
+                .data(voronoi(vertices))
+                .enter()
+                .append("path")
+                .attr("d", function(d) {return "M" + d.join("L") + "Z"; })
+                .attr("fill",function(d, i) {return envi[i]; });
+                //.attr("transform", "rotate(180) translate(-"+width+", -"+height+")");
+              svg1.selectAll(".seg1").remove("line");
+              svg1.selectAll(".seg1")
+                .data(data)
+                .enter()
+                .append('line')
+                .filter(function(d) { return d.group == 2  && d.time_in_serie == nTime})
+                .attr("class", "seg1")
+                .attr("stroke", "black")
+                .attr("stroke-width", 2)
+                .call(lineAnimate);
+/*------------------------------------------------------------------------------------*/
+              // Get the vertices data
+              vertices = data.filter(function(d){ return d.group == 3  && d.time_in_serie == nTime})
+                            .map(function(d) { return [scalex(d["startx"]/scale), scaley(d["starty"]/scale)]; });
+
+              // Get the corresponding envi data
+              envi = data.filter(function(d) { return d.group == 3  && d.time_in_serie == nTime})
+                        .map(function(d) { return [ color(d["environment"])  ]; });
+              svg1b.selectAll("path").remove("path");
+              // Plot the voronoi on the data
+              svg1b.selectAll("path")
+                .data(voronoi(vertices))
+                .enter()
+                .append("path")
+                .attr("d", function(d) {return "M" + d.join("L") + "Z"; })
+                .attr("fill",function(d, i) {return envi[i]; });
+                //.attr("transform", "rotate(180) translate(-"+width+", -"+height+")");
+              svg1b.selectAll(".seg1")
+                  .remove("line");
+              svg1b.selectAll(".seg1")
+                .data(data)
+                .enter()
+                .append('line')
+                .filter(function(d) { return d.group == 3  && d.time_in_serie == nTime})
+                .attr("class", "seg1")
+                .attr("stroke", "black")
+                .attr("stroke-width", 2)
+                .call(lineAnimate);
+
+          });
+        }
+
+      </script>
+
+    </section>
+
+    <section>
+
+      <p>Time series showing the relationship between local soil moisture content and root growth direction. Blue = wet, Red = dry. Data coming from the figure 8 of the pre-print available in <a href="http://biorxiv.org/content/early/2015/03/30/016931">BioRxiv</a></p>
+      <hr>
+    </section>
+
+
+
+
+ <section>
+
+
+      <div id="plot2"></div>
+
+      <script>
+        var svg = d3.select("#plot2").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        var scale = 138.6;
+        d3.csv("segs.csv", function(error, data) {
+            svg.selectAll(".seg")
+                .data(data)
+                .enter().append("line")
+                .filter(function(d) { return d.time_in_serie == 1 })
+                .attr("class", "seg")
+                .attr("x1", function(d) { return x(d.startx / scale); })
+                .attr("y1", function(d) { return y(-d.starty / scale); })
+                .attr("x2", function(d) { return x(d.endx / scale); })
+                .attr("y2", function(d) { return y(-d.endy / scale); });
+        });
+        d3.select("#nTime1").on("input", function() {
+            update(+this.value);
+        });
+        d3.csv("reporters.csv", function(error, data) {
+            x.domain(d3.extent(data, function(d) { return d.rep_x / scale; })).nice();
+            y.domain(d3.extent(data, function(d) { return -d.rep_y / scale; })).nice();
+            svg.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(0," + height + ")")
+                .call(xAxis)
+              .append("text")
+                .attr("class", "label")
+                .attr("x", width)
+                .attr("y", -6)
+                .style("text-anchor", "end")
+                .text("Width (cm)");
+            svg.append("g")
+                .attr("class", "y axis")
+                .call(yAxis)
+              .append("text")
+                .attr("class", "label")
+                .attr("transform", "rotate(-90)")
+                .attr("y", 6)
+                .attr("dy", ".71em")
+                .style("text-anchor", "end")
+                .text("Depth (cm)")
+            svg.selectAll("circle")
+                .data(data)
+                .enter()
+                .append("svg:circle")
+                .filter(function(d) { return d.time_in_serie == 1 })
+                .attr("class", "dot")
+                .attr("r", function(d) { return rad(d.intensity / 10); })
+                .attr("cx", function(d) { return x(d.rep_x / scale); })
+                .attr("cy", function(d) { return y(-d.rep_y / scale); });
+            $('circle').tipsy({
+                  gravity: 'w',
+                  html: true,
+                  title: function() {
+                    var d = this.__data__, c3 = (Math.round((d.diameter/scale)*100))/100, c4 = (Math.round((d.growth/scale)*100))/100;
+                    return '<b>Diameter:</b> ' + c3 + ' cm</br><b>Growth:</b> ' + c4 + ' cm/h';
+                  }
+                });
+        });
+      </script>
+
+    </section>
+    <section>
+
+      <p>Time series showing root growth and ProZAT12:LUC expression after salt addition to the right side of the root system. Data coming from the figure 7 of the pre-print available in <a href="http://biorxiv.org/content/early/2015/03/30/016931">BioRxiv</a></p>
+
+
+      <hr>
+      <h2>
+      <a id="multidimensional-mapping-of-root-responses-to-environmental-cues-using-a-luminescence-based-imaging-system" class="anchor" href="#multidimensional-mapping-of-root-responses-to-environmental-cues-using-a-luminescence-based-imaging-system" aria-hidden="true"><span class="octicon octicon-link"></span></a>Multidimensional mapping of root responses to environmental cues using a luminescence-based imaging system</h2>
+
+      <p>Rubén Rellán-Álvarez<sup>1, 9</sup>, Guillaume Lobet<sup>2</sup>, Heike Lindner<sup>1, 8</sup>, Pierre-Luc Pradier<sup>1, 8, 10</sup>, Muh-Ching Yee<sup>1</sup>, Jose Sebastian<sup>1</sup>, Yu Geng<sup>1, 7</sup>, Charlotte Trontin<sup>1</sup>, Therese LaRue<sup>3</sup>, Amanda Schrager<sup>4</sup>, Cara Haney<sup>5</sup>, Rita Nieu<sup>6</sup>, Julin Maloof<sup>4</sup>, John P. Vogel<sup>7</sup>, José R. Dinneny<sup>1,12 </sup></p>
+    </section>
+
+
+
+  <footer>
+    <p>This project is maintained by <a href="https://www.guillaumelobet.be">Guillaume Lobet</a> and by <a href="https://github.com/rr-lab">rr-lab</a></p>
+    <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+  </footer>
+  </div>
+
+
+</body>
+</html>
