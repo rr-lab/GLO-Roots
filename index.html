@@ -56,9 +56,9 @@
       <p class="time">
         <label for="nTime"
               style="display: inline-block; width: 240px; text-align: right">
-              Time in serie: <span id="nTime-value">1</span>
+              Time in serie: <span id="nTime-value">10</span>
            </label>
-        <input type="range" min="1" max="10" id="nTime" value="1">
+        <input type="range" min="1" max="10" id="nTime" value="10">
       </p>
 
 
@@ -75,6 +75,10 @@
 
         var y = d3.scale.linear().range([height, 0]);
 
+        var x1 = d3.scale.linear().range([0, width]);
+
+        var y1 = d3.scale.linear().range([height, 0]);
+
         var rad = d3.scale.linear().range([0, 5]);
 
         var color = d3.scale.linear().domain([40, 60]).range(["red","blue"]);
@@ -86,9 +90,13 @@
         var yAxis = d3.svg.axis()
                       .scale(y)
                       .orient("left");
+
+        var xAxis1 = d3.svg.axis()
+                      .scale(x1)
+                      .orient("bottom");           
     
         var yAxisInv = d3.svg.axis()
-                      .scale(y)
+                      .scale(y1)
                       .orient("left")
                       .tickFormat(function(d) {
                         return -18+d;
@@ -115,17 +123,17 @@
 
         function lineAnimate(selection) {
             selection
-              .attr("x1", function(d) { return x(d.startx / scale); })
-              .attr("y1", function(d) { return y(d.starty / scale); })
-              .attr("x2", function(d) { return x(d.startx / scale); })
-              .attr("y2", function(d) { return y(d.starty / scale); })
+              .attr("x1", function(d) { return x1(d.startx / scale); })
+              .attr("y1", function(d) { return y1(d.starty / scale); })
+              .attr("x2", function(d) { return x1(d.startx / scale); })
+              .attr("y2", function(d) { return y1(d.starty / scale); })
               .style('opacity', 0.5)
               .transition()
                   .ease('linear')
                   .duration(3000)
                   .delay(function(d) {return d.time_in_serie*10;})
-                  .attr("x2", function(d) { return x(d.endx / scale); })
-                  .attr("y2", function(d){ return y(d.endy / scale); })
+                  .attr("x2", function(d) { return x1(d.endx / scale); })
+                  .attr("y2", function(d){ return y1(d.endy / scale); })
               .each('end', function() {d3.select(this).call(lineAnimate)});
         }
 
@@ -141,8 +149,8 @@
             scalex.domain(d3.extent(data, function(d) { return (d.startx / scale); })).nice();
             scaley.domain(d3.extent(data, function(d) { return (d.starty / scale); })).nice();
 
-            x.domain(d3.extent(data, function(d) { return (d.startx / scale); })).nice();
-            y.domain(d3.extent(data, function(d) { return (d.starty / scale); })).nice();
+            x1.domain(d3.extent(data, function(d) { return (d.startx / scale); })).nice();
+            y1.domain(d3.extent(data, function(d) { return (d.starty / scale); })).nice();
 
 
             // Get the vertices data
@@ -180,7 +188,7 @@
             svg1.append("g")
                 .attr("class", "x axis")
                 .attr("transform", "translate(0," + height + ")")
-                .call(xAxis)
+                .call(xAxis1)
                 .append("text")
                 .attr("class", "label")
                 .attr("x", width)
@@ -207,17 +215,19 @@
               .attr("class", "seg1")
               .attr("stroke", "black")
               .attr("stroke-width", 2)
-              .attr("x1", function(d) { return x(d.startx / scale); })
-              .attr("y1", function(d) { return y(d.starty / scale); })
-              .attr("x2", function(d) { return x(d.startx / scale); })
-              .attr("y2", function(d) { return y(d.starty / scale); })
+              .call(lineAnimate);
+              /*
+              .attr("x1", function(d) { return x1(d.startx / scale); })
+              .attr("y1", function(d) { return y1(d.starty / scale); })
+              .attr("x2", function(d) { return x1(d.startx / scale); })
+              .attr("y2", function(d) { return y1(d.starty / scale); })
               .style('opacity', 0.9)
               .transition()
                   .ease('linear')
                   .duration(2000)
-                  .attr("x2", function(d) { return x(d.endx / scale); })
-                  .attr("y2", function(d){ return y(d.endy / scale); });
-
+                  .attr("x2", function(d) { return x1(d.endx / scale); })
+                  .attr("y2", function(d){ return y1(d.endy / scale); });
+              */
 
 /*------------------------------------------------------------------------------------*/
 
@@ -244,7 +254,7 @@
             svg1b.append("g")
                 .attr("class", "x axis")
                 .attr("transform", "translate(0," + height + ")")
-                .call(xAxis)
+                .call(xAxis1)
                 .append("text")
                 .attr("class", "label")
                 .attr("x", width)
@@ -271,6 +281,8 @@
               .attr("class", "seg1")
               .attr("stroke", "black")
               .attr("stroke-width", 2)
+              .call(lineAnimate);
+            /*
               .attr("x1", function(d) { return x(d.startx / scale); })
               .attr("y1", function(d) { return y(d.starty / scale); })
               .attr("x2", function(d) { return x(d.startx / scale); })
@@ -281,7 +293,7 @@
                   .duration(2000)
                   .attr("x2", function(d) { return x(d.endx / scale); })
                   .attr("y2", function(d){ return y(d.endy / scale); });                  
-            
+            */
 
         });
 
