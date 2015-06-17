@@ -400,6 +400,8 @@
         var scale = 138.6;
 
         d3.csv("segs.csv", function(error, data) {
+            x.domain([0, 14]).nice();//d3.extent(data, function(d) { return d.startx / scale; })).nice();
+            y.domain([-20,0]).nice();//(d3.extent(data, function(d) { return -d.starty / scale; })).nice();
 
             svg.selectAll(".seg")
                 .data(data)
@@ -410,29 +412,6 @@
                 .attr("y1", function(d) { return y(-d.starty / scale); })
                 .attr("x2", function(d) { return x(d.endx / scale); })
                 .attr("y2", function(d) { return y(-d.endy / scale); });
-        });
-
-
-        d3.select("#nTime1").on("input", function() {
-            update(+this.value);
-        });
-
-
-        d3.csv("reporters.csv", function(error, data) {
-
-            x.domain(d3.extent(data, function(d) { return d.rep_x / scale; })).nice();
-            y.domain(d3.extent(data, function(d) { return -d.rep_y / scale; })).nice();
-
-            svg.append("g")
-                .attr("class", "x axis")
-                .attr("transform", "translate(0," + height + ")")
-                .call(xAxis)
-              .append("text")
-                .attr("class", "label")
-                .attr("x", width)
-                .attr("y", -6)
-                .style("text-anchor", "end")
-                .text("Width (cm)");
 
             svg.append("g")
                 .attr("class", "y axis")
@@ -454,6 +433,29 @@
                 .attr("r", function(d) { return rad(d.intensity / 10); })
                 .attr("cx", function(d) { return x(d.rep_x / scale); })
                 .attr("cy", function(d) { return y(-d.rep_y / scale); });
+                
+        });
+
+
+        d3.select("#nTime1").on("input", function() {
+            update(+this.value);
+        });
+
+
+        d3.csv("reporters.csv", function(error, data) {
+
+            x.domain([0, 14]).nice();//d3.extent(data, function(d) { return d.startx / scale; })).nice();
+            y.domain([-20,0]).nice();//(d3.extent(data, function(d) { return -d.starty / scale; })).nice();
+            svg.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(0," + height + ")")
+                .call(xAxis)
+              .append("text")
+                .attr("class", "label")
+                .attr("x", width)
+                .attr("y", -6)
+                .style("text-anchor", "end")
+                .text("Width (cm)");
 
             $('circle').tipsy({ 
                   gravity: 'w', 
