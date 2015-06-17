@@ -423,17 +423,19 @@
                 .attr("dy", ".71em")
                 .style("text-anchor", "end")
                 .text("Depth (cm)")
+            svg.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(0," + height + ")")
+                .call(xAxis)
+              .append("text")
+                .attr("class", "label")
+                .attr("x", width)
+                .attr("y", -6)
+                .style("text-anchor", "end")
+                .text("Width (cm)");
 
-            svg.selectAll("circle")
-                .data(data)
-                .enter()
-                .append("svg:circle")
-                .filter(function(d) { return d.time_in_serie == 1 })
-                .attr("class", "dot")
-                .attr("r", function(d) { return rad(d.intensity / 10); })
-                .attr("cx", function(d) { return x(d.rep_x / scale); })
-                .attr("cy", function(d) { return y(-d.rep_y / scale); });
-                
+
+
         });
 
 
@@ -446,17 +448,17 @@
 
             x.domain([0, 14]).nice();//d3.extent(data, function(d) { return d.startx / scale; })).nice();
             y.domain([-20,0]).nice();//(d3.extent(data, function(d) { return -d.starty / scale; })).nice();
-            svg.append("g")
-                .attr("class", "x axis")
-                .attr("transform", "translate(0," + height + ")")
-                .call(xAxis)
-              .append("text")
-                .attr("class", "label")
-                .attr("x", width)
-                .attr("y", -6)
-                .style("text-anchor", "end")
-                .text("Width (cm)");
 
+
+            svg.selectAll("circle")
+                .data(data)
+                .enter()
+                .append("svg:circle")
+                .filter(function(d) { return d.time_in_serie == 1 })
+                .attr("class", "dot")
+                .attr("r", function(d) { return rad(d.intensity / 10); })
+                .attr("cx", function(d) { return x(d.rep_x / scale); })
+                .attr("cy", function(d) { return y(-d.rep_y / scale); });
             $('circle').tipsy({ 
                   gravity: 'w', 
                   html: true, 
