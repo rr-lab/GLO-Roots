@@ -5,7 +5,8 @@ GLO-Roots Image Analysis (GLO-RIA) is an ImageJ plugin intended for the analysis
 
 Two different of analysis are available with the plugin: a local analysis of dual-reporter images (**RootReporter**) and a global analysis of the whole root system properties (**RootSystem**).
 
-GLO-RIA is an open source tool hosted on GitHub: [https://github.com/rr-lab/glo_roots/](https://github.com/rr-lab/glo_roots/)
+GLO-RIA is an open source tool hosted on GitHub: [http://rr-lab.github.io/GLO-Roots
+](http://rr-lab.github.io/GLO-Roots)
 
 ### Installing GLO-RIA
 
