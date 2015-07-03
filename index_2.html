@@ -10,9 +10,9 @@
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
 
       <script src="http://d3js.org/d3.v3.min.js"></script>
-      <script type="text/javascript" src="javascripts/d3.v3.min.js"></script>
+      <!--script type="text/javascript" src="d3.v3.min.js"></script-->
       <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.2.min.js"></script> 
-      <script type="text/javascript" src="javascripts/jquery-1.6.2.min.js"></script> 
+      <!--script type="text/javascript" src="jquery-1.6.2.min.js"></script--> 
       <script type="text/javascript" src="javascripts/jquery.tipsy.js"></script>
       <link href="stylesheets/tipsy.css" rel="stylesheet" type="text/css" />
 
@@ -56,9 +56,9 @@
       <p class="time">
         <label for="nTime"
               style="display: inline-block; width: 240px; text-align: right">
-              Time in serie: <span id="nTime-value">9</span>
+              Time in serie: <span id="nTime-value">10</span>
            </label>
-        <input type="range" min="1" max="9" id="nTime" value="10">
+        <input type="range" min="1" max="10" id="nTime" value="10">
       </p>
 
 
@@ -143,55 +143,6 @@
                         .clipExtent([[0, 0], [width, height]]);
         
         // Create a scale for the voronoi data
-        d3.csv("water_content.csv", function(error, data) {
-
-            scalex.domain(d3.extent(data, function(d) { return (d.x / scale); })).nice();
-            scaley.domain(d3.extent(data, function(d) { return (d.y / scale); })).nice();
-
-            x1.domain(d3.extent(data, function(d) { return (d.x / scale); })).nice();
-            y1.domain(d3.extent(data, function(d) { return (d.y / scale); })).nice();
-
-
-            // Get the vertices data
-            vertices = data.filter(function(d){ return d.group == 1  && d.time_in_serie == 9})
-                          .map(function(d) { return [scalex(d["x"]/scale), scaley(d["y"]/scale) ]; }); 
-            
-            // Get the corresponding envi data
-            envi = data.filter(function(d) { return d.group == 1  && d.time_in_serie == 9})
-                        .map(function(d) { return [ color(d["hum"])]; });            
-
-            console.log(envi);
-
-            // Plot the voronoi on the data
-            svg1.selectAll("path")
-              .data(voronoi(vertices))
-              .enter()
-              .append("path")
-              .attr("d", function(d) {return "M" + d.join("L") + "Z"; })
-              .attr("fill",function(d, i) {return envi[i]; });  
-
-
-
-
-            // Get the vertices data
-            vertices = data.filter(function(d){ return d.group == 2  && d.time_in_serie == 9})
-                          .map(function(d) { return [scalex(d["x"]/scale), scaley(d["y"]/scale) ]; }); 
-            
-            // Get the corresponding envi data
-            envi = data.filter(function(d) { return d.group == 2  && d.time_in_serie == 9})
-                        .map(function(d) { return [ color(d["hum"])  ]; });            
-
-
-            // Plot the voronoi on the data
-            svg1b.selectAll("path")
-              .data(voronoi(vertices))
-              .enter()
-              .append("path")
-              .attr("d", function(d) {return "M" + d.join("L") + "Z"; })
-              .attr("fill",function(d, i) {return envi[i]; });                
-
-        });
-
 
         d3.csv("humidity.csv", function(error, data) {
             
@@ -202,7 +153,7 @@
             y1.domain(d3.extent(data, function(d) { return (d.starty / scale); })).nice();
 
 
-/*            // Get the vertices data
+            // Get the vertices data
             vertices = data.filter(function(d){ return d.group == 2  && d.time_in_serie == 10})
                           .map(function(d) { return [scalex(d["startx"]/scale), scaley(d["starty"]/scale) ]; }); 
             
@@ -213,8 +164,17 @@
             water = data.filter(function(d) { return d.group == 2  && d.time_in_serie == 10})
                         .map(function(d) { return [ d["environment"] ]; });            
 
+            console.log(water);
 
-
+            var tooltip = svg1.selectAll("path")
+              .data(data)
+              .enter()
+              .append("div")
+              .filter(function(d) { return d.group == 2  && d.time_in_serie == 10})
+              .style("position", "absolute")
+              .style("z-index", "10")
+              .style("visibility", "hidden")
+              .text();
 
             // Plot the voronoi on the data
             svg1.selectAll("path")
@@ -223,16 +183,7 @@
               .append("path")
               .attr("d", function(d) {return "M" + d.join("L") + "Z"; })
               .attr("fill",function(d, i) {return envi[i]; });  
-*/
-            var tooltip = svg1.selectAll("path")
-              .data(data)
-              .enter()
-              .append("div")
-              .filter(function(d) { return d.group == 2  && d.time_in_serie == 9})
-              .style("position", "absolute")
-              .style("z-index", "10")
-              .style("visibility", "hidden")
-              .text();
+
 
             svg1.append("g")
                 .attr("class", "x axis")
@@ -260,7 +211,7 @@
               .data(data)
               .enter()
               .append('line')
-              .filter(function(d) { return d.group == 2  && d.time_in_serie == 9})
+              .filter(function(d) { return d.group == 2  && d.time_in_serie == 10})
               .attr("class", "seg1")
               .attr("stroke", "black")
               .attr("stroke-width", 2)
@@ -281,7 +232,7 @@
 /*------------------------------------------------------------------------------------*/
 
 
-/*            // Get the vertices data
+            // Get the vertices data
             vertices = data.filter(function(d){ return d.group == 3  && d.time_in_serie == 10})
                           .map(function(d) { return [scalex(d["startx"]/scale), scaley(d["starty"]/scale) ]; }); 
             
@@ -299,7 +250,7 @@
               .attr("d", function(d) {return "M" + d.join("L") + "Z"; })
               .attr("fill",function(d, i) {return envi[i]; });
               //.attr("transform", "rotate(180) translate(-"+width+", -"+height+")");
-*/
+
             svg1b.append("g")
                 .attr("class", "x axis")
                 .attr("transform", "translate(0," + height + ")")
@@ -326,7 +277,7 @@
               .data(data)
               .enter()
               .append('line')
-              .filter(function(d) { return d.group == 3  && d.time_in_serie == 9})
+              .filter(function(d) { return d.group == 3  && d.time_in_serie == 10})
               .attr("class", "seg1")
               .attr("stroke", "black")
               .attr("stroke-width", 2)
@@ -358,55 +309,10 @@
           d3.select("#nTime-value").text(nTime);
           d3.select("#nTime").property("value", nTime);
 
-
-        // Create a scale for the voronoi data
-        d3.csv("water_content.csv", function(error, data) {
-
-            // Get the vertices data
-            vertices = data.filter(function(d){ return d.group == 1  && d.time_in_serie == nTime})
-                          .map(function(d) { return [scalex(d["x"]/scale), scaley(d["y"]/scale) ]; }); 
-            
-            // Get the corresponding envi data
-            envi = data.filter(function(d) { return d.group == 1  && d.time_in_serie == nTime})
-                        .map(function(d) { return [ color(d["hum"]) ]; });            
-
-            svg1.selectAll("path").remove("path");
-
-
-            // Plot the voronoi on the data
-            svg1.selectAll("path")
-              .data(voronoi(vertices))
-              .enter()
-              .append("path")
-              .attr("d", function(d) {return "M" + d.join("L") + "Z"; })
-              .attr("fill",function(d, i) {return envi[i]; });  
-
-
-            // Get the vertices data
-            vertices = data.filter(function(d){ return d.group == 2  && d.time_in_serie == nTime})
-                          .map(function(d) { return [scalex(d["x"]/scale), scaley(d["y"]/scale) ]; }); 
-            
-            // Get the corresponding envi data
-            envi = data.filter(function(d) { return d.group == 2  && d.time_in_serie == nTime})
-                        .map(function(d) { return [ color(d["hum"]) ]; });            
-
-           svg1b.selectAll("path").remove("path");
-
-            // Plot the voronoi on the data
-            svg1b.selectAll("path")
-              .data(voronoi(vertices))
-              .enter()
-              .append("path")
-              .attr("d", function(d) {return "M" + d.join("L") + "Z"; })
-              .attr("fill",function(d, i) {return envi[i]; });                
-
-        });
-
-
           d3.csv("humidity.csv", function(error, data) {
 
 
- /*             // Get the vertices data
+              // Get the vertices data
               vertices = data.filter(function(d){ return d.group == 2  && d.time_in_serie == nTime})
                             .map(function(d) { return [scalex(d["startx"]/scale), scaley(d["starty"]/scale)]; }); 
               
@@ -424,7 +330,7 @@
                 .attr("d", function(d) {return "M" + d.join("L") + "Z"; })
                 .attr("fill",function(d, i) {return envi[i]; });
                 //.attr("transform", "rotate(180) translate(-"+width+", -"+height+")");
-*/
+
 
               svg1.selectAll(".seg1").remove("line");
 
@@ -440,7 +346,7 @@
 
 /*------------------------------------------------------------------------------------*/
 
-/*              // Get the vertices data
+              // Get the vertices data
               vertices = data.filter(function(d){ return d.group == 3  && d.time_in_serie == nTime})
                             .map(function(d) { return [scalex(d["startx"]/scale), scaley(d["starty"]/scale)]; }); 
               
@@ -458,7 +364,7 @@
                 .attr("d", function(d) {return "M" + d.join("L") + "Z"; })
                 .attr("fill",function(d, i) {return envi[i]; });
                 //.attr("transform", "rotate(180) translate(-"+width+", -"+height+")");
-*/
+
 
               svg1b.selectAll(".seg1")
                   .remove("line");
@@ -542,6 +448,11 @@
 
 
 
+        });
+
+
+        d3.select("#nTime1").on("input", function() {
+            update(+this.value);
         });
 
 
