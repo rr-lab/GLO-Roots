@@ -1,0 +1,224 @@
+---
+title: "Validation of GLO-RIA"
+author: "Rubén Rellán-Álvarez, Guillaume Lobet, Heike Lindner, Pierre-Luc Pradier, Jose Sebastian1, Muh-Ching Yee, Yu Geng, Charlotte Trontin, Therese LaRue, Amanda Schrager, Cara Haney, Rita Nieu, Julin Maloof, John P. Vogel, José R. Dinneny"
+date: "17 Jul 2015"
+output: pdf_document
+keep_md: true
+---
+
+This document presents the validation of different GLO-RIA measurments. Twoa pproaches were chosen for the validation. First, we compared some of the measurements from GLO-RIA with manual ones (for the directionality). Second, we used the ArchiSimple model (Pagès et al. 2013) to generated images of root systems. Since the images are created using a model, we know the ground-truth values for each of them. This allows us to validate GLORIA on a large number of ground-truth images.
+
+```{r lib_loading, message=F, echo=F, warning=F}
+library(plyr)
+library(ggplot2)
+library(gridExtra)
+library(data.table)
+library(Hmisc)
+```
+
+
+# Size related measurements
+
+ 
+
+```{r load_data_size, echo=FALSE}
+gtruth <- fread("data/rsml-size.csv", header = T) 
+global <- fread("data/gloria-size.csv", header = T) 
+```
+
+For the validation of size variables, we used Archisimple to generate `r nrow(global)` root systems with contrasted size. We compared the results from GLO-RIA with the ground-truth values from the model.
+
+
+```{r plot_size, echo=FALSE, fig.width=15}
+# DEPTH
+temp <- data.frame(x=gtruth$depth, y=global$depth)
+fit <- lm(temp$y ~ temp$x)
+r2 <- round(summary(fit)$r.squared, 3)
+sp <- round(rcorr(temp$x,temp$y, type="spearman")$r[1,2], 3)
+pe <- round(rcorr(temp$x,temp$y, type="pearson")$r[1,2], 3)
+leg <- paste("r-squared = ",r2, "\nPearson = ",pe, "\nSpearman = ",sp)
+
+plot1 <- ggplot(temp, aes(x, y)) + 
+  geom_point(alpha=0.5) + 
+  geom_smooth(method='lm') +
+  geom_abline(intercept = 0, slope = 1, lty=2) + 
+  ylab("Estimated root system depth [px]") + 
+  xlab("Real root system depth [px]") + 
+  theme_bw() +
+  annotate("text", y= min(temp$y), x =max(temp$x), 
+           label=leg, hjust=1, vjust=0, size=5) + 
+  # ggtitle('A') + 
+  theme(plot.title=element_text(hjust=0, size=30)) + 
+  ggsave(file="figures/fig-size-1.pdf", width=6, height=6)
+
+# WIDTH
+temp <- data.frame(x=gtruth$width, y=global$width)
+fit <- lm(temp$y ~ temp$x)
+r2 <- round(summary(fit)$r.squared, 3)
+sp <- round(rcorr(temp$x,temp$y, type="spearman")$r[1,2], 3)
+pe <- round(rcorr(temp$x,temp$y, type="pearson")$r[1,2], 3)
+leg <- paste("r-squared = ",r2, "\nPearson = ",pe, "\nSpearman = ",sp)
+
+plot2 <- ggplot(temp, aes(x, y)) + 
+  geom_point(alpha=0.5) + 
+  geom_smooth(method='lm') +
+  geom_abline(intercept = 0, slope = 1, lty=2) + 
+  ylab("Estimated root system width [px]") + 
+  xlab("Real root system width [px]") + 
+  theme_bw() +
+  annotate("text", y= min(temp$y), x =max(temp$x), 
+           label=leg, hjust=1, vjust=0, size=5) + 
+  # ggtitle('B') + 
+  theme(plot.title=element_text(hjust=0, size=30)) + 
+  ggsave(file="figures/fig-size-2.pdf", width=6, height=6)
+
+# LENGTH
+temp <- data.frame(x=gtruth$tot_root_length, y=global$lenght)
+fit <- lm(temp$y ~ temp$x)
+r2 <- round(summary(fit)$r.squared, 3)
+sp <- round(rcorr(temp$x,temp$y, type="spearman")$r[1,2], 3)
+pe <- round(rcorr(temp$x,temp$y, type="pearson")$r[1,2], 3)
+leg <- paste("r-squared = ",r2, "\nPearson = ",pe, "\nSpearman = ",sp)
+
+plot3 <-   ggplot(temp, aes(x, y)) + 
+  geom_point(alpha=0.5) + 
+  geom_smooth(method='lm') +
+  geom_abline(intercept = 0, slope = 1, lty=2) + 
+  ylab("Estimated root system length [px]") + 
+  xlab("Real root system length [px]") + 
+  theme_bw() +
+  annotate("text", y= min(temp$y), x =max(temp$x), 
+           label=leg, hjust=1, vjust=0, size=5) + 
+  # ggtitle('C') + 
+  theme(plot.title=element_text(hjust=0, size=30)) + 
+  ggsave(file="figures/fig-size-3.pdf", width=6, height=6)
+
+grid.arrange(plot1, plot2, plot3, ncol=3)
+
+
+
+```
+
+
+# Directionality
+
+```{r load_dir_data, message=F, echo=F, eval=F}
+gloria <- fread("data/gloria-directionality.csv", header = T) # The estimators
+rsml <- fread("data/rsml-directionality.csv", header = T) # The estimators
+```
+
+For the validation of directionality measurements, we used Archisimple to generate `r nrow(global)` root systems with contrasted gravitropism. We compared the results from GLO-RIA with the ground-truth values from the model.
+
+```{r format_dir_data, message=F, echo=F, eval=F}
+
+gloria$angle <- abs(gloria$angle)
+
+rsml$theta <- rsml$theta * (180 / pi) # Need to format the angle formt he RSML so they can be compared to the angles of GLORIA
+rsml$theta <- rsml$theta - 270
+rsml <- rsml[rsml$theta <= 90 & rsml$theta >= -90,]
+rsml$theta <- abs(rsml$theta)
+
+rsml$image <- as.character(rsml$image)
+gloria$image <- as.character(gloria$image)
+gloria$image <- substr(gloria$image, 0, nchar(gloria$image)-4)
+ims <- unique(rsml$image)
+ims <- ims[!is.na(ims)]
+
+
+
+# Loop over the parameters space
+counter <- 0
+tot_sim <- length(ims)
+percent <- 0
+mean.rs <- data.frame(id=character(),sr=numeric(), gl1=numeric())
+
+# create a new table with the mean value per image
+for(i in ims){
+  counter <- counter+1
+  prog <- ( counter / tot_sim ) * 100
+  if(prog > percent){
+    message(paste(round(prog), "% of data analysed"))
+    percent <- percent + 5
+  }
+  temp <- gloria[gloria$image == i]
+  
+  # Get the mean angle from the distribution
+  temp <- data.frame(id=i, 
+                     sr=mean(rsml$theta[rsml$image == i]),#sum(abs(h2$angle) * h1$count) / sum(h1$count), 
+                     gl1=sum(temp$angle * temp$count) / sum(temp$count))  
+  mean.rs <- rbind(mean.rs, temp)
+}
+
+
+mean.rs$id <- as.character(mean.rs$id)
+for(i in 1:nrow(mean.rs)){
+  mean.rs$gravi[i] <- as.numeric(strsplit(mean.rs$id[i], "-")[[1]][6])
+  mean.rs$insert[i] <- as.numeric(strsplit(mean.rs$id[i], "-")[[1]][11])
+}
+# Different insertion angles vwhere used to generate the dataset. We keep only one insertion angle, to have
+# a more uniform dataset.
+mean.rs <- mean.rs[mean.rs$insert == 1.5,]
+
+```
+
+```{r load_mean_dir, echo=F}
+mean.rs <- read.csv("data/mean.directionality.csv")
+
+```
+
+```{r plot_dir, message=F, echo=F,fig.width=15}
+
+# Remove outliyers
+b1 <- boxplot(mean.rs$sr, plot=F)
+b2 <- boxplot(mean.rs$gl1, plot=F)
+temp <- mean.rs[mean.rs$sr < b1$stats[5,],]
+
+
+# Look at the relation between the directionality and the root orientation
+fit <- lm(temp$gl1 ~ temp$sr)
+r2 <- round(summary(fit)$r.squared, 3)
+sp <- round(rcorr(temp$sr,temp$gl1, type="spearman")$r[1,2], 3)
+pe <- round(rcorr(temp$sr,temp$gl1, type="pearson")$r[1,2], 3)
+leg <- paste("r-squared = ",r2, "\nPearson = ",pe, "\nSpearman = ",sp)
+
+plot1 <- ggplot(temp, aes(sr, gl1)) + 
+  geom_point(alpha=0.5) + 
+  geom_smooth(method='lm') +
+  ylab("Mean estimated directionality [°]") + 
+  xlab("Mean root orientation [°]") + 
+  theme_bw() +
+  annotate("text", y= min(temp$gl1), x =max(temp$sr), 
+           label=leg, hjust=1, vjust=0, size=5) + 
+  # ggtitle('A') + 
+  theme(plot.title=element_text(hjust=0, size=30))+ 
+  ggsave(file="figures/fig-dir-1.pdf", width=6, height=6)
+
+
+
+
+
+# Look at the relation with the gravitropism (keep only one insertion angle)
+fit <- lm(temp$gl1 ~ temp$gravi)
+r2 <- round(summary(fit)$r.squared, 3)
+sp <- round(rcorr(temp$gravi,temp$gl1, type="spearman")$r[1,2], 3)
+pe <- round(rcorr(temp$gravi,temp$gl1, type="pearson")$r[1,2], 3)
+leg <- paste("r-squared = ",r2, "\nPearson = ",pe, "\nSpearman = ",sp)
+
+plot2 <- ggplot(temp, aes(gravi, gl1)) + 
+  geom_point(alpha=0.5) + 
+  geom_smooth(method='lm') +
+  xlab("Gravitropism strength [-]") + ylab("Mean estimated directionality [°]") + 
+  theme_bw() +
+  annotate("text", y= max(temp$gl1), x =max(temp$gravi), 
+           label=leg, hjust=1, vjust=1, size=5) + 
+  #ggtitle('B') + 
+  theme(plot.title=element_text(hjust=0, size=30)) + 
+  ggsave(file="figures/fig-dir-2.pdf", width=6, height=6)
+
+plot <- grid.arrange(plot1, plot2, ncol=2)
+
+```
+
+# References 
+
+Pagès, L., Bécel, C., Boukcim, H., Moreau, D., Nguyen, C., & Voisin, A.-S. (2013). Calibration and evaluation of ArchiSimple, a simple model of root system architecture, 290, 76–84. http://doi.org/10.1016/j.ecolmodel.2013.11.014
