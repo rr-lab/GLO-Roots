@@ -1,9 +1,12 @@
 ---
 title: "Validation of GLO-RIA"
-author: "Rubén Rellán-Álvarez, Guillaume Lobet, Heike Lindner, Pierre-Luc Pradier, Jose Sebastian1, Muh-Ching Yee, Yu Geng, Charlotte Trontin, Therese LaRue, Amanda Schrager, Cara Haney, Rita Nieu, Julin Maloof, John P. Vogel, José R. Dinneny"
+author: Rubén Rellán-Álvarez, Guillaume Lobet, Heike Lindner, Pierre-Luc Pradier,
+  Jose Sebastian1, Muh-Ching Yee, Yu Geng, Charlotte Trontin, Therese LaRue, Amanda
+  Schrager, Cara Haney, Rita Nieu, Julin Maloof, John P. Vogel, José R. Dinneny
 date: "17 Jul 2015"
-output: pdf_document
-keep_md: true
+output: 
+  html_document:
+    keep_md: true
 ---
 
 This document presents the validation of different GLO-RIA measurments. Twoa pproaches were chosen for the validation. First, we compared some of the measurements from GLO-RIA with manual ones (for the directionality). Second, we used the ArchiSimple model (Pagès et al. 2013) to generated images of root systems. Since the images are created using a model, we know the ground-truth values for each of them. This allows us to validate GLORIA on a large number of ground-truth images.
