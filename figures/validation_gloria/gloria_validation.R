@@ -5,8 +5,6 @@ library(gridExtra)
 library(data.table)
 library(Hmisc)
 
-setwd("~/Desktop/archisimple/outputs/")
-
 gloria <- fread("gloria-data.csv", header = T) # The estimators
 gloria$angle <- abs(gloria$angle)
 
@@ -93,8 +91,23 @@ plot2 <- ggplot(temp, aes(gravi, gl1)) +
   annotate("text", y= max(temp$gl1), x =max(temp$gravi), 
            label=leg, hjust=1, vjust=1, size=5)
 
+manual_gloria <- read.csv("manual_gloria.csv")
 
-grid.arrange(plot1, plot2, ncol=2)
+fit <- lm(manual_gloria$manual ~ manual_gloria$gloria)
+r2 <- round(summary(fit)$r.squared, 3)
+sp <- round(rcorr(manual_gloria$gloria,manual_gloria$manual, type="spearman")$r[1,2], 3)
+pe <- round(rcorr(manual_gloria$gloria,manual_gloria$manual, type="pearson")$r[1,2], 3)
+leg <- paste("r-squared = ",r2, "\nPearson = ",pe, "\nSpearman = ",sp)
+
+plot3 <- ggplot(manual_gloria, aes(gloria, manual)) + 
+  geom_point(alpha=0.5) + 
+  geom_smooth(method='lm') +
+  xlab("Mean manual directionality [°]") + ylab("Mean estimated directionality [°]") + 
+  theme_bw() +
+  annotate("text", y= max(manual_gloria$manual), x =max(manual_gloria$gloria), 
+           label=leg, hjust=1, vjust=5, size=5)
+
+grid.arrange(plot1, plot2, plot3, ncol=2)
 
 
 
