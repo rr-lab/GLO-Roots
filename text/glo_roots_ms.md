@@ -1,4 +1,4 @@
-#GLO-Roots: an imaging platform enabling multidimensional characterization of soil-grown roots systems
+#GLO-Roots: an imaging platform enabling multidimensional characterization of soil-grown root systems
 
 Rubén Rellán-Álvarez^1,\ 9^, Guillaume Lobet^2^, Heike Lindner^1,\ 8^, Pierre-Luc Pradier^1,\ 8,\ 10^, Jose Sebastian^1,\ 8^, Muh-Ching Yee^1^, Yu Geng^1,\ 7^, Charlotte Trontin^1^, Therese LaRue^3^, Amanda Schrager-Lavelle^4^, Cara H. Haney^5^, Rita Nieu^6^, Julin Maloof^4^, John P. Vogel^7^, José R. Dinneny^1,\ 12^
 
