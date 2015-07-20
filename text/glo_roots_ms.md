@@ -106,7 +106,7 @@ Continuous addition of luciferin did not have any significant effect on shoot we
 
 #### GLO1: a semi-automated luminescence imaging system for rhizotrons
 
-Luminescence imaging systems commercially available for biomedical research are usually optimized for imaging horizontally held specimens or samples in microtiter plates. Placing rhizotrons in this position would induce a gravitropic response in plants. Working with Bioimaging Solutions (San Diego, CA) we designed and built a luminescence imaging system optimized for rhizotron-grown plants. GLO1 (Growth and Luminescence Observatory 1) uses two back-thinned CCD cameras (Princeton Instruments, USA) to capture partially-overlapping images of rhizotrons while a motorized stage automatically rotates the rhizotron to capture images of both sides (Fig 1E). A composite image is generated from the images captured of each side; Fig 1F shows that approximately half of the root system is revealed on each side with few roots being visible on both sides. Apparently, the soil sheet is thick enough to block portions of the root system but thin enough to ensure its continuous structure can be compiled from opposite face views. We tested the ability of GLO1-generated images to reveal complete root systems by manually quantifying the number of lateral roots in excavated root systems of 8 different plants and testing these results against estimates of lateral root number from images of the same plants visually inspected by 4 different persons. These comparisons revealed good correlation ((R^2^= 0.974)) between actual lateral root counts and image-based estimation, indicating GLO1-generated root images provide an accurate representation of the in soil root system.  
+Luminescence imaging systems commercially available for biomedical research are usually optimized for imaging horizontally held specimens or samples in microtiter plates. Placing rhizotrons in this position would induce a gravitropic response in plants. Working with Bioimaging Solutions (San Diego, CA) we designed and built a luminescence imaging system optimized for rhizotron-grown plants. GLO1 (Growth and Luminescence Observatory 1) uses two back-thinned CCD cameras (Princeton Instruments, USA) to capture partially-overlapping images of rhizotrons while a motorized stage automatically rotates the rhizotron to capture images of both sides (Fig 1E). A composite image is generated from the images captured of each side; Fig 1F shows that approximately half of the root system is revealed on each side with few roots being visible on both sides. Apparently, the soil sheet is thick enough to block portions of the root system but thin enough to ensure its continuous structure can be compiled from opposite face views. We tested the ability of GLO1-generated images to reveal complete root systems by manually quantifying the number of lateral roots in excavated root systems of 8 different plants and testing these results against estimates of lateral root number from images of the same plants visually inspected by 4 different persons. These comparisons revealed good correlation ((R^2^= 0.974)) between actual lateral root counts and image-based estimation, indicating GLO1-generated root images provide an accurate representation of the in soil root system.
 
 #### [GLO-RIA](https://github.com/rr-lab/GLO-Roots/blob/master/gloria/GLORIA/manual/GLO_RIA_manual.md): GLO-Roots Image Analysis
 
@@ -114,10 +114,12 @@ We developed a set of image analysis algorithms that were well suited for the co
 The first module (RootSystem) performs four different types of analysis: i) a local analysis that detects all root particles in the image and computes their position, length and direction; ii) the global analysis performs a root system level analysis and computes the total visible surface, convex hull, width and depth; iii) the shape analysis uses Elliptic Fourier Descriptors or pseudo-landmarks similarly to RootScape [@Ristova:2013kx] to perform a shape analysis on the root system iv) the directionality analysis computes the mean direction of root particles in a root system (either on the full image or by a user-defined region of interest in the image). These four analysis methods are fully automated by default, but can be manually adjusted if needed.
 The second module of GLO-RIA (RootReporter) was specifically designed for the analysis of multi-layered images  such as combinations of gene reporter, root structure and soil moisture. Shortly, the plugin works as follows: i) detection of the gene reporters and the structure reporters in their respective images; ii) if needed, a manual correction can be performed to correct the automated detection; iii) gene reporters are linked with the soil water content and the structure reporters, based on their proximity; iv) gene reporter intensity (either absolute or normalized using the structural reporter) is computed; v) all data are exported and saved to a RSML datafile [@Lobet:2015dm]. Gene and structure reporters can be followed across different time and space points. Using an object oriented approach, great care has been taken to facilitate the user interactions on the different images to streamline the analysis process. Table 2 shows a list of root system features extracted using GLO-RIA.
 GLO-RIA does not currently have the ability to reconstruct the root architecture in itself (topological links between roots). This is a challenge for analyzing images captured by GLO-Roots since soil particles cause disruption of root segments.  
+We tested the accuracy of the measurements obtained from GLO-RIA using two different ground-truthed data sets.   Manual measurement of root system width, depth and average lateral root angle was determined by hand using imageJ from an independent set of images corresponding to roots of several Arabidopsis accessions growing in control conditions. We also used ArchiSimple [@Pages:2014dh] to generate 1240 images of root system models with contrasting sizes and lateral root angles.  Since these images are computationally generated, exact determination of root system parameters was possible. For both ground truth data sets, GLO-RIA quantification provided measurements that were  well correlated for all all three measured parameters (Figure 1-figure supplement 5D-F). Sample images of real and ArchiSimple generated root images shown with GLO-RIA-defined directionality color-coding  (Figure 1-figure supplement 5G-I).  
 
 ### Continuous imaging of root growth
 
 The size of our rhizotrons enables undisturbed root system development (before roots reach the sides or the bottom of the rhizotron) for about 21-23 days for the Col-0 accession growing under long day conditions (Figure 2); however root traits such as directionality can be observed through later stages of plant development. See 35 DAS root system and directionality in Figure 2A-B.  An example of a time series spanning 11 to 21 days after sowing (DAS) of Col-0 roots expressing *ProUBQ10:LUC2o* is shown in Fig 2A and [Video 1](https://www.dropbox.com/s/sxjc04o0yj2faif/Video_1.avi?dl=0) with a color-coded time projection shown in Fig 2C. Directionality analysis (Fig 2B) shows a progressive change in root system angles from 0 º (vertical) to 45 º as lateral roots take over as the predominant root type. Figure 2D shows the evolution over time of several root traits that can be automatically captured by GLO-RIA (depth, width, area) and others that were manually quantified (primary root growth rate or number of lateral roots per primary root).  
+
 ### Root system architecture of different Arabidopsis accessions.
 
  As a proof of concept to estimate the utility of our root imaging system to phenotype adult root system traits, we transformed a small set of accessions (Bay-0, Col-0 and Sha) with the *ProUBQ10:LUC2o* reporter and quantified RSA at 22 DAS (Fig 3A-C). GLO-RIA analysis of these root systems identified several root traits that distinguish Col-0, Bay-0 and Sha. Directionality analysis revealed an abundance of steep-angle regions in the root system of Bay while Sha showed an abundance of shallow-angled regions and Col-0 was intermediate (Fig 3D). Bay-0 shows the deepest and narrowest root system leading to the highest depth/width ratio while Sha has the widest root system (Fig 3E). Other root traits such as root system area and the vertical center of mass also showed significant differences (Figure 3-figure supplement 1B). Broad sense heritability values for depth (96.3), area (92.0), depth/width (97.8), width (95.7) and vertical center of mass (95.0) were all higher than 90%.  
@@ -372,6 +374,11 @@ We do not have any competing interests that we are aware of.
 
 \pagebreak
 
+![Figure 1-figure supplement 5](/Users/rrellan/Dropbox/repos/GLO-Roots/figures/Supplements/Figure_1_figure_supplement_5.png)  
+**Figure 1-figure supplement 5** GLO-RIA ground truth comparison. Tests of GLO-RIA were performed using two approaches. We first manually quantified root system depth (A) width (B) and average lateral root angle (C) in a set of 15 root systems corresponding to different Arabidopsis accessions. We also generated 1240 contrasting root systems using ArchiSimple and quantified root system depth (D) width (E) and directionality (F) using GLO-RIA. Example of a real (G) and ArchiSimple generated (H) root system and corresponding GLO-RIA determined directionality color-coded into the image (I, J). Absolute orientation angle values are taken before all calculations.
+
+\pagebreak
+
 **Figure 1-figure supplement data 1**: Two way ANOVA P-values comparing plants grown in MS media vs. plants grown in soil (pots or rhizotrons) and plants collected at day or night. We used p-value < 0.00065 threshold based on Bonferoni adjustment for multiple testing.  
 
 \pagebreak
@@ -441,32 +448,27 @@ Vector maps of all the constructs used in this work.
 
 ## Source data files
 Source data files used for building the following figures are provided:
-figure_1D.csv  
-figure_1_figure_supplement_1A-B.csv  
-figure_1_figure_supplement_1C_D.csv  
-figure_1_figure_supplement_1E-F.csv  
-figure_1_figure_supplement_2.csv  
-figure_1_figure_supplement_3.csv  
-figure_2C.csv  
-figure_2D.csv  
-figure_3D.csv  
-figure_3E.csv  
-figure_3F-G_1.csv  
-figure_3F-G_2.tps  
-figure_3_figure_supplement_1A-B.csv  
-figure_4G_reporter.csv  
-figure_4G_root_segment.csv  
-figure_4_figure_supplement_1.csv  
-figure_4_figure_supplement_2.csv  
+Figure 1-source data 1
+Figure 1-figure supplement 1-source data 1
+Figure 1-figure supplement 2-source data 1
+Figure 1-figure supplement 3-source data 1
+Figure 1-figure supplement 5-source data 1
+Figure 2-source data 1
+Figure 3-source data 1
+Figure 3-source data 2
+Figure 3-figure supplement 1-source data 1
+Figure 4-source data
+Figure 4-figure supplement 1-source data 1
+Figure 4-figure supplement 2-source data 1  
+Figure 5-figure supplement 1-source data 1  
 figure_5_figure_supplement_1.csv  
-figure_6_A-D.csv  
-figure_6_figure_supplement_2-C-D.csv  
-figure_6_figure_supplement_2-E.csv  
-figure_6_figure_supplement_3.csv  
-figure_6_figure_supplement_4.csv  
-figure_6_figure_supplement_5.csv  
-figure_7.csv  
-figure_8_figure_supplement_1.csv  
+Figure 6-source data 1
+Figure 6-figure supplement 2-source data 1
+Figure 6-figure supplement 3-source data 1  
+Figure 6-figure supplement 4-source data 1
+Figure 6-figure supplement 5-source data 1
+Figure 7-source data 1
+Figure 8-figure supplement 1-source data 1
 
 \pagebreak
 
