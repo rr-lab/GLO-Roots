@@ -1,6 +1,5 @@
 \documentclass[]{article}
 \usepackage{lmodern}
-\usepackage{color}
 \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
 \usepackage{fixltx2e} % provides \textsubscript
@@ -62,13 +61,12 @@
 \linenumbers
 \usepackage{setspace}
 \doublespacing
-\definecolor[blue][r=.25, g = .1, b=1]
 
 \begin{document}
 
 \section{GLO-Roots: an imaging platform enabling multidimensional
-characterization of soil-grown roots
-systems}\label{glo-roots-an-imaging-platform-enabling-multidimensional-characterization-of-soil-grown-roots-systems}
+characterization of soil-grown root
+systems}\label{glo-roots-an-imaging-platform-enabling-multidimensional-characterization-of-soil-grown-root-systems}
 
 Rubén Rellán-Álvarez\textsuperscript{1,~9}, Guillaume
 Lobet\textsuperscript{2}, Heike Lindner\textsuperscript{1,~8},
@@ -171,11 +169,11 @@ imaging system called Growth and Luminescence Observatory for Roots
 (GLO-Roots) that uses luminescence-based reporters to enable studies of
 root architecture and gene expression patterns in soil-grown,
 light-shielded roots. We have developed image analysis algorithms that
-allow the spatial integration of soil properties such as soil moisture
-with root traits. We propose GLO-Roots as a system that has great
-utility in presenting environmental stimuli to roots in ways that evoke
-natural adaptive responses and in providing tools for studying the
-multi-dimensional nature of such processes.
+allow the spatial integration of soil properties, gene expression and
+root system architecture traits. We propose GLO-Roots as a system that
+has great utility in presenting environmental stimuli to roots in ways
+that evoke natural adaptive responses and in providing tools for
+studying the multi-dimensional nature of such processes.
 
 \subsection{Introduction}\label{introduction}
 
@@ -221,7 +219,7 @@ top layers of soil\textsuperscript{3}. Modeling of root system variables
 shows that optimum architecture for nitrogen and phosphorus uptake are
 not the same\textsuperscript{9} and suggests tradeoffs that may affect
 the evolution of root architecture as a population adapts to a
-particular environmental niche.
+particular environmental niche\textsuperscript{10}.
 
 Clearly, understanding the architecture of root systems and how
 environmental conditions alter root developmental programs is important
@@ -230,14 +228,14 @@ molecular-genetic basis for different response programs. In addition,
 roots systems have complexity beyond their architecture that needs to be
 incorporated into our understanding of plant-environment interactions.
 Primary and lateral roots exhibit different stress response programs in
-Arabidopsis\textsuperscript{2} and may play specialized roles in water
-and nutrient uptake. Thus, it is important to develop methods that allow
-for a multidimensional characterization of the root system that includes
-growth, signaling, and interactions with other organisms. Furthermore,
-physiological parameters that affect whole plant responses to the
-environment, such as transpiration, are likely integrated into such
-processes, thus requiring a more holistic approach to studies of root
-function.
+Arabidopsis\textsuperscript{2,11} and may play specialized roles in
+water and nutrient uptake. Thus, it is important to develop methods that
+allow for a multidimensional characterization of the root system that
+includes growth, signaling, and interactions with other organisms.
+Furthermore, physiological parameters that affect whole plant responses
+to the environment, such as transpiration, are likely integrated into
+such processes, thus requiring a more holistic approach to studies of
+root function.
 
 Based on these considerations we have developed a new root imaging
 platform, Growth and Luminescence Observatory for Roots (GLO-Roots),
@@ -255,12 +253,12 @@ reporter is distinguished using band-pass filters held in a motorized
 filter wheel, which enables automated acquisition of images from plants
 expressing both structural and environmentally and developmentally
 responsive reporters. We have also developed GLO-RIA (GLO-Roots Image
-Analysis), an ImageJ\textsuperscript{10} plugin that allows for
-automated determination of root system area, convex hull, depth, width
-and directionality, which quantifies the angle of root segments with
-respect to gravity. GLO-RIA is also able to relate root system
-parameters to local root-associated variables such as reporter
-expression intensity and soil-moisture content.
+Analysis), an ImageJ\textsuperscript{12} plugin that allows for
+automated determination of (among other traits) root system area, convex
+hull, depth, width and directionality, which quantifies the angle of
+root segments with respect to gravity. GLO-RIA is also able to relate
+root system parameters to local root-associated variables such as
+reporter expression intensity and soil-moisture content.
 
 Overall GLO-Roots has great utility in presenting environmental stimuli
 to roots in physiologically relevant ways and provides tools for
@@ -274,14 +272,14 @@ manuscript, sample images, GLO-RIA user manual, the latest software
 updates and the source code, can be found at:
 https://dinnenylab.wordpress.com/glo-roots/
 
-\subsection{Results}\label{results}
+\subsection{Results.}\label{results.}
 
 We have developed an integrated platform for growing, imaging and
 analyzing root growth that provides advances in physiological relevance
 and retains the ability to visualize aspects of root biology beyond
 structure.
 
-\subsubsection{The GLO-Roots plattform}\label{the-glo-roots-plattform}
+\subsubsection{The GLO-Roots platform.}\label{the-glo-roots-platform.}
 
 GLO-Roots is comprised of four parts: i) growth vessels called
 rhizotrons that allow plant growth in soil and root imaging; ii)
@@ -290,7 +288,7 @@ tracked in living plants; iii) GLO1 luminescence-imaging system designed
 to automatically image rhizotrons; iv) GLO-RIA, an image analysis suite
 designed to quantify root systems imaged using GLO-Roots.
 
-\paragraph{Plant growth system}\label{plant-growth-system}
+\paragraph{Plant growth system.}\label{plant-growth-system.}
 
 GLO-Roots utilizes custom designed growth vessels classically known as
 rhizotrons, which hold a thin volume of soil between two sheets of
@@ -299,11 +297,11 @@ standard peat-based potting mix is added. Black vinyl sheets protect
 roots from light and rubber U-channels clamp the rhizotron materials
 together. Plastic racks hold the rhizotrons vertically and further
 protect the roots from light. Rhizotrons and rack are placed in a black
-tub and water are added, to a depth of about 2 cm, at the bottom to
+tub and water is added, to a depth of about 2 cm, at the bottom to
 maintain moisture in the rhizotrons during plant growth. The volume of
 soil in the rhizotrons (100 cm\textsuperscript{3}) is similar to small
 pots commonly used for Arabidopsis and supports growth throughout the
-entire life cycle (Fig 1A-C and Supplement 1). To determine how the
+entire life cycle (Fig 1A-C and Supplement 1).\\To determine how the
 biology of plants grown in rhizotrons compares to other standard growth
 systems, we utilized high-throughput qRT-PCR to study how these
 conditions affect expression of 77 marker genes in root and shoot
@@ -312,47 +310,47 @@ wide array of biological pathways including nutrient acquisition,
 hormone and light response and abiotic stress. Whole roots and shoot
 samples were collected at the end of the light and dark periods
 (Long-day conditions: 16 hour light, 8 hours dark) from plants grown in
-rhizotrons, pots, and petri dishes with two different media compositions
-(1X Murashige and Skoog basal salts (MS), 1\% sucrose or 0.25X MS, no
-sucrose). Principal component analysis of the gene expression values
-showed a separation of soil and gel-grown root systems in the the first
-principal components (Figure 1-figure supplement 1A). In roots grown on
-gel-based media, we observed enhanced expression of genes associated
-with light-regulated pathways (flavonoid biosynthesis: \emph{FLAVINOL
-SYNTHASE1, FLS1}, \emph{CHALCONE SYNTHASE, CHS} and photosynthesis:
-\emph{RUBSICO SUBUNITS1A, RBCS1A}, \emph{CYCLOPHILIN 38, CYP38}), which
-is expected due to the exposure of gel-grown roots to light. In
-addition, genes associated with phosphorus nutrition (\emph{LOW
-PHOSPHATE RESPONSE1}, \emph{LPR1, PHOSPHATE STARVATION RESPONSE1, PHR1})
-were (Figure 1-figure table supplement 1) less expressed in soil-grown
-roots, suggesting differences in nutrient availability between the
-different growth systems. Interestingly, shoot samples where not clearly
-distinguished by growth media and, instead, time of day had a greater
-effect (Figure 1-Supplement 2). These data suggest root systems may be
-particularly sensitive to media conditions and indicate that
-rhizotron-grown root systems more closely approximate the biology of
-pot-grown plants than standard gel-based media. Shoot weight and primary
-root length were significantly reduced for gel-grown plants compared to
-rhizotron- or pot-grown plants suggesting significant differences in the
-biology of plants grown under these conditions (Figure 1-figure
-supplement 1B-C). While the 2 mm depth of the soil sheet is 10 to 20
-times the average diameter of an Arabidopsis root (between 100-200
-microns\textsuperscript{11}), we evaluated whether rhizotron-grown
-plants exhibited any obvious stress as a consequence of physical
-constriction. We compared traits of plants growing in vessels that hold
-similar volumes of soil but in different volumetric shapes. The number
-of lateral roots was significantly lower in pot and cylinder-grown
-plants compared to rhizotron-grown plants (Figure 1-figure supplement
-1D) whereas primary root length of rhizotron and cylinder-grown plants
-was significantly greater than pot-grown plants (Figure 1-figure
-supplement 1E). No significant differences in shoot area were observed
-between the three systems (Figure 1-figure supplement 1-data). Thus,
-these data do not support the hypothesis that rhizotron-grown plants
-experience physical constriction greater than other vessels holding the
-same volume of soil.
+rhizotrons, pots, and petri dishes with two different media
+compositions: 1X Murashige and Skoog basal salts (ms) 1\% sucrose or
+0.25X ms, no sucrose (ms25). Principal component analysis of the gene
+expression values showed a separation of soil and gel-grown root systems
+in the the first principal components (Figure 1-figure supplement 1A).
+In roots grown on gel-based media, we observed enhanced expression of
+genes associated with light-regulated pathways (flavonoid biosynthesis:
+\emph{FLAVINOL SYNTHASE1, FLS1}, \emph{CHALCONE SYNTHASE, CHS} and
+photosynthesis: \emph{RUBISCO SUBUNIT 1A, RBCS1A}, \emph{CYCLOPHILIN 38,
+CYP38}), which is expected due to the exposure of gel-grown roots to
+light. In addition, genes associated with phosphorus nutrition
+(\emph{LOW PHOSPHATE RESPONSE1}, \emph{LPR1, PHOSPHATE STARVATION
+RESPONSE1, PHR1}) were (Figure 1-figure table supplement 1) less
+expressed in soil-grown roots, suggesting differences in nutrient
+availability between the different growth systems. Interestingly, shoot
+samples where not as clearly separated by growth media and, instead,
+time of day had a greater effect (Figure 1-Supplement 2). These data
+suggest root systems may be particularly sensitive to media conditions
+and indicate that rhizotron-grown root systems more closely approximate
+the biology of pot-grown plants than standard gel-based media. Shoot
+weight and primary root length were significantly reduced for gel-grown
+plants compared to rhizotron- or pot-grown plants suggesting significant
+differences in the biology of plants grown under these conditions
+(Figure 1-figure supplement 1B-C).\\While the 2 mm depth of the soil
+sheet is 10 to 20 times the average diameter of an Arabidopsis root
+(between 100-200 microns\textsuperscript{13}), we evaluated whether
+rhizotron-grown plants exhibited any obvious stress as a consequence of
+physical constriction. We compared traits of plants growing in vessels
+that hold similar volumes of soil but in different volumetric shapes.
+The number of lateral roots was significantly lower in pot and
+cylinder-grown plants compared to rhizotron-grown plants (Figure
+1-figure supplement 1D) whereas primary root length of rhizotron and
+cylinder-grown plants was significantly greater than pot-grown plants
+(Figure 1-figure supplement 1E). No significant differences in shoot
+area were observed between the three systems (Figure 1-figure supplement
+1-data). Thus, these data do not support the hypothesis that
+rhizotron-grown plants experience physical constriction greater than
+other vessels holding the same volume of soil.
 
 \paragraph{Generation of transgenic plants expressing different
-luciferases}\label{generation-of-transgenic-plants-expressing-different-luciferases}
+luciferases.}\label{generation-of-transgenic-plants-expressing-different-luciferases.}
 
 Arabidopsis roots cannot easily be distinguished from soil using
 brightfield imaging due to their thinness and translucency (Figure
@@ -374,18 +372,19 @@ spectrum, but their utilization has been limited to studies in animals
 To determine the efficacy of using luciferase to visualize roots in
 soil, we codon optimized sequences of \emph{PpyRE8}, \emph{CBGRed},
 \emph{LUC2}, and \emph{CBG99} for Arabidopsis expression. In addition,
-nanoLUC and venus-LUC2\textsuperscript{12} were utilized. Constitutive
-luciferase expression was driven in plants using the \emph{UBIQUITIN 10
-(UBQ10)} or \emph{ACTIN2 (ACT2)} promoters using vectors assembled
-through a Golden-Gate cloning system\textsuperscript{13}. Plants
-homozygous for a single locus T-DNA insertion were evaluated for in vivo
-emission spectra and luminescence intensity (Fig 1D). All the evaluated
-luciferases use D-luciferin as a substrate facilitating the simultaneous
-imaging of different luciferases except nanoLUC, which uses a
-proprietary substrate furimazine\textsuperscript{14}. In general,
-luciferases with red-shifted emission spectra were less intense than the
-green-shifted luciferases (Fig 1D). LUC2o showed an emission maximum at
-580 nm and a minor peak at 620 nm while CBG99o lacks the minor peak.
+nanoLUC\textsuperscript{14} and venus-LUC2\textsuperscript{15} were
+utilized. Constitutive luciferase expression was driven in plants using
+the \emph{UBIQUITIN 10 (UBQ10)} or \emph{ACTIN2 (ACT2)} promoters using
+vectors assembled through a Golden-Gate cloning
+system\textsuperscript{16}. Plants homozygous for a single locus T-DNA
+insertion were evaluated for in vivo emission spectra and luminescence
+intensity (Fig 1D). All the evaluated luciferases use D-luciferin as a
+substrate facilitating the simultaneous imaging of different luciferases
+except nanoLUC, which uses a proprietary substrate
+furimazine\textsuperscript{14}. Luciferases with red-shifted emission
+spectra were less intense than the green-shifted luciferases (Fig 1D).
+LUC2o showed an emission maximum at 580 nm and a minor peak at 620 nm
+while CBG99o lacks the minor peak.
 
 Continuous addition of luciferin did not have any significant effect on
 shoot weight or primary root length (Figure 1-figure supplement 4).
@@ -394,7 +393,7 @@ in root systems for up to 10 days, depending on the developmental state
 of the plant.
 
 \paragraph{GLO1: a semi-automated luminescence imaging system for
-rhizotrons}\label{glo1-a-semi-automated-luminescence-imaging-system-for-rhizotrons}
+rhizotrons.}\label{glo1-a-semi-automated-luminescence-imaging-system-for-rhizotrons.}
 
 Luminescence imaging systems commercially available for biomedical
 research are usually optimized for imaging horizontally held specimens
@@ -402,15 +401,16 @@ or samples in microtiter plates. Placing rhizotrons in this position
 would induce a gravitropic response in plants. Working with Bioimaging
 Solutions (San Diego, CA) we designed and built a luminescence imaging
 system optimized for rhizotron-grown plants. GLO1 (Growth and
-Luminescence Observatory 1) uses two back-thinned CCD cameras (Princeton
-Instruments, USA) to capture partially-overlapping images of rhizotrons
-while a motorized stage automatically rotates the rhizotron to capture
-images of both sides (Fig 1E). A composite image is generated from the
-images captured of each side; Fig 1F shows that approximately half of
-the root system is revealed on each side with few roots being visible on
-both sides. Apparently, the soil sheet is thick enough to block portions
-of the root system but thin enough to ensure its continuous structure
-can be compiled from opposite face views. We tested the ability of
+Luminescence Observatory 1) uses two PIXIS-XB back-thinned CCD cameras
+(Princeton Instruments, Trenton, NJ, USA) to capture
+partially-overlapping images of rhizotrons while a motorized stage
+automatically rotates the rhizotron to capture images of both sides (Fig
+1E). A composite image is generated from the images captured of each
+side; Fig 1F shows that approximately half of the root system is
+revealed on each side with few roots being visible on both sides.
+Apparently, the soil sheet is thick enough to block portions of the root
+system but thin enough to ensure its continuous structure can be
+compiled from opposite face views. We tested the ability of
 GLO1-generated images to reveal complete root systems by manually
 quantifying the number of lateral roots in excavated root systems of 8
 different plants and testing these results against estimates of lateral
@@ -422,33 +422,34 @@ accurate representation of the in soil root system.
 
 \paragraph{\texorpdfstring{\href{https://github.com/rr-lab/GLO-Roots/blob/master/gloria/GLORIA/manual/GLO_RIA_manual.md}{GLO-RIA}:
 GLO-Roots Image
-Analysis}{GLO-RIA: GLO-Roots Image Analysis}}\label{glo-ria-glo-roots-image-analysis}
+Analysis.}{GLO-RIA: GLO-Roots Image Analysis.}}\label{glo-ria-glo-roots-image-analysis.}
 
 We developed a set of image analysis algorithms that were well suited
 for the complex root systems that GLO-Roots is able to capture. GLO-RIA
 (Growth and Luminescence Observatory Root Image Analysis) is an ImageJ
-plugin divided in two modules. The first module (RootSystem) performs
+plugin divided in two modules.\\The first module (RootSystem) performs
 four different types of analysis: i) a local analysis that detects all
 root particles in the image and computes their position, length and
 direction; ii) the global analysis performs a root system level analysis
 and computes the total visible surface, convex hull, width and depth;
 iii) the shape analysis uses Elliptic Fourier Descriptors or
-pseudo-landmarks similarly to RootScape\textsuperscript{15} to perform a
+pseudo-landmarks similarly to RootScape\textsuperscript{17} to perform a
 shape analysis on the root system iv) the directionality analysis
 computes the mean direction of root particles in a root system (either
 on the full image or by a user-defined region of interest in the image).
 These four analysis methods are fully automated by default, but can be
-manually adjusted if needed. The second module of GLO-RIA (RootReporter)
-was specifically designed for the analysis of multi-layered images such
-as combinations of gene reporter, root structure and soil moisture.
-Shortly, the plugin works as follows: i) detection of the gene reporters
-and the structure reporters in their respective images; ii) if needed, a
-manual correction can be performed to correct the automated detection;
-iii) gene reporters are linked with the soil water content and the
-structure reporters, based on their proximity; iv) gene reporter
-intensity (either absolute or normalized using the structural reporter)
-is computed; v) all data are exported and saved to a RSML
-datafile\textsuperscript{16}. Gene and structure reporters can be
+manually adjusted if needed.\\The second module of GLO-RIA
+(RootReporter) was specifically designed for the analysis of
+multi-layered images such as combinations of gene reporter, root
+structure and soil moisture. Shortly, the plugin works as follows: i)
+detection of the gene reporters and the structure reporters in their
+respective images; ii) if needed, a manual correction can be performed
+to correct the automated detection; iii) gene reporters are linked with
+the soil water content and the structure reporters, based on their
+proximity; iv) gene reporter intensity (either absolute or normalized
+using the structural reporter) is computed; v) all data are exported and
+saved to a Root System Markup Language (RSML)
+datafile\textsuperscript{18}. Gene and structure reporters can be
 followed across different time and space points. Using an object
 oriented approach, great care has been taken to facilitate the user
 interactions on the different images to streamline the analysis process.
@@ -456,30 +457,24 @@ Table 2 shows a list of root system features extracted using GLO-RIA.
 GLO-RIA does not currently have the ability to reconstruct the root
 architecture in itself (topological links between roots). This is a
 challenge for analyzing images captured by GLO-Roots since soil
-particles cause disruption of root segments. \color{blue}{We validated the
-measurements obtained with GLO-RIA using two approaches}. First, we
-compared the root system width, depth and individual lateral root angles
-of an indepent set of images corresponding to different Arabidopsis
-accesions growing in control conditions with the the the width, depth
-and root system directionality obtained with GLO\_RIA. Since the root
-system width and depth can be manually corrected in GLO-RIA we obtained
-almost perfect correlation for this measurements (Figure 1-figure
-supplement 5A,B). We also obtained good correlations for the
-directionality and the mean lateral root angles measured by GLO-RIA
-(Figure 1-figure supplement 5C), showing that the directionality is a
-good estimator of the mean lateral root angle of a root system. We then
-used ArchiSimple\textsuperscript{17} to generate 1240 images with
-contrasting sizes and lateral root angles. Since the images are
-generated by the model, we can obtain very precise ground truth
-measurements that we then used to validate the GLO-RIA obtained values
-for the same parameters (depth, width and directionality). Again, we
-obtained good correlations for all three measured parameters (Figure
-1-figure supplement 5D-F). Sample images of the real root systems and
-ArchiSimple generated images together with GLO-RIA directionality
-color-coded images are also shown in (Figure 1-figure supplement 5G-I).
+particles cause disruption of root segments.\\We tested the accuracy of
+the measurements obtained from GLO-RIA using two different
+ground-truthed data sets. Manual measurement of root system width, depth
+and average lateral root angle was determined by hand using imageJ from
+an independent set of images corresponding to roots of several
+Arabidopsis accessions growing in control conditions. We also used
+ArchiSimple\textsuperscript{19} to generate 1240 images of root system
+models with contrasting sizes and lateral root angles. Since these
+images are computationally generated, exact determination of root system
+parameters was possible. For both ground truth data sets, GLO-RIA
+quantification provided measurements that were well correlated for all
+all three measured parameters (Figure 1-figure supplement 5D-F). Sample
+images of real and ArchiSimple generated root images are shown with
+GLO-RIA-defined directionality color-coding (Figure 1-figure supplement
+5G-I).
 
 \subsubsection{Continuous imaging of root
-growth}\label{continuous-imaging-of-root-growth}
+growth.}\label{continuous-imaging-of-root-growth.}
 
 The size of our rhizotrons enables undisturbed root system development
 (before roots reach the sides or the bottom of the rhizotron) for about
@@ -492,12 +487,14 @@ to 21 days after sowing (DAS) of Col-0 roots expressing
 \href{https://www.dropbox.com/s/sxjc04o0yj2faif/Video_1.avi?dl=0}{Video
 1} with a color-coded time projection shown in Fig 2C. Directionality
 analysis (Fig 2B) shows a progressive change in root system angles from
-0 º (vertical) to 45 º as lateral roots take over as the predominant
-root type. Figure 2D shows the evolution over time of several root
-traits that can be automatically captured by GLO-RIA (depth, width,
-area) and others that were manually quantified (primary root growth rate
-or number of lateral roots per primary root).\\\#\#\# Root system
-architecture of different Arabidopsis accessions.
+0º (vertical) to 45º as lateral roots take over as the predominant root
+type. Figure 2D shows the evolution over time of several root traits
+that can be automatically captured by GLO-RIA (depth, width, area) and
+others that were manually quantified (primary root growth rate or number
+of lateral roots per primary root).
+
+\subsubsection{Root system architecture of different Arabidopsis
+accessions.}\label{root-system-architecture-of-different-arabidopsis-accessions.}
 
 As a proof of concept to estimate the utility of our root imaging system
 to phenotype adult root system traits, we transformed a small set of
@@ -513,7 +510,7 @@ root traits such as root system area and the vertical center of mass
 also showed significant differences (Figure 3-figure supplement 1B).
 Broad sense heritability values for depth (96.3), area (92.0),
 depth/width (97.8), width (95.7) and vertical center of mass (95.0) were
-all higher than 90\%.\\ To capture the richness of root architecture
+all higher than 90\%.\\To capture the richness of root architecture
 shape, we used GLO-RIA to extract pseudo-landmarks describing the shape
 of the root system (see Materials and Methods for more details) and
 performed PCA analysis. The first principal component captures
@@ -525,7 +522,7 @@ capturing a relationship between width at the top and total depth and
 separates Sha root systems which are wide at the top and deep from Col-0
 root systems which are wide but not as deep as Sha. Shape information
 extracted from pseudo-landmarks can distinguish the three different
-accession using PCA analysis (Fig 3G)
+accession using PCA analysis (Fig 3G).
 
 \subsubsection{Spectrally distinct luciferases enable gene expression
 patterns, characterization of root system interactions and microbial
@@ -537,15 +534,15 @@ root systems. Luciferase reporters have been commonly used to study gene
 expression and these resources can potentially be utilized to study such
 regulatory events in soil-grown roots. We transformed
 \emph{ProACT2:PpyRE8o} into two well studied LUC reporter lines: the
-auxin response reporter line \emph{ProDR5:LUC+}\textsuperscript{18}
+auxin response reporter line \emph{ProDR5:LUC+}\textsuperscript{20}
 (Figure A-B) and the Reactive Oxygen Species (ROS) response reporter
-\emph{ProZAT12:LUC}\textsuperscript{19} (Figure 4C-D). We implemented in
+\emph{ProZAT12:LUC}\textsuperscript{21} (Figure 4C-D). We implemented in
 GLO-RIA an algorithm that semi-automatically identifies gene reporter
 signal and associates this object to the corresponding root structure
 segment. A graphical representation of the results obtained with Root
 Reporter can be observed in Figure 4-figure supplement 1. Reporter
 intensity values along the first 5 mm of root tips can also be observed
-in Figure 4-figure supplement 2. We then took advantage of our ability
+in Figure 4-figure supplement 2.\\We then took advantage of our ability
 to constitutively express two spectrally different luciferases and
 imaged the overlapping root systems (one expressing
 \emph{ProUBQ10:LUC2o} and the other \emph{ProACT2:PPy RE8o}). While two
@@ -560,7 +557,7 @@ engineered to express luminescent reporters through integration of the
 LUX operon, which results in luminescence in the blue region of the
 spectrum and is thus compatible with the plant-expressed luciferase
 isoforms we have tested. \emph{Pseudomonas fluorescens}
-CH267\textsuperscript{20}, a natural Arabidopsis root commensal, was
+CH267\textsuperscript{22}, a natural Arabidopsis root commensal, was
 transformed with the bacterial LUX operon and used to inoculate plants.
 Thirteen days after inoculation, we were able to observe bacterial
 luminescence colocalizing with plant roots. \emph{P. fluorescens} did
@@ -572,7 +569,7 @@ the same rhizotron (Figure 4-figure supplement 4).
 
 \paragraph{Adaptive changes in root system architecture under water
 deprivation, phosphorus deficiency and
-light}\label{adaptive-changes-in-root-system-architecture-under-water-deprivation-phosphorus-deficiency-and-light}
+light.}\label{adaptive-changes-in-root-system-architecture-under-water-deprivation-phosphorus-deficiency-and-light.}
 
 To test the utility of the GLO-Roots system to understand response of
 root systems to environmental stimuli we tested the effects of light and
@@ -584,14 +581,14 @@ detected a significant increase in the steepness of roots only in the
 light exposed region of the rhizotron, while the lower shielded region
 showed no difference. (Fig 6-figure supplement 3A-B and Fig 6-figure
 supplement 4). Light can penetrate the top layers of
-soil\textsuperscript{21} and it has been proposed to have a role in
-directing root growth specially in dry soils\textsuperscript{22} through
+soil\textsuperscript{23} and it has been proposed to have a role in
+directing root growth specially in dry soils\textsuperscript{24} through
 the blue light receptor \emph{phot1}. Root directionality was not
 significantly different between light and dark-treated roots of the
 \emph{phot1/2} double mutant suggesting that blue light perception is
-necessary for this response\textsuperscript{22,23} (Fig 6-figure
+necessary for this response\textsuperscript{24,25} (Fig 6-figure
 supplement 3B-lower panel). These data highlight the strong effects of
-light on root system architecture\textsuperscript{24}, which GLO-Roots
+light on root system architecture\textsuperscript{26}, which GLO-Roots
 rhizotrons are able to mitigate.
 
 Plants grown in low-P soil showed a significant increase in the
@@ -610,23 +607,23 @@ efficiency.
 
 GLO-Roots is especially well suited for studying water-deficit (WD)
 responses. First, shoots are exposed to the atmosphere and vapor
-pressure deficit (VPD) is maintained at levels that allow for
-transpiration of water from the shoot. Second, soil in rhizotrons is
-exposed to air at the top and dries basipetally (from the top-down);
-drying soil increases the volume occupied by air and reduces contact of
-root with liquid water, all of which are similar to changes in soil
-expected in the field during WD. Finally, as peat-based soil dries, its
-optical properties change, allowing moisture content to be approximated
-from bright-field images. We took advantage of the change in gray-scale
-pixel intensity to construct a calibration curve (Figure 5-figure
-supplement 1) that quantitatively relates gray-scale pixel intensity to
-moisture content (Fig 5A); water content can be color coded in images
-with appropriate look up tables (Fig 5B). Soil color was not affected by
-the presence or absence of roots (Figure 5-figure supplement 2). Using
-this approach, water content in a rhizotron can be mapped and visualized
-in 2D (Fig 5C-D). In the example shown, we can observe that a 22 DAS
-Bay-0 plant depleted soil-moisture content locally around the the root
-system (Figure 5E).
+pressure deficit is maintained at levels that allow for transpiration of
+water from the shoot. Second, soil in rhizotrons is exposed to air at
+the top and dries from the top-down; drying soil increases the volume
+occupied by air and reduces contact of root with liquid water, all of
+which are similar to changes in soil expected in the field during WD.
+Finally, as peat-based soil dries, its optical properties change,
+allowing moisture content to be approximated from bright-field images.
+We took advantage of the change in gray-scale pixel intensity to
+construct a calibration curve (Figure 5-figure supplement 1) that
+quantitatively relates gray-scale pixel intensity to moisture content
+(Fig 5A); water content can be color coded in images with appropriate
+look up tables (Fig 5B). Soil color was not affected by the presence or
+absence of roots (Figure 5-figure supplement 2). Using this approach,
+water content in a rhizotron can be mapped and visualized in 2D (Fig
+5C-D). In the example shown, we can observe that a 22 DAS Bay-0 plant
+depleted soil-moisture content locally around the root system (Figure
+5E).
 
 We performed several trials to simulate WD in our growth system. Plants
 were germinated, grown under control conditions then transferred to 29ºC
@@ -634,7 +631,7 @@ and standing water removed from the container holding the rhizotrons
 starting at 9 DAS or 13 DAS. Elevated temperature combined with water
 deficit is a common stress that modern crops varieties are poorly
 adapted to, thus highlighting the importance of examining this combined
-treatment\textsuperscript{25,26}. Plants were maintained in this WD
+treatment\textsuperscript{27,28}. Plants were maintained in this WD
 regime until 22 DAS when luciferin solution was added and the plants
 imaged. At 13 DAS, lateral roots near the soil surface are already
 emerged
@@ -692,21 +689,21 @@ species, we introduced LUC2o-expressing reporters into the model grass
 \emph{Brachypodium distachyon} and the crop plant \emph{Lycopersicon
 esculentum} (tomato). Brachypodium is well suited to the GLO-Root system
 because, like Arabidopsis, its small size allows mature root systems to
-be studied in relatively small soil volumes\textsuperscript{27,28}.
+be studied in relatively small soil volumes\textsuperscript{29,30}.
 \emph{LUC2o} driven by the \emph{ZmUb1} promoter was introduced into
-Brachypodium using the pANIC vector\textsuperscript{29}. Brachypodium
+Brachypodium using the pANIC vector\textsuperscript{31}. Brachypodium
 roots showed a distinct architecture from Arabidopsis marked by prolific
 development of secondary and tertiary lateral roots (Fig 8A). This is
 consistent with other studies that show that Brachypodium has a typical
-grass root system\textsuperscript{28}. Comparison of root system
+grass root system\textsuperscript{30}. Comparison of root system
 development in rhizotrons with gel-based media showed that root growth
 is higher in soil than in plates (Figure 8-figure supplement 1).
 Previous work has suggested that auxin levels in Brachypodium roots is
-sub-optimal for growth\textsuperscript{30}. Pacheco-Villalobos and
+sub-optimal for growth\textsuperscript{32}. Pacheco-Villalobos and
 colleagues suggest that, in Brachypodium, and contrary to what happens
 in Arabidopsis, ethylene represses \emph{YUCCA} reducing the synthesis
 of auxin. The reduced growth that we observe in plates and the high
-levels of ethylene that build up in sealed plates\textsuperscript{31}
+levels of ethylene that build up in sealed plates\textsuperscript{33}
 would support this mechanism.
 
 Tomato plants were transformed with \emph{Pro35S:PPyRE8o} and
@@ -719,11 +716,11 @@ that the GLO-Roots method can be applied to study root systems of plants
 and will likely be useful for studying root systems of other small to
 medium sized model plants and for early stages of larger crop plants.
 
-\subsection{Discussion}\label{discussion}
+\subsection{Discussion.}\label{discussion.}
 
 \subsubsection{GLO-Roots enables a multi-dimensional understanding of
 root
-biology}\label{glo-roots-enables-a-multi-dimensional-understanding-of-root-biology}
+biology.}\label{glo-roots-enables-a-multi-dimensional-understanding-of-root-biology.}
 
 Recent studies of root systems has emphasized structural attributes as
 important contributors of root system function. Indeed, studies
@@ -745,7 +742,7 @@ expression levels. All this information is aggregated in layers for each
 x, y coordinate. Using GLO-RIA we integrate this multilayer information,
 leveraging our ability to simultaneously and seamlessly investigate root
 responses to environmental stimuli such as soil moisture content.
-Luciferase isoforms that emit light at different wavelengths allow for
+Luciferases that emit light at different wavelengths allow for
 constitutive and regulated promoters to be studied together.
 Introduction of luciferase reporters into microbes provides an
 additional layer of information that provides a readout on the
@@ -754,13 +751,13 @@ environmental conditions. The flexibility of the GLO-Roots system may
 enable additional dimensionality to our understanding of root biology.
 Other physical properties such as CO\textsubscript{2} or pH mapping in
 rhizotrons have already been enabled by using planar
-optodes\textsuperscript{32}. It may be possible to engineer LUX-based
+optodes\textsuperscript{34}. It may be possible to engineer LUX-based
 reporters in microbes that are responsive to extracellular metabolites,
 creating microbial biosensors, and integration of such tools may enable
 root-exudation and nutrition to be analyzed in soil. Split-Luciferase
 reporters have been engineered that allow bi-molecular interactions to
 be studied. Finally, molecular sensors analogous to FRET sensors, termed
-BRET-sensors\textsuperscript{33}, may allow metabolite tracking
+BRET-sensors\textsuperscript{35}, may allow metabolite tracking
 dynamically through the root system. With additional innovation in the
 development of luciferase reporters, the GLO-Roots systems will likely
 expand the repertoire of biological processes that can be studied over
@@ -769,7 +766,7 @@ conditions.
 
 \subsubsection{Enhanced root growth and gravitropism may constitute an
 avoidance mechanism used during water deficit
-stress}\label{enhanced-root-growth-and-gravitropism-may-constitute-an-avoidance-mechanism-used-during-water-deficit-stress}
+stress.}\label{enhanced-root-growth-and-gravitropism-may-constitute-an-avoidance-mechanism-used-during-water-deficit-stress.}
 
 It has been proposed that plants with steep root systems will be better
 able to tap into deep water resources and thus perform better under
@@ -792,7 +789,7 @@ that involve auxin signaling but acts independently of known pathways
 that control moisture-directed root growth.
 
 \subsubsection{Perspectives and
-Conclusions}\label{perspectives-and-conclusions}
+Conclusions.}\label{perspectives-and-conclusions.}
 
 Understanding plant biology requires a sophisticated understanding of
 how environmental stimuli affect the form and function of plants as well
@@ -813,9 +810,9 @@ phenotypes may identify the molecular basis for adaptive variation that
 exists in this species and potentially identify loci that are useful for
 breeding efforts needed for the next green revolution.
 
-\subsection{Materials and methods}\label{materials-and-methods}
+\subsection{Materials and methods.}\label{materials-and-methods.}
 
-\subsubsection{Growth system}\label{growth-system}
+\subsubsection{Growth system.}\label{growth-system.}
 
 \textbf{Rhizotrons and growth system fabrication}. Rhizotrons are
 composed of two sheets of 1/8" abrasion resistant polycarbonate plastic
@@ -881,7 +878,7 @@ using 20--22 ºC (day/night) and 150 µE m--1 s--1. Two types of growth
 environments were used for experiments. A walk-in growth chamber with
 fluorescent lightning and a growth cabinet with white LED lights.
 Relative water content measurements were done as previously
-described\textsuperscript{34}
+described\textsuperscript{36}
 
 \subsubsection{qRT-PCR analysis.}\label{qrt-pcr-analysis.}
 
@@ -906,12 +903,12 @@ reactions with no amplification (Ct =999) were set to the maximal Ct for
 that assay type. The two technical replicates were then averaged and dCt
 values calculated using AT3G07480, AT4G37830, At1g13320 and At1g13440 as
 reference internal controls. PCA plots were generated with Devium
-Web\textsuperscript{35} using dCt values. dCT values were calculated as
+Web\textsuperscript{37} using dCt values. dCT values were calculated as
 dCT = CT\textasciitilde{}gene interest\textasciitilde{} -
 mean(CT\textasciitilde{}reference gene\textasciitilde{}). Primers used
 are listed in file Supplement 8.
 
-\subsubsection{Biological components}\label{biological-components}
+\subsubsection{Biological components.}\label{biological-components.}
 
 \paragraph{Codon optimization of
 luciferases.}\label{codon-optimization-of-luciferases.}
@@ -923,8 +920,8 @@ yellow improved version (Promega, Madison, WI) of the original
 
 \begin{itemize}
 \item
-  Ppy RE8: a red variant\textsuperscript{36} of the P. pyralis
-  thermostable variant Ppy RE-TS\textsuperscript{37}.
+  Ppy RE8: a red variant\textsuperscript{38} of the P. pyralis
+  thermostable variant Ppy RE-TS\textsuperscript{39}.
 \item
   CBG99: a green variant (Promega, Madison, WI) from yellow click beetle
   (\emph{Pyrophorus plagiophthalamus}) luciferases.
@@ -942,12 +939,12 @@ We also used the following non-optimized luciferases:
   shrimp\textsuperscript{14}.
 \item
   venusLUC2: a venus-LUC2 fusion reported to show higher luminescence
-  output than LUC2\textsuperscript{12}.
+  output than LUC2\textsuperscript{15}.
 \item
   A transposon containing the bacterial luciferase-containing LUX operon
   was integrated into the \emph{Pseudomonas fluorescens}
-  CH267\textsuperscript{20} genome by conjugation with \emph{E. coli
-  SM10λpir} containing pUT-EM7-LUX\textsuperscript{38} and used to track
+  CH267\textsuperscript{22} genome by conjugation with \emph{E. coli
+  SM10λpir} containing pUT-EM7-LUX\textsuperscript{40} and used to track
   root microbe colonization. For inoculation 9 DAS plants were
   inoculated with 2 mL of an overnight bacterial culture resuspended in
   10 mM MgSO\textasciitilde{}4 and diluted to 0.01 OD.
@@ -975,7 +972,7 @@ vector \emph{dpGreenmCherry} contains a plasma membrane-localized
 mCherry coding sequence driven by the 35S promoter and is used as a
 selectable marker of transformation at the mature seed
 stage\textsuperscript{2}. We used Golden Gate cloning and the
-destination vectors that we had generated before\textsuperscript{13} for
+destination vectors that we had generated before\textsuperscript{16} for
 the following fusions: \emph{ProUBQ10:nanoLUC2},
 \emph{ProUBQ10}:venusLUC\emph{, }ProACT2\emph{:PpyRE8o}. Briefly, the
 different components of each construct were PCR amplified with
@@ -983,30 +980,30 @@ complementary BsaI or SapI cutting sites, mixed with the destination
 vector in a single tube, digested with either BsaI or SapI, ligated with
 T4 DNA ligase, then transformed into E. coli Top10 cells and plated on
 LB antibiotic plates containing X-gal as previously
-described\textsuperscript{13}. Junction sites were confirmed by
+described\textsuperscript{16}. Junction sites were confirmed by
 sequencing. We used pSE7 (Addgene ID \#: pGoldenGate-SE7: 47676) as the
 destination vector of the \emph{ProUBQ10:nanoLUC2},
 \emph{ProUBQ10:venusLUC} constructs and pMYC2 (Addgene ID \#:
 pGoldenGate-MCY2: 47679) as the destination vector for
 \emph{ProACT2:PpyRE8o}. Maps of all the vectors can be found in
 Supplement 8. \emph{ProUBQ10:LUC2o} was transformed into Col-0, Bay and
-Sha accessions, the \emph{tir1-1}\textsuperscript{39} mutant and the
-\emph{miz1}\textsuperscript{40} T-DNA insertion line (SALK\_126928).
+Sha accessions, the \emph{tir1-1}\textsuperscript{41} mutant and the
+\emph{miz1}\textsuperscript{42} T-DNA insertion line (SALK\_126928).
 
-\paragraph{Brachypodium distachyon}\label{brachypodium-distachyon}
+\paragraph{Brachypodium distachyon.}\label{brachypodium-distachyon.}
 
 The Arabidopsis plant-codon optimized Luciferase gene, \emph{LUC2o}, was
 inserted into the monocot vector pANIC10 \emph{via} Gateway
-cloning\textsuperscript{29}. \emph{Brachypodium distachyon} plants were
-transformed using the method of Vogel and Hill\textsuperscript{41}.
+cloning\textsuperscript{31}. \emph{Brachypodium distachyon} plants were
+transformed using the method of Vogel and Hill\textsuperscript{43}.
 
-\paragraph{Tomato}\label{tomato}
+\paragraph{Tomato.}\label{tomato.}
 
 The transcriptional fusion \emph{ProeDR5:LUC2} was generated by cloning
 the \emph{ProeDR5:LUC2} DNA fragment into the pBIB expression vector via
 restriction sites SalI and Acc65I. The eDR5 promoter is an enhanced
 version of DR5 containing 13 repeats of the 11-nucleotide core DR5
-element\textsuperscript{42} and the pBIB expression vector contains an
+element\textsuperscript{44} and the pBIB expression vector contains an
 NPTII resistance gene under the control of the NOS promoter for use as a
 selectable marker during transformation. All tomato transformations were
 performed by the Ralph M. Parsons Foundation Plant Transformation
@@ -1018,7 +1015,7 @@ plants.}\label{generation-of-dual-reporter-plants.}
 To generate dual-reporter plants expressing luciferase isoforms that
 emit light with divergent emission spectra we used
 \emph{ProACT2:PpyRE8o} as the root structural marker and
-ZAT12:LUC\textsuperscript{19} and DR5:LUC+\textsuperscript{18} lines
+ZAT12:LUC\textsuperscript{21} and DR5:LUC+\textsuperscript{20} lines
 that were transformed with the \emph{ProACT2:PpyRE8o} construct. All
 constructs were transformed using a modified floral dip method as
 described in\textsuperscript{2}.
@@ -1048,7 +1045,7 @@ constructed. The full emission spectra of LUX and nanoLUC could not be
 constructed since the maximum of these two luciferases is below the
 lower band pass filter that were available.
 
-\paragraph{Imaging system}\label{imaging-system}
+\paragraph{Imaging system.}\label{imaging-system.}
 
 We designed a custom imaging system (GLO1, Growth and Luminescence
 Observatory 1) optimized for imaging dual-reporter luciferase expression
@@ -1072,7 +1069,7 @@ rhizotron sequentially. The whole imaging system is enclosed in a
 light-tight black box with a door that allows loading and un-loading of
 rhizotrons.
 
-\paragraph{Plant Imaging}\label{plant-imaging}
+\paragraph{Plant Imaging.}\label{plant-imaging.}
 
 Around 50 mL of 300 µM D-luciferin (Biosynth, Itasca, IL) was added to
 soil at the top of the rhizotron. In general 5 min exposures were taken
@@ -1081,7 +1078,7 @@ plants were imaged at dawn (+/- 1 hr) to reduce possible effects on
 diurnal rhythms of keeping plants in the dark during imaging. Shoot
 images were taken using a Nikon D3100 camera.
 
-\paragraph{Image Preparation}\label{image-preparation}
+\paragraph{Image Preparation.}\label{image-preparation.}
 
 Four individual images are collected: top front, bottom front, top back
 and bottom back. Using an automated
@@ -1098,12 +1095,12 @@ are 16-bit depth and 4096 x 2048 pixels. The scale of the images is
 138.6 pixels per cm. Considering that an Arabidopsis roots is 100 µm
 this results in 1.39 pixels across an Arabidopsis root.
 
-\paragraph{GLO-RIA imageJ plug-in}\label{glo-ria-imagej-plug-in}
+\paragraph{GLO-RIA imageJ plug-in.}\label{glo-ria-imagej-plug-in.}
 
 GLO-RIA uses a combination of existing tools to extract relevant root
 architecture features. Directionality is acquired using the
 \href{http://fiji.sc/Directionality}{directionality plugin} from ImageJ.
-After the number of direction bins (we usually use bins of 2 º) is
+After the number of direction bins (we usually use bins of 2º) is
 defined by the user, a 5x5 sobel operator is used to derive the local
 gradient orientation. This orientation is then used to build a
 distribution of directions by assigning the square of the orientation
@@ -1111,13 +1108,13 @@ into the appropriate bin. Instead of representing the total counts at
 each orientation a relative value is calculated by dividing the
 individual values at each bin by the total sum of the histogram (and
 multiplying by 100). Similar algorithms have been used to quantify
-dynamic changes in the plant cytoskeleton\textsuperscript{43}.\\The
+dynamic changes in the plant cytoskeleton\textsuperscript{45}.\\The
 Elliptic Fourier Descriptors are aquired using the
 \href{http://imagejdocu.tudor.lu/doku.php?id=plugin:analysis:fourier_shape_analysis:start}{Fourier
 Shape Analysis plugin} on convex hull shape of the root system. Elliptic
 Fourier Descriptors have been used in numerous studies to analyse
-variations in shapes, notably in leaves (e.g\textsuperscript{44}) The
-shape analysis is inspired by RootScape\textsuperscript{15}. Due to the
+variations in shapes, notably in leaves (e.g\textsuperscript{46}).\\The
+shape analysis is inspired by RootScape\textsuperscript{17}. Due to the
 absence of fixed, recognisable structures in root system (that are
 required for the position of true landmarks), pseudo-landmarks are
 automatically extracted from the root systems. Shortly, the image is
@@ -1130,15 +1127,15 @@ the plugin, manual and sample images can be found in the
 \href{https://github.com/rr-lab/GLO-Roots/tree/master/gloria}{github
 repository} of the project.
 
-Statistical analysis was performed in R\textsuperscript{46}. The
-tidyr\textsuperscript{47}, dplyr\textsuperscript{47},
-gridExtra\textsuperscript{48}, shapes\textsuperscript{49},
-geomorph\textsuperscript{50}, ggplot2\textsuperscript{51} and
-cowplot\textsuperscript{52} packages were used for data preparation,
+Statistical analysis was performed in R\textsuperscript{48}. The
+tidyr\textsuperscript{49}, dplyr\textsuperscript{49},
+gridExtra\textsuperscript{50}, shapes\textsuperscript{51},
+geomorph\textsuperscript{52}, ggplot2\textsuperscript{53} and
+cowplot\textsuperscript{54} packages were used for data preparation,
 analysis and plotting. Final figure preparation was done in
 \href{https://inkscape.org/en/}{Inkscape}.
 
-\paragraph{Data availability}\label{data-availability}
+\paragraph{Data availability.}\label{data-availability.}
 
 All the scripts and original data used to analyze and produce the images
 can be accessed in the Github repository of the project:
@@ -1146,7 +1143,7 @@ github.com/rr-lab/GLO-Roots. Raw files of all the images used in the
 paper are availabe in
 \href{http://datadryad.org/review?doi=doi:10.5061/dryad.4k37q}{Dryad}.
 
-\subsection{Acknowledgements}\label{acknowledgements}
+\subsection{Acknowledgements.}\label{acknowledgements.}
 
 Work in the lab of JRD was funded by the Carnegie Institution for
 Science Endowment and grants from the National Science Foundation
@@ -1163,19 +1160,244 @@ the Life Sciences Research Foundation. JV was funded by the Office of
 Biological and Environmental Research, Office of Science, US Department
 of Energy, interagency agreements DE-SC0001526 and DE-AI02-07ER64452. We
 thank Robert Mittler and Philip Benfey for providing seeds of ZAT12:LUC
-and DR5:LUC+ respectively. We also thank Neil Robbins and members of the
-Dinneny lab for critical review of the manuscript and suggestions during
-the development of the project. We greatly appreciate Tim Doyle at the
-Stanford Small Animal Imaging Facility for providing´s advice in using
-and help with luciferase-based imaging approaches.
+and DR5:LUC+ respectively.\\We also thank Neil Robbins and members of
+the Dinneny lab for critical review of the manuscript and suggestions
+during the development of the project. We greatly appreciate Tim Doyle
+at the Stanford Small Animal Imaging Facility for providing advice in
+the use of luciferase-based imaging approaches.
 
-\subsection{Competing interests}\label{competing-interests}
+\subsection{Competing interests.}\label{competing-interests.}
 
 We do not have any competing interests that we are aware of.
 
 \pagebreak
 
-\subsection{Tables}\label{tables}
+\subsection*{References}\label{references}
+\addcontentsline{toc}{subsection}{References}
+
+1.Dinneny, J. R. \emph{et al.} Cell identity mediates the response of
+\emph{Arabidopsis} roots to abiotic stress. \emph{Science} \textbf{320,}
+942--945 (2008).
+
+2.Duan, L. \emph{et al.} Endodermal ABA Signaling Promotes Lateral Root
+Quiescence during Salt Stress in Arabidopsis Seedlings. \emph{Plant
+Cell} \textbf{25,} 324--341 (2013).
+
+3.Lynch, J. P. \& Wojciechowski, T. Opportunities and challenges in the
+subsoil: pathways to deeper rooted crops. \emph{J. Exp. Bot.}
+\textbf{66,} 2199--2210 (2015).
+
+4.Brady, N. C. \& Weil, R. R. \emph{Elements of the nature and
+properties of soils}. (Prentice Hall, 2009).
+
+5.Bao, Y. \emph{et al.} Plant roots use a patterning mechanism to
+position lateral root branches toward available water. \emph{Proc Natl
+Acad Sci} \textbf{111,} 9319--9324 (2014).
+
+6.Tabata, R. \emph{et al.} Perception of root-derived peptides by shoot
+LRR-RKs mediates systemic N-demand signaling. \emph{Science}
+\textbf{346,} 343--346 (2014).
+
+7.Rosquete, M. R. \emph{et al.} An Auxin Transport Mechanism Restricts
+Positive Orthogravitropism in Lateral Roots. \emph{Current Biology}
+\textbf{23,} 817--822 (2013).
+
+8.Uga, Y. \emph{et al.} Control of root system architecture by DEEPER
+ROOTING 1 increases rice yield under drought conditions. \emph{Nat.
+Genet.} \textbf{45,} 1097--1102 (2013).
+
+9.Postma, J. A. \& Lynch, J. P. The optimal lateral root branching
+density for maize depends on nitrogen and phosphorus availability.
+\emph{Plant Physiol.} \textbf{166,} 590--602 (2014).
+
+10.Lalibert{é}, E. \emph{et al.} How does pedogenesis drive plant
+diversity? \emph{Trends in ecology \& evolution} \textbf{28,} 331--340
+(2013).
+
+11.Tian, H., De Smet, I. \& Ding, Z. Shaping a root system: regulating
+lateral versus primary root growth. \emph{Trends in plant science}
+\textbf{19,} 426--431 (2014).
+
+12.Schneider, C. A., Rasband, W. S. \& Eliceiri, K. W. NIH Image to
+ImageJ: 25 years of image analysis. \emph{Nature methods} \textbf{9,}
+671--675 (2012).
+
+13.Meijon, M., Satbhai, S. B., Tsuchimatsu, T. \& Busch, W. Genome-wide
+association study using cellular traits identifies a new regulator of
+root development in. \emph{Nat. Genet.} \textbf{46,} 77--81 (2013).
+
+14.Hall, M. P. \emph{et al.} Engineered Luciferase Reporter from a Deep
+Sea Shrimp Utilizing a Novel Imidazopyrazinone Substrate. \emph{ACS
+chemical biology} \textbf{7,} 1848--1857 (2012).
+
+15.Hara-Miyauchi, C. \emph{et al.} Bioluminescent system for dynamic
+imaging of cell and animal behavior. \emph{Biochem. Biophys. Res.
+Commun.} \textbf{419,} 188--193 (2012).
+
+16.Emami, S., Yee, M.-C. \& Dinneny, J. R. A robust family of Golden
+Gate Agrobacterium vectors for plant synthetic biology. \emph{Front.
+Plant Sc.} \textbf{4,} 339 (2013).
+
+17.Ristova, D. \emph{et al.} RootScape: a landmark-based system for
+rapid screening of root architecture in Arabidopsis. \emph{Plant
+Physiology} \textbf{161,} 1086--1096 (2013).
+
+18.Lobet, G. \emph{et al.} Root System Markup Language: toward a unified
+root architecture description language. \emph{Plant Physiol.}
+\textbf{167,} 617--627 (2015).
+
+19.Pag{è}s, L. \emph{et al.} Calibration and evaluation of ArchiSimple,
+a simple model of root system architecture. \emph{Ecological Modelling}
+\textbf{290,} 76--84 (2014).
+
+20.Moreno-Risueno, M. A. \emph{et al.} Oscillating gene expression
+determines competence for periodic \emph{Arabidopsis} root branching.
+\emph{Science} \textbf{329,} 1306--1311 (2010).
+
+21.Miller, G. \emph{et al.} The plant NADPH oxidase RBOHD mediates rapid
+systemic signaling in response to diverse stimuli. \emph{Science
+Signaling} \textbf{2,} ra45 (2009).
+
+22.Haney, C. H., Samuel, B. S., Bush, J. \& Ausubel, F. M. Associations
+with rhizosphere bacteria can confer an adaptive advantage to plants.
+\emph{Nature Plants} \textbf{1,} 15051 (2015).
+
+23.Mandoli, D. F., FORD, G. A., WALDRON, L. J., NEMSON, J. A. \& Briggs,
+W. R. Some spectral properties of several soil types: implications for
+photomorphogenesis*. \emph{Plant Cell Environ.} \textbf{13,} 287--294
+(1990).
+
+24.Galen, C., Rabenold, J. J. \& Liscum, E. Functional ecology of a blue
+light photoreceptor: effects of phototropin-1 on root growth enhance
+drought tolerance in Arabidopsis thaliana. \emph{New Phytol.}
+\textbf{173,} 91--99 (2007).
+
+25.Moni, A., Lee, A. Y., Briggs, W. R. \& Han, I. S. The blue light
+receptor Phototropin 1 suppresses lateral root growth by controlling
+cell elongation. \emph{Plant Biology} 34--40 (2014).
+
+26.Yokawa, K., Kagenishi, T. \& Balu{š}ka, F. Root photomorphogenesis in
+laboratory-maintained Arabidopsis seedlings. \emph{Trends Plant Sci.}
+\textbf{18,} 117--119 (2013).
+
+27.Lobell, D. B. \emph{et al.} Greater Sensitivity to Drought
+Accompanies Maize Yield Increase in the U.S. Midwest. \emph{Science}
+\textbf{344,} 516--519 (2014).
+
+28.Ort, D. R. \& Long, S. P. Limits on Yields in the Corn Belt.
+\emph{Science} \textbf{344,} 484--485 (2014).
+
+29.Pacheco-Villalobos, D. \& Hardtke, C. S. Natural genetic variation of
+root system architecture from Arabidopsis to Brachypodium: towards
+adaptive value. \emph{Philosophical Transactions of the Royal Society of
+London B: Biological Sciences} \textbf{367,} 1552--1558 (2012).
+
+30.Watt, M., Schneebeli, K., Dong, P. \& Wilson, I. W. The shoot and
+root growth of Brachypodium and its potential as a model for wheat and
+other cereal crops. \emph{Functional Plant Biol.} \textbf{36,} 960--969
+(2009).
+
+31.Mann, D. G. J. \emph{et al.} Gateway-compatible vectors for
+high-throughput gene functional analysis in switchgrass (Panicum
+virgatum L.) and other monocot species. \emph{Plant Biotechnol. J.}
+\textbf{10,} 226--236 (2012).
+
+32.Pacheco-Villalobos, D., Sankar, M., Ljung, K. \& Hardtke, C. S.
+Disturbed Local Auxin Homeostasis Enhances Cellular Anisotropy and
+Reveals Alternative Wiring of Auxin-ethylene Crosstalk in Brachypodium
+distachyon Seminal Roots. \emph{PLoS Genet} \textbf{9,} e1003564 (2013).
+
+33.Buer, C. S., Wasteneys, G. O. \& Masle, J. Ethylene modulates
+root-wave responses in Arabidopsis. \emph{Plant Physiology}
+\textbf{132,} 1085--1096 (2003).
+
+34.Blossfeld, S., Schreiber, C. M., Liebsch, G., Kuhn, A. J. \&
+Hinsinger, P. Quantitative imaging of rhizosphere pH and CO2 dynamics
+with planar optodes. \emph{Annals of Botany} \textbf{112,} 267--276
+(2013).
+
+35.Shaw, S. L. \& Ehrhardt, D. W. Smaller, Faster, Brighter: Advances in
+Optical Imaging of Living Plant Cells. \emph{Annu. Rev. Plant Biol.}
+\textbf{64,} 351--375 (2013).
+
+36.Barr, H. \& Weatherley, P. A re-examination of the relative turgidity
+technique for estimating water deficit in leaves. \emph{Aust. J. Biol.
+Sci} \textbf{15,} 413--428 (1962).
+
+37.Grapov, D. DeviumWeb: Dynamic Multivariate Data Analysis and
+Visualization Platform.
+
+38.Branchini, B. R. \emph{et al.} Red-emitting luciferases for
+bioluminescence reporter and imaging applications. \emph{Analytical
+Biochemistry} \textbf{396,} 290--297 (2010).
+
+39.Branchini, B. R. \emph{et al.} Thermostable red and green
+light-producing firefly luciferase mutants for bioluminescent reporter
+applications. \emph{Analytical Biochemistry} \textbf{361,} 253--262
+(2007).
+
+40.Lane, M. C., Alteri, C. J., Smith, S. N. \& Mobley, H. L. T.
+Expression of flagella is coincident with uropathogenic Escherichia coli
+ascension to the upper urinary tract. \emph{Proc. Natl. Acad. Sci.
+U.S.A.} \textbf{104,} 16669--16674 (2007).
+
+41.Ruegger, M. \emph{et al.} The TIR1 protein of Arabidopsis functions
+in auxin response and is related to human SKP2 and yeast grr1p.
+\emph{Genes Dev} \textbf{12,} 198--207 (1998).
+
+42.Moriwaki, T. \emph{et al.} Hormonal Regulation of Lateral Root
+Development in Arabidopsis Modulated by MIZ1 and Requirement of GNOM
+Activity for MIZ1 Function. \emph{Plant Physiol.} \textbf{157,}
+1209--1220 (2011).
+
+43.Vogel, J. \& Hill, T. High-efficiency Agrobacterium-mediated
+transformation of Brachypodium distachyon inbred line Bd21-3.
+\emph{Plant Cell Rep} \textbf{27,} 471--478 (2008).
+
+44.Covington, M. F. \& Harmer, S. L. The Circadian Clock Regulates Auxin
+Signaling and Responses in Arabidopsis. \emph{Plos Biol} \textbf{5,}
+e222 (2007).
+
+45.Lindeboom, J. J. \emph{et al.} A Mechanism for Reorientation of
+Cortical Microtubule Arrays Driven by Microtubule Severing.
+\emph{Science} \textbf{342,} 1245533--1--1245533--11 (2013).
+
+46.Chitwood, D. H. \emph{et al.} A modern ampelography: a genetic basis
+for leaf shape and venation patterning in grape. \emph{Plant Physiology}
+\textbf{164,} 259--272 (2014).
+
+47.Iwata, H. \& Ukai, Y. SHAPE: a computer program package for
+quantitative evaluation of biological shapes based on elliptic Fourier
+descriptors. \emph{The Journal of Heredity} \textbf{93,} 384--385
+(2002).
+
+48.R Core Team. \emph{R: A language and environment for statistical
+computing}. (R Foundation for Statistical Computing, 2014). at
+\textless{}\url{http://www.R-project.org/}\textgreater{}
+
+49.Wickham, H. \emph{Tidyr: Easily tidy data with spread() and gather()
+functions.} (2014). at
+\textless{}\url{http://CRAN.R-project.org/package=tidyr}\textgreater{}
+
+50.Auguie, B. \emph{GridExtra: Functions in grid graphics}. (2012). at
+\textless{}\url{http://CRAN.R-project.org/package=gridExtra}\textgreater{}
+
+51.Dryden, I. L. \emph{Shapes: Statistical shape analysis}. (2013). at
+\textless{}\url{http://CRAN.R-project.org/package=shapes}\textgreater{}
+
+52.Adams, D. \& Otarola-Castillo, E. Geomorph: An r package for the
+collection and analysis of geometric morphometric shape data.
+\emph{Methods in Ecology and Evolution} \textbf{4,} 393--399 (2013).
+
+53.Wickham, H. \emph{Ggplot2: Elegant graphics for data analysis}.
+(Springer New York, 2009). at
+\textless{}\url{http://had.co.nz/ggplot2/book}\textgreater{}
+
+54.Wilke, C. O. \emph{cowplot: Streamlined Plot Theme and Plot
+Annotations for ggplot2}. (2015). at
+\textless{}\url{http://cran.r-project.org/web/packages/cowplot/index.html}\textgreater{}
+
+\subsection{Tables.}\label{tables.}
 
 \textbf{Table 1}: Luciferases used in this study.
 
@@ -1224,30 +1446,30 @@ Pseudo landmarks & -\tabularnewline
 
 \subsection{Figures}\label{figures}
 
-\includegraphics{/Users/rrellan/Dropbox/repos/GLO-Roots/figures/figure_pngs/figure_1.png}\\\textbf{Figure
-1. GLO-Roots growth and imaging systems} A) 3D representation of the
-different physical components of the rhizotron: plastic covers,
-polycarbonate sheets, spacers and rubber U-channels. Blueprints are
-provided in Supplementary material 1. In brown, soil layer. B) Thirty
-five day-old plant in rhizotron with black covers removed. C) Top view
-of holding box with eleven rhizotrons. D)In vivo emission spectra of
-different luciferases used in this study. Transgenic homozygous lines
-expressing the indicated transgenes were grown on agar media for 8 days.
-Luciferin (300 µM) was sprayed on the seedlings and plates were kept in
-the dark and then imaged for 2 s at wavelengths ranging from 500 to 700
-nm. Five intensity values were taken from different parts of the roots
-of different seedlings and averaged. Relative maximum intensity values
-are indicated in the lower right graph. E) GLO 1 imaging system. The
-system is composed by two back illuminated CCD cameras (a) cooled down
-to -55 ºC. A filter wheel (b) allows for spectral separation of the
-different luciferases. On the right, a rhizotron holder (c) is used to
-position the rhizotrons in front of the cameras. A stepper motor (d)
-rotates the rhizotron 180º to image both sides. F) A 21 DAS plant
-expressing \emph{ProUBQ10:LUC2o} was imaged on each of two sides of the
-rhizotron; luminescence signal is colorized in green or magenta to
-indicate side. In the middle of the panel, a combined image of the two
-sides is shown. The inset shows a magnified part of the root system. FW:
-fresh weight, PR: Primary root.
+\includegraphics{/Users/rrellan/Dropbox/repos/GLO-Roots/figures/figure_pngs/figure_1.png}
+\textbf{Figure 1. GLO-Roots growth and imaging systems} A) 3D
+representation of the different physical components of the rhizotron:
+plastic covers, polycarbonate sheets, spacers and rubber U-channels.
+Blueprints are provided in Supplementary material 1. In brown, soil
+layer. B) Thirty five day-old plant in rhizotron with black covers
+removed. C) Top view of holding box with eleven rhizotrons. D)In vivo
+emission spectra of different luciferases used in this study. Transgenic
+homozygous lines expressing the indicated transgenes were grown on agar
+media for 8 days. Luciferin (300 µM) was sprayed on the seedlings and
+plates were kept in the dark and then imaged for 2 s at wavelengths
+ranging from 500 to 700 nm. Five intensity values were taken from
+different parts of the roots of different seedlings and averaged.
+Relative maximum intensity values are indicated in the lower right
+graph. E) GLO 1 imaging system. The system is composed by two back
+illuminated CCD cameras (a) cooled down to -55 ºC. A filter wheel (b)
+allows for spectral separation of the different luciferases. On the
+right, a rhizotron holder (c) is used to position the rhizotrons in
+front of the cameras. A stepper motor (d) rotates the rhizotron 180º to
+image both sides. F) A 21 DAS plant expressing \emph{ProUBQ10:LUC2o} was
+imaged on each of two sides of the rhizotron; luminescence signal is
+colorized in green or magenta to indicate side. In the middle of the
+panel, a combined image of the two sides is shown. The inset shows a
+magnified part of the root system. FW: fresh weight, PR: Primary root.
 
 \pagebreak
 
@@ -1407,14 +1629,16 @@ exposed to 300 µM luciferin from 9 DAS after sowing or not.
 \pagebreak
 
 \includegraphics{/Users/rrellan/Dropbox/repos/GLO-Roots/figures/Supplements/Figure_1_figure_supplement_5.png}\\\textbf{Figure
-1-figure supplement 5} GLO-RIA validation. Validation was carried out
-using two approaches. We first used manually quantified root system
-depth (A) width (B) and average lateral root angles (C) in a set of 15
-root systems corresponding to different Arabidopsis accesions. We then
-generated 1240 contrasting root systems using ArchiSimple as a ground
-truth to validate root system depth (D) width (E) and directionality
-(F). Example of a real (G) and ArchiSimple generated (H) root systems
-and corresponding GLO-RIA color-coded directionality (I, J).
+1-figure supplement 5} GLO-RIA ground truth comparison. Tests of GLO-RIA
+were performed using two approaches. We first manually quantified root
+system depth (A) width (B) and average lateral root angle (C) in a set
+of 15 root systems corresponding to different Arabidopsis accessions. We
+also generated 1240 contrasting root systems using ArchiSimple and
+quantified root system depth (D) width (E) and directionality (F) using
+GLO-RIA. Example of a real (G) and ArchiSimple generated (H) root system
+and corresponding GLO-RIA determined directionality color-coded into the
+image (I, J). Absolute orientation angle values are taken before all
+calculations.
 
 \pagebreak
 
@@ -1434,10 +1658,7 @@ Bay-0, Col-0 and Sha accessions.
 
 \includegraphics{/Users/rrellan/Dropbox/repos/GLO-Roots/figures/Supplements/Figure_4_figure_supplement_1.png}
 \textbf{Figure 4-figure supplement 1}: ZAT12:LUC intensity and root
-segments automatically idenfied values along the root tip. Data was
-manually obtained by obtaining the intensity profile of the first 0.5 cm
-from the root tip of individual lateral roots. Ten lateral roots for
-each reporter were measured.\\\pagebreak
+segments automatically identified with GLO-RIA. \pagebreak
 
 \includegraphics{/Users/rrellan/Dropbox/repos/GLO-Roots/figures/Supplements/Figure_4_figure_supplement_2.png}
 \textbf{Figure 4-figure supplement 2}: DR5:LUC+, UBQ10:LUC2o and
@@ -1530,7 +1751,8 @@ transferred to a 29 ºC (high) chamber. n = 6-8 plants.\\\pagebreak
 
 \includegraphics{/Users/rrellan/Dropbox/repos/GLO-Roots/figures/Supplements/Figure_8_figure_supplement_1.png}\\\textbf{Figure
 8-figure supplement 1} Depth of the primary root of Brachypodium plants
-grown in rhizotrons or on gel-based media (n=8-11).\\\pagebreak
+grown in rhizotrons or on gel-based media (n=8-11). Red dots indicate
+mean values.\\\pagebreak
 
 \subsubsection{Supplementary material}\label{supplementary-material-1}
 
@@ -1548,225 +1770,17 @@ Material 3}}\\Vector maps of all the constructs used in this work.
 \subsection{Source data files}\label{source-data-files}
 
 Source data files used for building the following figures are provided:
-figure\_1D.csv\\figure\_1\_figure\_supplement\_1A-B.csv\\figure\_1\_figure\_supplement\_1C\_D.csv\\figure\_1\_figure\_supplement\_1E-F.csv\\figure\_1\_figure\_supplement\_2.csv\\figure\_1\_figure\_supplement\_3.csv\\figure\_2C.csv\\figure\_2D.csv\\figure\_3D.csv\\figure\_3E.csv\\figure\_3F-G\_1.csv\\figure\_3F-G\_2.tps\\figure\_3\_figure\_supplement\_1A-B.csv\\figure\_4G\_reporter.csv\\figure\_4G\_root\_segment.csv\\figure\_4\_figure\_supplement\_1.csv\\figure\_4\_figure\_supplement\_2.csv\\figure\_5\_figure\_supplement\_1.csv\\figure\_6\_A-D.csv\\figure\_6\_figure\_supplement\_2-C-D.csv\\figure\_6\_figure\_supplement\_2-E.csv\\figure\_6\_figure\_supplement\_3.csv\\figure\_6\_figure\_supplement\_4.csv\\figure\_6\_figure\_supplement\_5.csv\\figure\_7.csv\\figure\_8\_figure\_supplement\_1.csv
-
-\pagebreak
-
-\subsection*{References}\label{references}
-\addcontentsline{toc}{subsection}{References}
-
-1.Dinneny, J. R. \emph{et al.} Cell identity mediates the response of
-\emph{Arabidopsis} roots to abiotic stress. \emph{Science} \textbf{320,}
-942--945 (2008).
-
-2.Duan, L. \emph{et al.} Endodermal ABA Signaling Promotes Lateral Root
-Quiescence during Salt Stress in Arabidopsis Seedlings. \emph{Plant
-Cell} \textbf{25,} 324--341 (2013).
-
-3.Lynch, J. P. \& Wojciechowski, T. Opportunities and challenges in the
-subsoil: pathways to deeper rooted crops. \emph{J. Exp. Bot.}
-\textbf{66,} 2199--2210 (2015).
-
-4.Brady, N. C. \& Weil, R. R. \emph{Elements of the nature and
-properties of soils}. (Prentice Hall, 2009).
-
-5.Bao, Y. \emph{et al.} Plant roots use a patterning mechanism to
-position lateral root branches toward available water. \emph{Proc Natl
-Acad Sci} \textbf{111,} 9319--9324 (2014).
-
-6.Tabata, R. \emph{et al.} Perception of root-derived peptides by shoot
-LRR-RKs mediates systemic N-demand signaling. \emph{Science}
-\textbf{346,} 343--346 (2014).
-
-7.Rosquete, M. R. \emph{et al.} An Auxin Transport Mechanism Restricts
-Positive Orthogravitropism in Lateral Roots. \emph{Current Biology}
-\textbf{23,} 817--822 (2013).
-
-8.Uga, Y. \emph{et al.} Control of root system architecture by DEEPER
-ROOTING 1 increases rice yield under drought conditions. \emph{Nat.
-Genet.} \textbf{45,} 1097--1102 (2013).
-
-9.Postma, J. A. \& Lynch, J. P. The optimal lateral root branching
-density for maize depends on nitrogen and phosphorus availability.
-\emph{Plant Physiol.} \textbf{166,} 590--602 (2014).
-
-10.Schneider, C. A., Rasband, W. S. \& Eliceiri, K. W. NIH Image to
-ImageJ: 25 years of image analysis. \emph{Nature methods} \textbf{9,}
-671--675 (2012).
-
-11.Meijon, M., Satbhai, S. B., Tsuchimatsu, T. \& Busch, W. Genome-wide
-association study using cellular traits identifies a new regulator of
-root development in. \emph{Nat. Genet.} \textbf{46,} 77--81 (2013).
-
-12.Hara-Miyauchi, C. \emph{et al.} Bioluminescent system for dynamic
-imaging of cell and animal behavior. \emph{Biochem. Biophys. Res.
-Commun.} \textbf{419,} 188--193 (2012).
-
-13.Emami, S., Yee, M.-C. \& Dinneny, J. R. A robust family of Golden
-Gate Agrobacterium vectors for plant synthetic biology. \emph{Front.
-Plant Sc.} \textbf{4,} 339 (2013).
-
-14.Hall, M. P. \emph{et al.} Engineered Luciferase Reporter from a Deep
-Sea Shrimp Utilizing a Novel Imidazopyrazinone Substrate. \emph{ACS
-chemical biology} \textbf{7,} 1848--1857 (2012).
-
-15.Ristova, D. \emph{et al.} RootScape: a landmark-based system for
-rapid screening of root architecture in Arabidopsis. \emph{Plant
-Physiology} \textbf{161,} 1086--1096 (2013).
-
-16.Lobet, G. \emph{et al.} Root System Markup Language: toward a unified
-root architecture description language. \emph{Plant Physiol.}
-\textbf{167,} 617--627 (2015).
-
-17.Pag{è}s, L. \emph{et al.} Calibration and evaluation of ArchiSimple,
-a simple model of root system architecture. \emph{Ecological Modelling}
-\textbf{290,} 76--84 (2014).
-
-18.Moreno-Risueno, M. A. \emph{et al.} Oscillating gene expression
-determines competence for periodic \emph{Arabidopsis} root branching.
-\emph{Science} \textbf{329,} 1306--1311 (2010).
-
-19.Miller, G. \emph{et al.} The plant NADPH oxidase RBOHD mediates rapid
-systemic signaling in response to diverse stimuli. \emph{Science
-Signaling} \textbf{2,} ra45 (2009).
-
-20.Haney, C. H., Samuel, B. S., Bush, J. \& Ausubel, F. M. Associations
-with rhizosphere bacteria can confer an adaptive advantage to plants.
-\emph{Nature Plants} \textbf{1,} 15051 (2015).
-
-21.Mandoli, D. F., FORD, G. A., WALDRON, L. J., NEMSON, J. A. \& Briggs,
-W. R. Some spectral properties of several soil types: implications for
-photomorphogenesis*. \emph{Plant Cell Environ.} \textbf{13,} 287--294
-(1990).
-
-22.Galen, C., Rabenold, J. J. \& Liscum, E. Functional ecology of a blue
-light photoreceptor: effects of phototropin-1 on root growth enhance
-drought tolerance in Arabidopsis thaliana. \emph{New Phytol.}
-\textbf{173,} 91--99 (2007).
-
-23.Moni, A., Lee, A. Y., Briggs, W. R. \& Han, I. S. The blue light
-receptor Phototropin 1 suppresses lateral root growth by controlling
-cell elongation. \emph{Plant Biology} 34--40 (2014).
-
-24.Yokawa, K., Kagenishi, T. \& Balu{š}ka, F. Root photomorphogenesis in
-laboratory-maintained Arabidopsis seedlings. \emph{Trends Plant Sci.}
-\textbf{18,} 117--119 (2013).
-
-25.Lobell, D. B. \emph{et al.} Greater Sensitivity to Drought
-Accompanies Maize Yield Increase in the U.S. Midwest. \emph{Science}
-\textbf{344,} 516--519 (2014).
-
-26.Ort, D. R. \& Long, S. P. Limits on Yields in the Corn Belt.
-\emph{Science} \textbf{344,} 484--485 (2014).
-
-27.Pacheco-Villalobos, D. \& Hardtke, C. S. Natural genetic variation of
-root system architecture from Arabidopsis to Brachypodium: towards
-adaptive value. \emph{Philosophical Transactions of the Royal Society of
-London B: Biological Sciences} \textbf{367,} 1552--1558 (2012).
-
-28.Watt, M., Schneebeli, K., Dong, P. \& Wilson, I. W. The shoot and
-root growth of Brachypodium and its potential as a model for wheat and
-other cereal crops. \emph{Functional Plant Biol.} \textbf{36,} 960--969
-(2009).
-
-29.Mann, D. G. J. \emph{et al.} Gateway-compatible vectors for
-high-throughput gene functional analysis in switchgrass (Panicum
-virgatum L.) and other monocot species. \emph{Plant Biotechnol. J.}
-\textbf{10,} 226--236 (2012).
-
-30.Pacheco-Villalobos, D., Sankar, M., Ljung, K. \& Hardtke, C. S.
-Disturbed Local Auxin Homeostasis Enhances Cellular Anisotropy and
-Reveals Alternative Wiring of Auxin-ethylene Crosstalk in Brachypodium
-distachyon Seminal Roots. \emph{PLoS Genet} \textbf{9,} e1003564 (2013).
-
-31.Buer, C. S., Wasteneys, G. O. \& Masle, J. Ethylene modulates
-root-wave responses in Arabidopsis. \emph{Plant Physiology}
-\textbf{132,} 1085--1096 (2003).
-
-32.Blossfeld, S., Schreiber, C. M., Liebsch, G., Kuhn, A. J. \&
-Hinsinger, P. Quantitative imaging of rhizosphere pH and CO2 dynamics
-with planar optodes. \emph{Annals of Botany} \textbf{112,} 267--276
-(2013).
-
-33.Shaw, S. L. \& Ehrhardt, D. W. Smaller, Faster, Brighter: Advances in
-Optical Imaging of Living Plant Cells. \emph{Annu. Rev. Plant Biol.}
-\textbf{64,} 351--375 (2013).
-
-34.Barr, H. \& Weatherley, P. A re-examination of the relative turgidity
-technique for estimating water deficit in leaves. \emph{Aust. J. Biol.
-Sci} \textbf{15,} 413--428 (1962).
-
-35.Grapov, D. DeviumWeb: Dynamic Multivariate Data Analysis and
-Visualization Platform.
-
-36.Branchini, B. R. \emph{et al.} Red-emitting luciferases for
-bioluminescence reporter and imaging applications. \emph{Analytical
-Biochemistry} \textbf{396,} 290--297 (2010).
-
-37.Branchini, B. R. \emph{et al.} Thermostable red and green
-light-producing firefly luciferase mutants for bioluminescent reporter
-applications. \emph{Analytical Biochemistry} \textbf{361,} 253--262
-(2007).
-
-38.Lane, M. C., Alteri, C. J., Smith, S. N. \& Mobley, H. L. T.
-Expression of flagella is coincident with uropathogenic Escherichia coli
-ascension to the upper urinary tract. \emph{Proc. Natl. Acad. Sci.
-U.S.A.} \textbf{104,} 16669--16674 (2007).
-
-39.Ruegger, M. \emph{et al.} The TIR1 protein of Arabidopsis functions
-in auxin response and is related to human SKP2 and yeast grr1p.
-\emph{Genes Dev} \textbf{12,} 198--207 (1998).
-
-40.Moriwaki, T. \emph{et al.} Hormonal Regulation of Lateral Root
-Development in Arabidopsis Modulated by MIZ1 and Requirement of GNOM
-Activity for MIZ1 Function. \emph{Plant Physiol.} \textbf{157,}
-1209--1220 (2011).
-
-41.Vogel, J. \& Hill, T. High-efficiency Agrobacterium-mediated
-transformation of Brachypodium distachyon inbred line Bd21-3.
-\emph{Plant Cell Rep} \textbf{27,} 471--478 (2008).
-
-42.Covington, M. F. \& Harmer, S. L. The Circadian Clock Regulates Auxin
-Signaling and Responses in Arabidopsis. \emph{Plos Biol} \textbf{5,}
-e222 (2007).
-
-43.Lindeboom, J. J. \emph{et al.} A Mechanism for Reorientation of
-Cortical Microtubule Arrays Driven by Microtubule Severing.
-\emph{Science} \textbf{342,} 1245533--1--1245533--11 (2013).
-
-44.Chitwood, D. H. \emph{et al.} A modern ampelography: a genetic basis
-for leaf shape and venation patterning in grape. \emph{Plant Physiology}
-\textbf{164,} 259--272 (2014).
-
-45.Iwata, H. \& Ukai, Y. SHAPE: a computer program package for
-quantitative evaluation of biological shapes based on elliptic Fourier
-descriptors. \emph{The Journal of Heredity} \textbf{93,} 384--385
-(2002).
-
-46.R Core Team. \emph{R: A language and environment for statistical
-computing}. (R Foundation for Statistical Computing, 2014). at
-\textless{}\url{http://www.R-project.org/}\textgreater{}
-
-47.Wickham, H. \emph{Tidyr: Easily tidy data with spread() and gather()
-functions.} (2014). at
-\textless{}\url{http://CRAN.R-project.org/package=tidyr}\textgreater{}
-
-48.Auguie, B. \emph{GridExtra: Functions in grid graphics}. (2012). at
-\textless{}\url{http://CRAN.R-project.org/package=gridExtra}\textgreater{}
-
-49.Dryden, I. L. \emph{Shapes: Statistical shape analysis}. (2013). at
-\textless{}\url{http://CRAN.R-project.org/package=shapes}\textgreater{}
-
-50.Adams, D. \& Otarola-Castillo, E. Geomorph: An r package for the
-collection and analysis of geometric morphometric shape data.
-\emph{Methods in Ecology and Evolution} \textbf{4,} 393--399 (2013).
-
-51.Wickham, H. \emph{Ggplot2: Elegant graphics for data analysis}.
-(Springer New York, 2009). at
-\textless{}\url{http://had.co.nz/ggplot2/book}\textgreater{}
-
-52.Wilke, C. O. \emph{cowplot: Streamlined Plot Theme and Plot
-Annotations for ggplot2}. (2015). at
-\textless{}\url{http://cran.r-project.org/web/packages/cowplot/index.html}\textgreater{}
+Figure 1-source data 1\\Figure 1-figure supplement 1-source data
+1\\Figure 1-figure supplement 2-source data 1\\Figure 1-figure
+supplement 3-source data 1\\Figure 1-figure supplement 5-source data
+1\\Figure 2-source data 1\\Figure 3-source data 1\\Figure 3-source data
+2\\Figure 3-figure supplement 1-source data 1\\Figure 4-source
+data\\Figure 4-figure supplement 1-source data 1\\Figure 4-figure
+supplement 2-source data 1\\Figure 5-figure supplement 1-source data
+1\\figure\_5\_figure\_supplement\_1.csv\\Figure 6-source data 1\\Figure
+6-figure supplement 2-source data 1\\Figure 6-figure supplement 3-source
+data 1\\Figure 6-figure supplement 4-source data 1\\Figure 6-figure
+supplement 5-source data 1\\Figure 7-source data 1\\Figure 8-figure
+supplement 1-source data 1
 
 \end{document}
