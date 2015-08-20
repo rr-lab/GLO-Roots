@@ -98,3 +98,34 @@ ks.test(wide_dir$count_col, wide_dir$count_sha) # are sha and col different?
 As you can see from the results the p-values are quite high. This is due to the fact that we only have one sample per accession.
 
 ### Enjoy
+
+
+### If we only specify 18 bins (10º bins)
+
+```{r}
+dir10 <- read.csv("root-data10-dir.csv")
+
+# we take the absolute values of the angles
+
+dir10$angle <- abs(dir10$angle)
+
+# we then create new variables using the `separate` function
+
+dir10_tidy <- dir10 %>%
+        separate(image, into = c("experiment", "das", "accession", "plant", "aq"), sep = "-") %>%
+        dplyr::select(accession, angle, count) # this is to get rid of the extra variables
+
+# I will save this new file:
+
+write.csv(dir_tidy, file = "dir_tidy.csv")
+
+# we plot the directionality distributions
+
+ggplot(dir10_tidy, aes(x = angle, y = count, colour = accession)) +
+       facet_grid(~ accession) +
+        geom_smooth()+
+        geom_point(size = 3, alpha = 0.5) +
+        labs(x = "Angle", y = "count") +
+              theme(panel.grid.major = element_blank(), # this removes the grid lines
+              panel.grid.minor = element_blank()) + # this removes the grid lines
+        theme_bw()
