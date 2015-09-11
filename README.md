@@ -9,6 +9,7 @@
 
 Rubén Rellán-Álvarez<sup>1, 9</sup>, Guillaume Lobet<sup>2</sup>, Heike Lindner<sup>1, 8</sup>, Pierre-Luc Pradier<sup>1, 8, 10</sup>, Jose Sebastian<sup>1, 8</sup>, Muh-Ching Yee<sup>1</sup>, Yu Geng<sup>1, 7</sup>, Charlotte Trontin<sup>1</sup>, Therese LaRue<sup>3</sup>, Amanda Schrager<sup>4</sup>, Cara Haney<sup>5</sup>, Rita Nieu<sup>6</sup>, Julin Maloof<sup>4</sup>, John P. Vogel<sup>7</sup>, José R. Dinneny<sup>1,12 </sup>
 
+### Now [published in eLIFE:](http://dx.doi.org/10.7554/eLife.07597)
 
 ## Abstract
 
