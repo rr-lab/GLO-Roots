@@ -5,6 +5,8 @@
 
 ## GLO-Roots: an imaging platform enabling multidimensional characterization of soil-grown roots systems  
 
+[![Join the chat at https://gitter.im/rr-lab/GLO-Roots](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/rr-lab/GLO-Roots?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Rubén Rellán-Álvarez<sup>1, 9</sup>, Guillaume Lobet<sup>2</sup>, Heike Lindner<sup>1, 8</sup>, Pierre-Luc Pradier<sup>1, 8, 10</sup>, Jose Sebastian<sup>1, 8</sup>, Muh-Ching Yee<sup>1</sup>, Yu Geng<sup>1, 7</sup>, Charlotte Trontin<sup>1</sup>, Therese LaRue<sup>3</sup>, Amanda Schrager<sup>4</sup>, Cara Haney<sup>5</sup>, Rita Nieu<sup>6</sup>, Julin Maloof<sup>4</sup>, John P. Vogel<sup>7</sup>, José R. Dinneny<sup>1,12 </sup>
 
 
