@@ -543,3 +543,26 @@ wilcox.test(intensity ~ root_presence , data = root_WW)
 
 ```
 
+Redrawing the directionality data:
+
+```{r}
+dir_data <- read.csv("data/figure_6_A-D.csv")
+
+dir_short <- dir_data %>%
+        filter(transfer == "13d") %>%
+        filter(accession != "sha")
+
+ggplot(dir_short, aes(x = angle, y = count, colour = water)) +
+        facet_grid(.~ accession) +
+        ylim(0, 2.5) +
+        geom_smooth() +
+        labs(x = "Angle", y = "count") +
+        theme_bw() +
+              theme(panel.grid.major = element_blank(), 
+              panel.grid.minor = element_blank()) +
+        ggsave("directionality.pdf", height = 12, width = 16, units = 
+                       "cm",useDingbats = FALSE) 
+
+
+```
+
