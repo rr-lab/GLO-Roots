@@ -1,0 +1,139 @@
+---
+title: "figure_3_heritability"
+author: "Rubén Rellán-Ávarez", "Guillaume Lobet"
+output: html_document
+---
+
+```{r}
+
+library(tidyr)
+library(dplyr)
+library(RColorBrewer)
+library(ggplot2)
+library(magrittr)
+library(gridExtra)
+library(rmarkdown)
+library(shapes)
+library(geomorph)
+
+
+```
+
+First let´s take a look at the basic global descriptors
+
+```{r}
+global <- read.csv("data/high-root-data-global.csv")
+
+# some data tyding 
+
+global_tidy <- global %>%
+        separate(image, into = c("experiment", "das", "accession", "plant", 
+                                 "aq"), sep = "-")
+```
+
+Now, lets work on the heritability:
+
+```{r}
+
+# Example for width:
+
+aov.width <- aov(width ~ accession, data = global_tidy)
+summary(aov.width)
+
+# According to Olivier Loudet, the genetic variance is estimated by:
+
+VG = (Var'Genotype' - Var'Residuals') / n
+
+# where n is the (mean) number of replicate measurements for each genotype in the experiment. Not sure what this could be in our case.
+
+# The 'Residuals' are a good estimator of the environmental variance in the experiment: 
+
+VE = Var"Residuals" / n
+
+# Total phenotipic variance would then be:
+
+VP (Total Phenotypic variance) = VG + VE
+
+# and therefore the (broad sense) heritability would be:
+
+h2 = VG / VP
+
+# So in our case for width, we get:
+
+#summary(aov.width)
+#            Df Sum Sq Mean Sq F value   Pr(>F)    
+#accession    2  61.35  30.675   23.09 8.51e-07 ***
+#Residuals   30  39.86   1.329 
+
+# VG <- (30.67 - 1.32)/9 
+# VE <- 1.32/9
+# VP <- VG + VE 
+# h2 <- (VG/VP)*100
+# h2
+
+# Would be nice to write a function to calculate this straigth from the aov summary. 
+
+# Here I calculate the heritabilities for all the different traits. There are probably simpler ways to do this, but I am a terrible coder.
+
+#we first calculate the results of the different analysis of variance and save them
+
+aov.width <- aov(width ~ accession, data = global_tidy)
+summary(aov.width)
+aov.massY <- aov(massY ~ accession, data = global_tidy)
+summary(aov.massY)
+aov.area <- aov(convexhull ~ accession, data = global_tidy)
+summary(aov.area)
+aov.depth <- aov(depth ~ accession, data = global_tidy)
+summary(aov.depth)
+aov.ar <- aov(ar ~ accession, data = global_tidy)
+summary(aov.ar)
+
+# we then save the summaries in a data frame.
+
+width <- do.call(rbind.data.frame, summary(aov.width))
+massY <- do.call(rbind.data.frame, summary(aov.massY))
+area <- do.call(rbind.data.frame, summary(aov.area))
+depth <- do.call(rbind.data.frame,summary(aov.depth))
+ar <- do.call(rbind.data.frame,summary(aov.ar))
+
+# just adding a new column with the trait name
+
+width$trait <- c("width", "width")
+massY$trait <- c("massY", "massY")
+area$trait <- c("area", "area")
+depth$trait <- c("depth", "depth")
+ar$trait <- c("ar", "ar")
+
+# and with this we calculate the heritabilities according to the formula above.
+
+width <- width %>%
+        mutate(h2 = (((width[1,3] - width[2,3])/9)/ 
+        (((width[1,3] - width[2,3])/9) + ((width[2,3])/9)))*100)
+
+massY <- massY %>%
+        mutate(h2 = (((massY[1,3] - massY[2,3])/9)/ 
+        (((massY[1,3] - massY[2,3])/9) + ((massY[2,3])/9)))*100)
+
+area <- area %>%
+        mutate(h2 = (((area[1,3] - area[2,3])/9)/ 
+        (((area[1,3] - area[2,3])/9) + ((area[2,3])/9)))*100)
+        
+depth <- depth %>%
+        mutate(h2 = (((depth[1,3] - depth[2,3])/9)/ 
+        (((depth[1,3] - depth[2,3])/9) + ((depth[2,3])/9)))*100)
+
+ar <- ar %>%
+        mutate(h2 = (((ar[1,3] - ar[2,3])/9)/ 
+        (((ar[1,3] - ar[2,3])/9) + ((ar[2,3])/9)))*100)
+
+all_traits <- rbind(width, massY, area, depth, ar)
+
+# we then finally create a table with the traits of all the heritabilities.
+
+h2 <- all_traits %>%
+        filter(Df == 2) %>%
+        select(trait, h2)
+
+
+# there has to be an easiest way to do this. 
+
