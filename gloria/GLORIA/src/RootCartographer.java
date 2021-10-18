@@ -394,7 +394,7 @@ public class RootCartographer {
 		bp.invert();		
 		bp = Util.cleanImage(bp);
 		bp.threshold(120);
-//		bp.invert();	  // TO COMMENT	
+		bp.invert(); // TO COMMENT			
         imRep.setProcessor(bp);
         
 
@@ -428,7 +428,7 @@ public class RootCartographer {
 				// Get the mean value inside the detected object			
 				Analyzer meas = new Analyzer(imOriginal,  Measurements.MEAN, rt2);
 				meas.measure();
-				
+								
 				// Build the reporter object
 				Reporter rep = new Reporter(
 						(int) rt.getValue("XM", i), 		// x pos
@@ -484,7 +484,7 @@ public class RootCartographer {
 		bp.skeletonize();	  
 		bp = Util.removeSkeletonConnections(bp);
 		bp.threshold(120);
-//		bp.invert(); // TO COMMENT
+		bp.invert(); // TO COMMENT
         imSeg.setProcessor(bp);
         
 //        imSeg.show(); if(1==1) return;
@@ -542,7 +542,7 @@ public class RootCartographer {
 	 */
 	public void initializeCSV(){
 		pwSeg.println("image,time_in_serie,segment_id,length,direction,start_x,start_y,end_x,end_y,environment,reporter_id,intensity,intensity_ratio,diameter,rep_x,rep_y");
-		pwReporter.println("image,time_in_serie,rep_id,intensity,intensity_ratio,diameter,rep_x,rep_y");
+		pwReporter.println("image,time_in_serie,rep_id,intensity,intensity_ratio,environment,feret,rep_x,rep_y");
 	}	
 
 	

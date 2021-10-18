@@ -89,8 +89,9 @@ public class Interface extends JFrame implements ItemListener, ActionListener, C
 // ROOT PANEL
 	JButton rootAnalysisButton, rootFolderButton, rootCSVButton;
 	JTextField rootImageFolder, rootCSVFile;
-	JTextField rootScalePix, rootScaleCm, rootStartingDate, rootMinSize, nEFD, nTimeSerie, nBinDir, nHBin, nWBin;
-	JCheckBox blackRoots, rootGlobal, rootLocal, rootEFD, timeSerie, manualCorrection, rootDirectional, rootLowContrast, rootWide;
+	JTextField rootScalePix, rootScaleCm, rootStartingDate, rootMinSize, nEFD, nTimeSerie, nBinDir, nHBin, nWBin, nShapeBin , sizeScale;
+	JCheckBox blackRoots, rootGlobal, rootLocal, rootEFD, rootShape, saveTPS, timeSerie, horizon, manualCorrection, rootDirectional, 
+	rootLowContrast, rootWide, rootVerbatim, rootSaveImages;
 	JComboBox directionalityMethod;
 	RootAnalysis ran;
 	JPanel rootParamGlobalPanel, rootParamLocalPanel;
@@ -112,7 +113,7 @@ public class Interface extends JFrame implements ItemListener, ActionListener, C
 	 * Build the interface
 	 */
 	private void build(){
-		this.setTitle("GLO-Root Image Analysis - GLORIA -");
+		this.setTitle("GLO-Root Image Analysis - GLORIA - v20190802");
 		this.setSize(800,750);
 		this.setLocationRelativeTo(null);
 		this.setResizable(true) ;
@@ -216,7 +217,7 @@ public class Interface extends JFrame implements ItemListener, ActionListener, C
 
 	      rootImageFolder = new JTextField("[Choose a folder containing the images]",35);
 //	      rootImageFolder = new JTextField("/Users/guillaumelobet/Desktop/test/structure/high_quality/end_points/ecotypes/",35);
-//	      rootImageFolder = new JTextField("/Users/guillaumelobet/Desktop/test/structure/high_quality/time_series/9_R10/",35);
+//	      rootImageFolder = new JTextField("/Users/guillaumelobet/Desktop/img/",35);
 
 	      JLabel title1 = new JLabel("Images source");
 	      Font f1 = title1.getFont();
@@ -249,8 +250,12 @@ public class Interface extends JFrame implements ItemListener, ActionListener, C
 	      rootScaleCm = new JTextField("1", 5);
 
 	      rootMinSize = new JTextField("20", 5);
+	      
+	      sizeScale = new JTextField("2", 5);
 
-	      blackRoots = new JCheckBox("Black roots", false);
+	      blackRoots = new JCheckBox("Black roots", true);
+	      rootVerbatim = new JCheckBox("Verbatim", true);
+	      rootSaveImages = new JCheckBox("Save Images", true);
 
 	      JPanel subpanel2 = new JPanel();
 	      subpanel2.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -281,10 +286,19 @@ public class Interface extends JFrame implements ItemListener, ActionListener, C
 	      subpanel2.add(new JLabel("Min root size || "), gbc2);
 	      gbc2.gridx = 1;
 	      subpanel2.add(rootMinSize, gbc2);
+	      
+	      gbc2.gridx = 2;
+	      subpanel2.add(new JLabel("Image size factor || "), gbc2);
+	      gbc2.gridx = 3;
+	      subpanel2.add(sizeScale, gbc2);	      
 
-	      gbc2.gridy = 2;
+	      gbc2.gridy = 3;
 	      gbc2.gridx = 0;
 	      subpanel2.add(blackRoots, gbc2);
+	      gbc2.gridx = 1;
+	      subpanel2.add(rootVerbatim, gbc2);
+	      gbc2.gridx = 2;
+	      subpanel2.add(rootSaveImages, gbc2);
 
 	      JLabel title2 = new JLabel("Analysis parameters");
 	      Font f2 = title2.getFont();
@@ -300,14 +314,15 @@ public class Interface extends JFrame implements ItemListener, ActionListener, C
 	      rootGlobal = new JCheckBox("Global Analysis", true);
 
 	      manualCorrection = new JCheckBox("Manual correction", false);
-	      rootLowContrast = new JCheckBox("Low contrast", false);
+	      rootLowContrast = new JCheckBox("Low contrast", true);
 	      rootWide = new JCheckBox("Wide rhizotron", false);
 
 	      rootLocal = new JCheckBox("Local Analysis", true);
 	      timeSerie = new JCheckBox("Time-series", false);
+	      horizon = new JCheckBox("Split image", false);
 
 	      rootDirectional = new JCheckBox("Directional Analysis || ", false);
-	      String[] nameType = {"Fourrier", "Local"};
+	      String[] nameType = {"Fourrier","Local", };
 	      directionalityMethod = new JComboBox(nameType);
 	      directionalityMethod.setSelectedIndex(0);
 	      directionalityMethod.addItemListener(this);
@@ -318,6 +333,13 @@ public class Interface extends JFrame implements ItemListener, ActionListener, C
 	      rootEFD = new JCheckBox("EFD Analysis || ", false);
 	      rootEFD.addItemListener(this);
 	      nEFD = new JTextField("5", 4);
+	      
+	      rootShape = new JCheckBox("Shape Analysis || ", false);
+	      rootShape.addItemListener(this);
+	      saveTPS = new JCheckBox("save TPS ", true);
+	      nShapeBin = new JTextField("10", 4);
+	      
+	      
 
 	      JPanel subpanel3 = new JPanel();
 	      subpanel3.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -339,6 +361,8 @@ public class Interface extends JFrame implements ItemListener, ActionListener, C
 	      subpanel3.add(rootLocal, gbc3);
 	      gbc3.gridx = 1;
 	      subpanel3.add(timeSerie, gbc3);
+	      gbc3.gridx = 2;
+	      subpanel3.add(horizon, gbc3);
 	      
 	      gbc3.gridy = 4;
 	      gbc3.gridx = 0;
@@ -348,6 +372,16 @@ public class Interface extends JFrame implements ItemListener, ActionListener, C
 	      gbc3.gridx = 2;
 	      subpanel3.add(nEFD, gbc3);
 
+	      gbc3.gridy = 5;
+	      gbc3.gridx = 0;
+	      subpanel3.add(rootShape, gbc3);
+	      gbc3.gridx = 1;
+	      subpanel3.add(new JLabel(" Bins : "), gbc3);
+	      gbc3.gridx = 2;
+	      subpanel3.add(nShapeBin, gbc3);
+	      gbc3.gridx = 3;
+	      subpanel3.add(saveTPS, gbc3);
+	      
 	      gbc3.gridy = 7;
 	      gbc3.gridx = 0;
 	      subpanel3.add(rootDirectional, gbc3);
@@ -1040,6 +1074,10 @@ public class Interface extends JFrame implements ItemListener, ActionListener, C
 	    	  if(rootEFD.isSelected() && !rootGlobal.isSelected()) rootGlobal.setSelected(true);
 	    	  rootGlobal.setEnabled(!rootEFD.isSelected());
 	      }
+	      if (item == rootShape){
+	    	  if(rootShape.isSelected() && !rootGlobal.isSelected()) rootGlobal.setSelected(true);
+	    	  rootGlobal.setEnabled(!rootShape.isSelected());
+	      }
 	}
 
 
@@ -1222,14 +1260,21 @@ public class Interface extends JFrame implements ItemListener, ActionListener, C
 							rootGlobal.isSelected(),
 							rootEFD.isSelected(),
 							rootDirectional.isSelected(),
+							rootShape.isSelected(),
+							saveTPS.isSelected(),
 							Integer.valueOf(nEFD.getText()),
 							Integer.valueOf(nBinDir.getText()),
 							manualCorrection.isSelected(),
 							Integer.valueOf(nWBin.getText()),
 							Integer.valueOf(nHBin.getText()),
+							Integer.valueOf(nShapeBin.getText()),
 							timeSerie.isSelected(),
+							horizon.isSelected(),
 							rootLowContrast.isSelected(),
-							rootWide.isSelected()
+							rootWide.isSelected(),
+							rootVerbatim.isSelected(),
+							rootSaveImages.isSelected(),
+							Float.valueOf(sizeScale.getText())
 							);
 				}
 			});

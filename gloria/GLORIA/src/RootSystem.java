@@ -972,7 +972,9 @@ public class RootSystem  implements TreeModel{
 	public void exportReportersToCSV(PrintWriter pw){
 		
 		for(int i = 0; i < repList.size(); i++){
+
 			Reporter rep = repList.get(i);
+
 			String stmt = "";
 			stmt = stmt.concat(imName+",");
 			stmt = stmt.concat(rep.getTime()+",");
@@ -982,7 +984,7 @@ public class RootSystem  implements TreeModel{
 			stmt = stmt.concat(rep.getEnvironment()+",");
 			stmt = stmt.concat(rep.getFeret()+",");
 			stmt = stmt.concat(rep.getXPos()+",");
-			stmt = stmt.concat(rep.getYPos()+"");
+			stmt = stmt.concat(rep.getYPos()+"");			
 			pw.println(stmt);
 		}
 	}	

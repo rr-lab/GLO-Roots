@@ -28,7 +28,6 @@ import ij.plugin.filter.EDM;
 import ij.process.AutoThresholder.Method;
 import ij.process.BinaryProcessor;
 import ij.process.ByteProcessor;
-import ij.process.ImageStatistics;
 import ij.plugin.filter.ParticleAnalyzer;
 import ij.plugin.frame.RoiManager;
 import ij.process.ImageProcessor;
@@ -41,22 +40,22 @@ public class RootAnalysis {
 	// Export parameters
 	static File dirAll, dirOriginal, dirMask, dirLocal, dirDir;//, dirConvex;	
 	static File[] images; 		
-	static String  csvGlobalFolder, csvLocalFolder, csvDirFolder, csvEFDFolder, imName, baseName;
+	static String  csvGlobalFolder, csvLocalFolder, csvROIFolder, csvDirFolder, csvShapeFolder, csvEFDFolder, tpsFolder, imName, baseName;
 	
 	// Image paramaters
 	static String experiment, stock, treatment, pot, plantID; 
 	
 	// Analysis parameters
 	static long DAS;
-	static int nROI, nTimeSerie, dirMethod, nDirBin, hBin, wBin, nEFD;
+	static int nROI, nTimeSerie, dirMethod, nDirBin, hBin, wBin, nEFD, nCoord;
 	static double scalePix, scaleCm, scale, rootMinSize;
-	static boolean blackRoots, globalAnalysis, localAnalysis, efdAnalysis, isTimeSerie, 
-		manualCorrection, lowContrast, directionalAnalysis, wideRhizotron;
+	static boolean blackRoots, globalAnalysis, localAnalysis, efdAnalysis, isTimeSerie, shapeAnalysis, horizon, 
+		manualCorrection, lowContrast, directionalAnalysis, wideRhizotron, saveTPS, verbatim=false, empty=false, saveImage=false;
 	
-	static float angle, length, diameter, feret, tortuosity, area, convexHull, rx, ry,
+	static float angle, length, diameter, feret, tortuosity, area, totlength, convexHull, rx, ry, sizeScale,
 		depth, width, ax, ay, bx, by, efd, circ, ar, round, solidity, globalFeret, globalAngle, comY, comX;
 			
-	static PrintWriter pwGlobal, pwLocal, pwEFD, pwDir;	
+	static PrintWriter pwGlobal, pwLocal, pwROI, pwEFD, pwDir, pwShape, pwTPS;	
 	
 	/**
 	 * Constructor
@@ -78,14 +77,21 @@ public class RootAnalysis {
 			boolean global,
 			boolean efd,
 			boolean dir,
+			boolean shape,
+			boolean tps,
 			int nefd,
 			int ndb,
 			boolean mc,
 			int wbin,
 			int hbin,
+			int sbin, 
 			boolean ts,
+			boolean ho,
 			boolean lc,
-			boolean rw){
+			boolean rw,
+			boolean verb,
+			boolean saveImg,
+			float sizeSc){
 		
 		// Set up the different variables
 		scalePix = scaleP;
@@ -97,6 +103,8 @@ public class RootAnalysis {
 		globalAnalysis = global;
 		localAnalysis = local;
 		efdAnalysis = efd;
+		shapeAnalysis = shape;
+		saveTPS = tps;
 		directionalAnalysis = dir;
 		nEFD = nefd;
 		manualCorrection = mc;
@@ -107,12 +115,22 @@ public class RootAnalysis {
 		isTimeSerie = ts;
 		lowContrast = lc;
 		wideRhizotron = rw;
+		verbatim = verb;
+		saveImage = saveImg;
+		horizon = ho;
+		
+		sizeScale = sizeSc;
+		rootMinSize = rootMinSize * 2;
+		nCoord = sbin;
 		
 		// Files to save the different data		
 		csvGlobalFolder = file.substring(0, file.length()-4)+"-global.csv";
 		csvLocalFolder = file.substring(0, file.length()-4)+"-local.csv";
+		csvROIFolder = file.substring(0, file.length()-4)+"-roi.csv";
 		csvEFDFolder = file.substring(0, file.length()-4)+"-efd.csv";
 		csvDirFolder = file.substring(0, file.length()-4)+"-dir.csv";
+		csvShapeFolder = file.substring(0, file.length()-4)+"-shape.csv";
+		tpsFolder = file.substring(0, file.length()-4)+"-shape.tps";
 				
 		scale = scaleCm / scalePix;
 		
@@ -126,7 +144,7 @@ public class RootAnalysis {
 	 */
 	public void analyze(){
 		
-		ImagePlus nextImage = null, previousImage = null;
+		ImagePlus nextImage = null, previousImage = null, nextSubImage = null, previousSubImage = null;
 		
         // Get all the images files in the directory
 		images = dirAll.listFiles();
@@ -140,7 +158,7 @@ public class RootAnalysis {
 		});
 
 
-		IJ.log("Root image analysis started: "+dirAll.getAbsolutePath().toString());
+		if(verbatim) IJ.log("Root image analysis started: "+dirAll.getAbsolutePath().toString());
 		long startD = System.currentTimeMillis(); // Counter for the processing time
 		int counter = 0;
 				
@@ -153,6 +171,10 @@ public class RootAnalysis {
 			pwLocal = Util.initializeCSV(csvLocalFolder);
 			printLocalCSVHeader();
 		}
+		if(globalAnalysis){
+			pwROI = Util.initializeCSV(csvROIFolder);
+			printROICSVHeader();
+		}
 		if(directionalAnalysis){
 			pwDir = Util.initializeCSV(csvDirFolder);
 			printDirectionalCSVHeader();
@@ -160,7 +182,17 @@ public class RootAnalysis {
 		if(efdAnalysis){
 			pwEFD = Util.initializeCSV(csvEFDFolder);
 			printEFDCSVHeader();
-		}		
+		}
+		
+		if(shapeAnalysis){
+			pwShape = Util.initializeCSV(csvShapeFolder);
+			printShapeCSVHeader();
+			if(saveTPS){
+				pwTPS = Util.initializeCSV(tpsFolder);
+			}
+		}
+		
+		
 		
 			
 		// Navigate the different images in the time serie
@@ -168,13 +200,12 @@ public class RootAnalysis {
 			
 			// Open the image
 			nextImage = IJ.openImage(images[i].getAbsolutePath());
-			IJ.log("------------------------");
-			IJ.log("Analysis of image "+images[i]+ " started.");
+			if(verbatim) IJ.log("------------------------");
 			
 			// If it is a time serie, load the previous image
 			if(isTimeSerie){
 				try{ if(i > 0){ previousImage = IJ.openImage(images[i-1].getAbsolutePath()); }}
-				catch(Exception e){ IJ.log("Error in local analysis: "+e); }
+				catch(Exception e){ if(verbatim) IJ.log("Error in local analysis: "+e); }
 			} 
 			else{
 				previousImage = null;
@@ -190,33 +221,65 @@ public class RootAnalysis {
 
 			// Process the name to retrieve the experiment information
 			baseName = images[i].getName();
-			
+
+			IJ.log("Analysis of image "+(i+1)+" on "+images.length+" started: "+this.baseName);
+
 			// Create the folder structure to store the images
-			File dirSave; 
-			dirSave = Util.createFolderStructure(dirAll.getAbsolutePath(), globalAnalysis, localAnalysis, directionalAnalysis);
-			dirMask = new File(dirSave.getAbsolutePath()+"/global/");
-			dirLocal = new File(dirSave.getAbsolutePath()+"/local/");
-			dirDir = new File(dirSave.getAbsolutePath()+"/dir/");
+			if(saveImage){
+				File dirSave; 
+				dirSave = Util.createFolderStructure(dirAll.getAbsolutePath(), globalAnalysis, localAnalysis, directionalAnalysis);
+				dirMask = new File(dirSave.getAbsolutePath()+"/01-global/");
+				dirLocal = new File(dirSave.getAbsolutePath()+"/02-local/");
+				dirDir = new File(dirSave.getAbsolutePath()+"/03-dir/");
+			}
 
 			
-			// Measure the image
+			// Flag to avoid analysis empty images
+			empty = false;
 			
-			if(localAnalysis){
-				IJ.log("------------------------");
-				IJ.log("Starting local analysis");
-				measureLocalImage(nextImage, previousImage);
-			}
-			
-			if(globalAnalysis){
-				IJ.log("------------------------");
-				IJ.log("Starting global analysis");
+			if(verbatim) IJ.log("------------------------");
+			if(verbatim) IJ.log("Starting analysis of " + this.baseName);
+
+			if(globalAnalysis && !empty){
+				if(verbatim) IJ.log("------------------------");
+				if(verbatim) IJ.log("Starting global analysis");
 				measureGlobalImage(nextImage);
 			}
-			if(directionalAnalysis){
-				IJ.log("------------------------");
-				IJ.log("Starting directional analysis");
+			if(directionalAnalysis && !empty){
+				if(verbatim) IJ.log("------------------------");
+				if(verbatim) IJ.log("Starting directional analysis");
 				measureDirectionality(nextImage);
 			}
+		
+			
+			// Reset the ROI to the total image
+			nextImage.setRoi(0, 0, nextImage.getWidth(), nextImage.getHeight());
+			if(previousImage != null) previousImage.setRoi(0, 0, previousImage.getWidth(), previousImage.getHeight());
+
+		
+			// Measure the image
+			if(localAnalysis && !empty){
+				if(verbatim) IJ.log("------------------------");
+				if(verbatim) IJ.log("Starting local analysis");
+				measureLocalImage(nextImage, previousImage, "total");
+				
+				if(horizon){
+					int w = nextImage.getWidth();
+					int h = nextImage.getHeight();
+					int inc = h / 10;
+					
+					for(int k = 0; k < 10; k++){
+						nextImage.setRoi(0, k * inc, w, inc);
+						nextSubImage = nextImage.duplicate();
+						if(previousImage != null){
+							previousImage.setRoi(0, k * inc, w, inc);
+							previousSubImage = previousImage.duplicate();	
+						}
+						measureLocalImage(nextSubImage, previousSubImage, "layer_"+k);
+					}
+				}
+			}
+			
 		
 			// Close the current image
 			nextImage.flush(); nextImage.close(); 
@@ -245,7 +308,7 @@ public class RootAnalysis {
 		ImagePlus nextImage;
 		
 		// Set the scale		
-		int scalingFactor = 2;
+		int scalingFactor = 1;
 		cal.setUnit("cm");
 		cal.pixelHeight =( scalingFactor * scaleCm) / scalePix;
 		cal.pixelWidth = ( scalingFactor * scaleCm) / scalePix;
@@ -256,22 +319,17 @@ public class RootAnalysis {
 		calDefault.pixelWidth = 1;
 		
 		// Initalisation of the image
-		IJ.log("Loading images");
+		if(verbatim) IJ.log("Loading images");
     	ImagePlus currentImage = current.duplicate();
-
+    	ImagePlus skelImage = new ImagePlus();
+    	
     	// Keep a copy of the current image for the next run
     	nextImage = currentImage.duplicate();
 
-    	
     	// Pre-process the image
-    	IJ.log("Pre-processing the image");
+    	if(verbatim) IJ.log("Pre-processing the image");
     	ImageProcessor globalProcessor = currentImage.getProcessor();
-    	
-		// Crop the borders of the images, often black and making trouble for the threshold detection.
-		if(!wideRhizotron) globalProcessor.setRoi(new Roi(170, 45, globalProcessor.getWidth()-(220+170), globalProcessor.getHeight()-(66+45)));
-		else globalProcessor.setRoi(new Roi(40, 45, globalProcessor.getWidth()-(68+40), globalProcessor.getHeight()-(66+45)));
-		globalProcessor = globalProcessor.crop();
-    	
+
     	// Resize the image to speed up the analysis
     	globalProcessor = globalProcessor.resize(globalProcessor.getWidth()/scalingFactor, globalProcessor.getHeight()/scalingFactor);
 		
@@ -285,99 +343,37 @@ public class RootAnalysis {
 		
 
     	// If the root is white on black, then invert the image
-    	if(!blackRoots) globalProcessor.invert(); 
+    	if(blackRoots) globalProcessor.invert(); 
         currentImage.setProcessor(globalProcessor);
-
-//        
-//        // Get the image start to detect the presence of low contrast images or a very large root system
-//        IJ.log("Getting Image statistics");
-//        ImageStatistics istats;
-//        istats = currentImage.getStatistics();        
-//        float diff = (((float)istats.pixelCount - (float)istats.maxCount) / (float)istats.pixelCount);
-//        if(diff > 0.1){
-//        	largeRoot = true;
-//        	IJ.log("Large root detected");
-//        }
-        
         
 		// Threshold the image
-        IJ.log("Thresholding the image");
-        
-//        // Equalize and normalize the histogram of the image
-//		ContrastEnhancer ce = new ContrastEnhancer();
-//		ce.setNormalize(true);
-//		ce.equalize(globalProcessor);
-//		ce.stretchHistogram(globalProcessor, 0.4);		
-//        
-//        // Threshold the image based on its mean value
-//		ImageStatistics istats = globalProcessor.getStatistics();        
-//        globalProcessor.threshold((int) istats.mean / 2);
-//		globalProcessor.invert();
-//        
-//		
-//		// Clean the image
-//		BinaryProcessor bp1 = new BinaryProcessor(new ByteProcessor(globalProcessor, true));
-//		bp1.invert();		
-//		if(!lowContrast) bp1 = Util.cleanImage(bp1);
-//		bp1.threshold(120);
-//		bp1.invert();
-		
-//        globalProcessor = 				
-//		currentImage.setProcessor(globalProcessor);
-		      		
-//        // Clean the image by removing the small particules. Might be redundant with the previous operation...
-//        IJ.log("Cleaning the image");
-//		pa = new ParticleAnalyzer(ParticleAnalyzer.SHOW_MASKS, Measurements.AREA, rt, rootMinSize/scalingFactor, 10e9, 0, 1);
-//		pa.analyze(currentImage);
-//		
-//		// Get the mask from the ParticuleAnalyser
-//		ImagePlus globalMask = IJ.getImage(); 
-//		globalMask.hide(); // Hide the mask, we do not want to display it.
-//		ImageProcessor globalMaskProcessor = globalMask.getProcessor();
+        if(verbatim) IJ.log("Thresholding the image");
 
-		ImageProcessor globalMaskProcessor = Util.thresholdImage(globalProcessor.duplicate(), lowContrast, true, rootMinSize/scalingFactor);
-		globalMaskProcessor.invert();
+		ImageProcessor globalMaskProcessor = globalProcessor.duplicate();
+//		globalMaskProcessor = Util.thresholdImage(globalMaskProcessor, lowContrast, blackRoots, rootMinSize);
+//		globalMaskProcessor.invert();
 		ImagePlus globalMask = new ImagePlus();
 		globalMask.setProcessor(globalMaskProcessor);
 		
-		currentImage = globalMask.duplicate();
-
-//		globalMask.show(); if(1==1) return null;
-		
-		// TOTAL SURFACE
-		// Get the surface
-		IJ.save(globalMask.duplicate(), dirMask.getAbsolutePath()+"/"+baseName+"_area.tif"); // Save the image used for the area computation
-		
-//		IJ.log("Getting the total surface of root system");
-//		rt.reset();
-//		Analyzer.setResultsTable(rt);
-//		globalMask.setCalibration(cal);
-//		pa = new ParticleAnalyzer(ParticleAnalyzer.CLEAR_WORKSHEET, Measurements.AREA, rt, rootMinSize/scalingFactor, 10e9, 0, 1);
-//		pa.analyze(globalMask);
-//
-//		// Get the total surface of all the particles (the different parts of the root system)
-//		area = 0;
-//		for(int i = 0; i < rt.getCounter(); i++){
-//			area += (float) rt.getValue("Area", i);			
-//		}
+		currentImage = globalMask.duplicate();	
 		
 		// CONVEX HULL
-		// Compute the distance map. This step is made to re-costruct the root system based on its different
+		// Compute the distance map. This step is made to re-construct the root system based on its different
 		// particles.
-		IJ.log("Computing EDM mask");
+		if(verbatim) IJ.log("Computing EDM mask");
 		globalMaskProcessor.invert();
 		edm.run(globalMaskProcessor);		
 		
         // Find the best Threshold and apply it
-		IJ.log("Computing best threshold");
+		if(verbatim) IJ.log("Computing best threshold");
 		int tr = getBestThreshold(globalMaskProcessor.duplicate(), lowContrast || largeRoot);
 		globalMaskProcessor.threshold(tr);
 		
 		// Erode the mask to reduce the effect of the extra size of the EDM threshold 
-		IJ.log("Finding convex hull mask");
+		if(verbatim) IJ.log("Finding convex hull mask");
 		globalMaskProcessor.invert();
 		BinaryProcessor bp = new BinaryProcessor(new ByteProcessor(globalMaskProcessor, true));		
-		for(int i=0; i < tr/2; i++) bp.erode();	
+		for(int i=0; i < ((2*tr)/3); i++) bp.erode();	
 		globalMaskProcessor = bp.duplicate();
 		globalMaskProcessor.setAutoThreshold(Method.Mean, false);
 		globalMask.setProcessor(globalMaskProcessor);	
@@ -391,24 +387,31 @@ public class RootAnalysis {
 		pa.analyze(globalMask);
 		
 		// Find the largest object in the image (the root system) in case their are still multiple objects.
-		IJ.log("Find max object");
+		if(verbatim) IJ.log("Find max object");
 		int index = 0;
 		double max = 0;
 		for(int i = 0; i < rt.getCounter(); i++){
 			if(rt.getValue("Area", i) > max){
 				max = rt.getValue("Area", i);
 				index = i;
-			};			
+			}			
 		}
 		
 		
 		// Get the convex hull from the ROI manager (the largest object)
 		RoiManager manager = RoiManager.getInstance();
+		
+		if(manager == null){
+			if(verbatim) IJ.log(">>>>> NO ROOT DETECTED. GETTING OUT <<<<<");
+			empty = true;
+			return null;// Safe check
+		}
+				
 		Roi[] roiA = manager.getRoisAsArray();
 		Roi convexROI = roiA[index];
 		
 		if(manualCorrection){
-			IJ.log("Correcting the ROI");
+			if(verbatim) IJ.log("Correcting the ROI");
 			ImagePlus ip = currentImage.duplicate();
 			ip.setCalibration(calDefault);
 			ip.show(); // Show the image
@@ -420,7 +423,17 @@ public class RootAnalysis {
 			ip.hide(); ip.close(); ip.flush();
 		}
 		
-		IJ.log("Getting the total surface of root system");
+		
+		// Save the ROI coordinates
+      PolygonRoi polygon = new PolygonRoi(convexROI.getConvexHull(), Roi.POLYGON); 
+      Rectangle bounds = convexROI.getBounds(); 
+      int n1 = polygon.getNCoordinates(); 
+      int[] x1 = polygon.getXCoordinates(); 
+      int[] y1 = polygon.getYCoordinates(); 
+      for (int i = 0; i < n1; i++) sendROIDataToCSV("convex", (bounds.x + x1[i]) * (scaleCm/scalePix), 
+    		  													(bounds.y + y1[i]) * (scaleCm/scalePix)); 
+
+		if(verbatim) IJ.log("Getting the total surface of root system");
 		rt.reset();
 		Analyzer.setResultsTable(rt);
 		currentImage.getProcessor().fillOutside(convexROI);		
@@ -428,26 +441,47 @@ public class RootAnalysis {
 		pa = new ParticleAnalyzer(ParticleAnalyzer.CLEAR_WORKSHEET, Measurements.AREA, rt, rootMinSize/scalingFactor, 10e9, 0, 1);
 		pa.analyze(currentImage);
 
+		ImagePlus coordImage = currentImage.duplicate();
+		
 		// Get the total surface of all the particles (the different parts of the root system)
 		area = 0;
 		for(int i = 0; i < rt.getCounter(); i++){
 			area += (float) rt.getValue("Area", i);			
 		}
+
+		if(verbatim) IJ.log("Getting the total length of root system");
+		BinaryProcessor bp1 = new BinaryProcessor(new ByteProcessor(currentImage.getProcessor(), true));
+		for(int i=0; i < 3; i++) bp1.smooth();
+		bp1.skeletonize();	
+//		bp1.invert();
+		bp1.threshold(120);
+		skelImage.setProcessor(bp1);
+		skelImage.setCalibration(cal);
+		rt.reset();
+		pa = new ParticleAnalyzer(ParticleAnalyzer.CLEAR_WORKSHEET, Measurements.AREA, rt, rootMinSize/scalingFactor, 10e9, 0, 1);
+		pa.analyze(skelImage);
+
+		// Get the total surface of all the particles (the different parts of the root system)
+		totlength = 0;
+		for(int i = 0; i < rt.getCounter(); i++){
+			totlength += (float) rt.getValue("Area", i);			
+		}
 		
 		
 		// Create a mask with the convexhull
-		IJ.log("Creating convexhull mask");
+		if(verbatim) IJ.log("Creating convexhull mask");
 		globalMaskProcessor = new PolygonRoi(convexROI.getConvexHull(), Roi.POLYGON).getMask(); 			
 		ImagePlus globalConvexHull = new ImagePlus();
 		globalConvexHull.setProcessor(globalMaskProcessor);
 		globalConvexHull.setCalibration(cal);
-		globalMaskProcessor.autoThreshold();	
+		globalMaskProcessor.autoThreshold();
+		globalMaskProcessor.invert();
 		
 		// Compute the Fourrier Descriptors for the ROI.
 		// The number of descriptors is set by the users (nEFD)
 		// This part uses the EllipticFD plugin from Thomas Boudier and Ben Tupper (EFD)
 		if(efdAnalysis){
-			IJ.log("EFD analysis");
+			if(verbatim) IJ.log("EFD analysis");
 			PolygonRoi roi = new PolygonRoi(convexROI.getConvexHull(), Roi.POLYGON);
 			Rectangle rect = roi.getBounds();
 			int n = roi.getNCoordinates();
@@ -480,14 +514,14 @@ public class RootAnalysis {
 		    ImagePlus edfOverlay = currentImage.duplicate();
 		    edfOverlay.setOverlay(overlay); 
 		    edfOverlay = edfOverlay.flatten(); 
-			IJ.save(edfOverlay, dirMask.getAbsolutePath()+"/"+baseName+"_edf_overlay.tif");		    
+			if(saveImage) IJ.save(edfOverlay, dirMask.getAbsolutePath()+"/"+baseName+"_edf_overlay.tif");		    
 		} 
 		
 		// Remove the element from the ROI manager
 		manager.removeAll(); 
 		  		
 		// Save the image with the convex hull ROI overlaid
-		IJ.log("Create ROI overlay");
+		if(verbatim) IJ.log("Create ROI overlay");
 		Roi roiToOverlay = new PolygonRoi(convexROI.getConvexHull(), Roi.POLYGON); 
 	    roiToOverlay.setStrokeColor(Color.blue);
 	    roiToOverlay.setStrokeWidth(5);
@@ -496,7 +530,7 @@ public class RootAnalysis {
 	    currentImage = currentImage.flatten(); 
 
 	    // Get shape measurements from the convex hull
-		IJ.log("Get measurments");
+		if(verbatim) IJ.log("Get measurments");
 		globalConvexHull.setCalibration(cal);	
 		globalConvexHull.getProcessor().invert();
 		Analyzer.setResultsTable(rt);
@@ -517,13 +551,31 @@ public class RootAnalysis {
 		comY = (float) rt.getValue("XM", 0);
 		comY = (float) rt.getValue("YM", 0);
 		
+		// Get the shape of the root system
+		if(shapeAnalysis){
+			coordImage.setCalibration(calDefault);		
+			getCoordinates(coordImage, (float) rt.getValue("BY", 0));
+		}
+		
+		float invScale = (float) (scalePix / (scaleCm * scalingFactor));
+				
+		Roi shapeROI = new Roi((float) rt.getValue("BX", 0) * invScale , (float) rt.getValue("BY", 0) * invScale, 
+				width * invScale, depth * invScale);
+     	shapeROI.setStrokeColor(Color.blue);
+	    shapeROI.setStrokeWidth(5);
+	    overlay = new Overlay(shapeROI); 
+	    globalMask.setOverlay(overlay); 
+	    globalMask = globalMask.flatten(); 
+		
 		
 		// Save the images for post-processing check
-		IJ.log("Save images");
-		IJ.save(globalMask, dirMask.getAbsolutePath()+"/"+baseName+"_mask.tif");
-		IJ.save(currentImage, dirMask.getAbsolutePath()+"/"+baseName+"_convexhull_overlay.tif");
-		IJ.save(globalConvexHull, dirMask.getAbsolutePath()+"/"+baseName+"_convexhull.tif");
-		
+		if(saveImage){
+		    if(verbatim) IJ.log("Save images");
+			IJ.save(globalMask, dirMask.getAbsolutePath()+"/"+baseName+"_mask.tif");
+			IJ.save(skelImage, dirMask.getAbsolutePath()+"/"+baseName+"_skell.tif");
+			IJ.save(currentImage, dirMask.getAbsolutePath()+"/"+baseName+"_convexhull_overlay.tif");
+			IJ.save(globalConvexHull, dirMask.getAbsolutePath()+"/"+baseName+"_convexhull.tif");
+		}
 		// Send the data to the CSV file
 		sendGlobalDataToCSV();
 
@@ -535,6 +587,101 @@ public class RootAnalysis {
 		return nextImage;
 	}
 	
+	
+	/**
+	 * Get a basic shape of the root system. The shape is the width of the root system at fixed depth interval. 
+	 * @param im
+	 */
+	private void getCoordinates(ImagePlus im, float Ymid){
+		
+		boolean verbatim = true;
+		
+		if(verbatim) IJ.log("Get Coordinates");
+		// Get bounding box
+		im.getProcessor().autoThreshold();
+        IJ.run(im, "Create Selection", "");
+        
+        
+        Roi select;
+        select = im.getRoi();
+        if(select == null){
+        	empty = true;
+        	return;
+        }       
+        ImageProcessor Shape = im.getProcessor();
+        Shape.setRoi(select.getBounds());
+        Shape = Shape.crop();
+        im.setProcessor(Shape);
+        float w = im.getWidth();
+        float h = im.getHeight();
+        int m = 2 * nCoord;
+
+        float[] xCoord = new float[nCoord * 2];
+        float[] yCoord = new float[nCoord * 2];
+        float[] diffCoord = new float[nCoord];
+        float[] cumulCoord = new float[nCoord];
+        
+        //Calculate coordinates
+        // Make rectangle (for each rectangle) 
+        // Get bounding box of rectangle
+		// Get coordinates of bounding box
+		// Save coordinates
+        
+        for(int i = 0; i < nCoord; i++){
+        	ImagePlus currentSelection = im.duplicate();
+        	float factor = (float) i / (nCoord - 1);
+        
+        	float y = Ymid;
+        	if(i == 0) y = Ymid;
+        	else if(i == (nCoord - 1)) y = (float) (0.99 * h);
+        	else y = (float) (factor * h);
+        	
+        	currentSelection.setRoi(new Roi(0, y, w, h/(nCoord*2)));
+        	        	
+        	ImageProcessor small = currentSelection.getProcessor();
+        	small = small.crop();
+        	small.setAutoThreshold("Li");
+        	currentSelection.setProcessor(small);	
+        
+	        IJ.run(currentSelection, "Create Selection", "");  
+	        ResultsTable rt = new ResultsTable();
+	        Analyzer.setResultsTable(rt);
+	        rt.reset();
+	        Analyzer an = new Analyzer(currentSelection, Measurements.RECT, rt);
+	        an.measure();
+	         	        
+	     	xCoord[i] = (float) rt.getValue("BX", 0);
+	     	yCoord[i] = (float) y;
+	     	     	
+	        int o = m - i - 1;
+	        xCoord[o] = (float) (rt.getValue("BX", 0) + rt.getValue("Width", 0));
+	     	yCoord[o] = (float) y;  
+	     	
+	     	sendROIDataToCSV("shape", (select.getBounds().x + xCoord[i]) * (scaleCm/scalePix), (select.getBounds().x + yCoord[i]) * (scaleCm/scalePix));
+	     	sendROIDataToCSV("shape", (select.getBounds().x + xCoord[o]) * (scaleCm/scalePix), (select.getBounds().x + yCoord[o]) * (scaleCm/scalePix));
+	     	
+	     	// Get the width and the cumutl width (inspired from Bucksch et al 2014, Plant Physiology)
+	     	diffCoord[i] = Math.abs(xCoord[i] - xCoord[o]) / w;
+	     	if(i == 0) cumulCoord[i] = diffCoord[i];
+	     	else cumulCoord[i] = cumulCoord[i-1] + diffCoord[i];
+        	
+        }
+        // Make shape
+     	PolygonRoi shapeROI = new PolygonRoi(xCoord,yCoord, Roi.FREEROI);
+     	shapeROI.setStrokeColor(Color.blue);
+	    shapeROI.setStrokeWidth(5);
+	    Overlay overlay = new Overlay(shapeROI); 
+	    im.setOverlay(overlay); 
+	    im = im.flatten(); 
+  
+	    // Save the images for post-processing check
+	    if(saveImage) IJ.save(im, dirMask.getAbsolutePath()+"/"+baseName+"_shape.jpeg");   
+	    
+	    sendShapeDataToCSV(xCoord, yCoord, diffCoord, cumulCoord);
+        if(saveTPS) sendShapeDataToTPS(xCoord, yCoord);
+        im.close();
+	}
+
 
 	/**
 	 * Process the global image to extract all the usefull information 
@@ -545,18 +692,18 @@ public class RootAnalysis {
 		int scalingFactor = 3;
 		
 		// Initalisation of the image
-		IJ.log("Loading the image");
+		if(verbatim) IJ.log("Loading the image");
 		ImagePlus currentImage;
     	currentImage = current.duplicate();
     	
     	// Pre-process the image
-    	IJ.log("Pre-processing the image");
+    	if(verbatim) IJ.log("Pre-processing the image");
     	ImageProcessor globalProcessor = currentImage.getProcessor();
     	
 		// Crop the borders of the images, often black and making trouble for the threshold detection.
-		if(!wideRhizotron) globalProcessor.setRoi(new Roi(170, 45, globalProcessor.getWidth()-(220+170), globalProcessor.getHeight()-(66+45)));
-		else globalProcessor.setRoi(new Roi(40, 45, globalProcessor.getWidth()-(68+40), globalProcessor.getHeight()-(66+45)));
-		globalProcessor = globalProcessor.crop();    	
+		//if(!wideRhizotron) globalProcessor.setRoi(new Roi(170, 45, globalProcessor.getWidth()-(220+170), globalProcessor.getHeight()-(66+45)));
+		//else globalProcessor.setRoi(new Roi(40, 45, globalProcessor.getWidth()-(68+40), globalProcessor.getHeight()-(66+45)));
+		//globalProcessor = globalProcessor.crop();    	
     	
     	// Resize the image to speed up the analysis
     	globalProcessor = globalProcessor.resize(globalProcessor.getWidth()/scalingFactor, globalProcessor.getHeight()/scalingFactor);
@@ -569,7 +716,7 @@ public class RootAnalysis {
 
         
 		// Threshold the image
-        IJ.log("Thresholding the image");
+        if(verbatim) IJ.log("Thresholding the image");
         
 //        // Equalize and normalize the histogram of the image
 //		ContrastEnhancer ce = new ContrastEnhancer();
@@ -585,7 +732,20 @@ public class RootAnalysis {
            
 //		globalProcessor.invert();
 		globalProcessor.smooth(); globalProcessor.smooth();
-		currentImage.setProcessor(globalProcessor);		
+		
+		if(verbatim) IJ.log("Cleaning skeleton");
+		BinaryProcessor bp = new BinaryProcessor(new ByteProcessor(globalProcessor, true));
+		if(verbatim) IJ.log("Create skeleton");
+		bp.skeletonize();	
+		if(verbatim) IJ.log("Invert skeleton");
+		bp.invert();
+		if(verbatim) IJ.log("threshold skeleton");
+		bp.threshold(120);
+//		bp.invert();
+		currentImage.setProcessor(bp);		
+		
+		
+		//currentImage.setProcessor(globalProcessor);		
    
         int w = currentImage.getWidth();
         int h = currentImage.getHeight();
@@ -596,7 +756,7 @@ public class RootAnalysis {
         Analyzer an;
         ResultsTable rt = new ResultsTable();
 
-        IJ.log("Measure directionality");
+        if(verbatim) IJ.log("Measure directionality");
         
         for(int i=0; i < wBin; i++){
         	for(int j=0; j < hBin; j++){
@@ -644,7 +804,7 @@ public class RootAnalysis {
 		        		
 						ImagePlus img2 = new ImagePlus("Orientation map", dnlty.getOrientationMap()).flatten();
 						img2.setProcessor(img2.getProcessor().rotateRight());
-						IJ.save(img2, dirDir.getAbsolutePath()+"/"+baseName+"_"+counter+"_orientationmap.tif");
+						if(saveImage) IJ.save(img2, dirDir.getAbsolutePath()+"/"+baseName+"_"+counter+"_orientationmap.tif");
         		}
         		rt.reset();
         	}
@@ -656,119 +816,135 @@ public class RootAnalysis {
 	 * @param current the current image in the time serie
 	 * @param previous the previous image in the time serie
 	 */
-	private void measureLocalImage(ImagePlus current, ImagePlus previous){
+	private void measureLocalImage(ImagePlus current, ImagePlus previous, String type){
 		
 		// Initiate the different ImageJ tools
 		ParticleAnalyzer pa;
 		ResultsTable rt = new ResultsTable();
 		Calibration cal = new Calibration();
     	ImageCalculator ic = new ImageCalculator();	
-		
-		int scale = 2;
+    	ImagePlus tempCurrent = current.duplicate();
+    	ImagePlus tempPrevious = null;
+    	if(previous != null) tempPrevious = previous.duplicate();
+    	
+        if(blackRoots){	
+        	tempCurrent.getProcessor().invert();
+        	if(previous != null){
+        		tempPrevious.getProcessor().invert();
+        	}
+        }
+
+    	
+		float scale = 1/sizeScale;
 		// Set the scale		
 		cal.setUnit("cm");
 		cal.pixelHeight =( scale * scaleCm) / scalePix;
 		cal.pixelWidth = ( scale * scaleCm) / scalePix;
     	
-		IJ.log("Loading images");
+		if(verbatim) IJ.log("Loading images");
     	ImagePlus localImage = null;
     	ImageProcessor localProcessor = null;
-    	if(previous == null){ localImage = current.duplicate(); }
-    	else{
-    		IJ.log("Substract previous image");
-    		localImage = ic.run("Substract create", current.duplicate(), previous.duplicate()); 
+    	if(previous == null){ 
+    		if(verbatim) IJ.log("NO previous images");
+    		localImage = tempCurrent.duplicate(); 
     	}
-
+    	else{
+    		if(verbatim) IJ.log("Substract previous image");
+    		for(int k = 0; k< 1; k++) tempPrevious.getProcessor().dilate();
+    		localImage = ic.run("Substract create", tempCurrent.duplicate(), tempPrevious.duplicate());
+    	}
+    	
     	localProcessor = localImage.getProcessor();
+//    	if(blackRoots) localProcessor.invert();
     	
-		// Crop the borders of the images, often black and making trouble for the threshold detection.
-		if(!wideRhizotron) localProcessor.setRoi(new Roi(170, 45, localProcessor.getWidth()-(220+170), localProcessor.getHeight()-(66+45)));
-		else localProcessor.setRoi(new Roi(40, 45, localProcessor.getWidth()-(68+40), localProcessor.getHeight()-(66+45)));
-		localProcessor = localProcessor.crop();
-    	
-    	localProcessor = localProcessor.resize(localProcessor.getWidth()/scale, localProcessor.getHeight()/scale);
+    	localProcessor = localProcessor.resize((int)(localProcessor.getWidth()/scale), (int) (localProcessor.getHeight()/scale));
     	if(localProcessor.getBitDepth() != 8) localProcessor = localProcessor.convertToByte(true);
 
     	localImage.setProcessor(localProcessor);
     	ImagePlus original = localImage.duplicate();	
-        if(blackRoots) localProcessor.invert();
  
-        // Get the image stats to detect the presence of low contrast images.
-//        IJ.log("Get image statistics");
-//        ImageStatistics istats;
-//        istats = localImage.getStatistics();        
-//        if((istats.max-istats.mode) < 10){lowContrast = true;}
-        
-        IJ.log("Threshold image");
-     
-//        // Equalize and normalize the histogram of the image
-//		ContrastEnhancer ce = new ContrastEnhancer();
-//		ce.setNormalize(true);
-//		ce.equalize(localProcessor);
-//		ce.stretchHistogram(localProcessor, 0.4);		
-//        
-//        // Threshold the image based on its mean value
-//		istats = localProcessor.getStatistics();        
-//		localProcessor.threshold((int) istats.mean / 2);
-//		localProcessor.invert();
-//        
-//		// To find the segments, we use a broken skeleton
-//		BinaryProcessor bp = new BinaryProcessor(new ByteProcessor(localProcessor, true));
-//		bp.invert();		
-//		bp = Util.cleanImage(bp);
-//		
-		
-		localProcessor = Util.thresholdImage(localProcessor, lowContrast, false, (rootMinSize/scale));
-//		localProcessor.invert();
+        if(verbatim) IJ.log("Threshold image");
+//        localProcessor = Util.thresholdImage(localProcessor, lowContrast, blackRoots, rootMinSize);
 
-		IJ.log("Cleaning skeleton");
+		
+		if(verbatim) IJ.log("Cleaning skeleton");
+//		BinaryProcessor bp = new BinaryProcessor(new ByteProcessor(localProcessor, true));
+//		for(int i=0; i < 3; i++) bp.smooth();
+//		
+//		if(verbatim) IJ.log("Create skeleton");
+////		localImage.setProcessor(bp);
+////		localImage.show();
+//		bp.invert();	
+//		bp.skeletonize();	
+////		localImage.setProcessor(bp);
+////		localImage.show();
+////		if(0==0) return;
+//		if(verbatim) IJ.log("Invert skeleton");
+//
+//		bp.invert();
+//		if(verbatim) IJ.log("Remove skeleton");
+//
+//		bp = Util.removeSkeletonConnections2(bp);
+//		if(verbatim) IJ.log("Threshold skeleton");
+//
+//		bp.threshold(120);
+////		bp.invert();
+//		localImage.setProcessor(bp);
+//		localImage.setCalibration(cal);		
+//	
+//		localImage.show();
+//		if(0==0) return;
+		
+		// 2017 version
 		BinaryProcessor bp = new BinaryProcessor(new ByteProcessor(localProcessor, true));
+		for(int i=0; i < 3; i++) bp.smooth();
 		bp.skeletonize();	
 		bp.invert();
 		bp = Util.removeSkeletonConnections2(bp);
 		bp.threshold(120);
 		bp.invert();
 		localImage.setProcessor(bp);
-//		localImage.show(); if(1==1) return ;
 		localImage.setCalibration(cal);		
-	
+		
+		
+		
+//		
 		// Get the surface
-		//localImage.setCalibration(cal);
 		Analyzer.setResultsTable(rt);
 		rt.reset();
 		pa = new ParticleAnalyzer(ParticleAnalyzer.CLEAR_WORKSHEET | ParticleAnalyzer.ADD_TO_MANAGER, 
-//				Measurements.AREA | Measurements.FERET | Measurements.RECT, rt, 0 , 10e9, 0, 1);
-				Measurements.AREA | Measurements.FERET | Measurements.RECT, rt, (rootMinSize/scale)/1 , 10e9, 0, 1);
+				Measurements.AREA | Measurements.FERET | Measurements.RECT, rt, (rootMinSize/scale)/10 , 10e9, 0, 1);
 		pa.analyze(localImage);
 				
-		Overlay overlay = new Overlay();
-//		if(manualCorrection){
-//			IJ.log("Manual correction");
-//			ImagePlus ip = localImage.duplicate();
-//			ip.show();
-//			ContrastEnhancer ce1 = new ContrastEnhancer();
-//			ce1.equalize(ip);
-//			new WaitForUserDialog("Correct ROI", baseName+"\n Please correct the ROI by dragging the nodes.\n\n When done, click OK to validate").show();		
-//			ip.hide(); ip.close(); ip.flush();
-//		}		
-		
+		Overlay overlay = new Overlay();		
 		RoiManager roi = RoiManager.getInstance();
-		Roi[] roiA = roi.getRoisAsArray();
-		roi.removeAll();
+
 		
+		// Check if the image is empty
+		if(roi == null){
+			if(verbatim) IJ.log(">>>>> NO ROOT DETECTED. GETTING OUT <<<<<");
+			empty = true;
+			return;
+		}
+		
+		Roi[] roiA = roi.getRoisAsArray();
+	
+		roi.removeAll();
+		roi.close();
+				
 		// Get the data of all the particles
-		IJ.log("Get particule data");
+		if(verbatim) IJ.log("Get particule data");
 		for(int i = 0; i < roiA.length; i++){
 		    ImageProcessor ip = localImage.getProcessor(); 
 		    ip.setRoi(roiA[i]); 
-			length = (float) roiA[i].getFeretValues()[0];
-			angle = (float) Math.abs(roiA[i].getFeretValues()[1] - 90);
+			length = (float) roiA[i].getFeretValues()[0] * (float) cal.pixelHeight;;
+			angle = (float) Math.abs(roiA[i].getFeretValues()[1]);
+			System.out.println(angle);
 			rx = (float) roiA[i].getBounds().x * (float) cal.pixelHeight;
 			ry = (float) roiA[i].getBounds().y * (float) cal.pixelHeight;
 			
-			//tortuosity = length / feret;
 			// Send the data to the csv file
-			sendLocalDataToCSV(0);			
+			sendLocalDataToCSV(0, type);			
 			
 			Roi roiTemp;
 			if((roiA[i].getFeretValues()[1] - 90) > 0){
@@ -784,12 +960,13 @@ public class RootAnalysis {
 			
 		}
 		
-		IJ.log("Save images");
+		if(verbatim) IJ.log("Save images");
 //	    original.getProcessor().invert();
+		overlay.setStrokeColor(Color.blue);
 	    localImage.setOverlay(overlay); 
 	    localImage = localImage.flatten(); 
 			    
-		IJ.save(localImage, dirLocal.getAbsolutePath()+"/"+baseName+"_diff_bin.tif");
+		if(saveImage) IJ.save(localImage, dirLocal.getAbsolutePath()+"/"+baseName+"_diff_bin_"+type+".tif");
 	}
 
 	
@@ -802,7 +979,7 @@ public class RootAnalysis {
 	 * @return
 	 */
 	private int getBestThreshold(ImageProcessor p, boolean low){
-		int fact = 2;
+		int fact = 1;
 		ImagePlus temp = new ImagePlus();
 		p = p.resize(p.getWidth()/fact, p.getHeight()/fact);
 		ImageProcessor proc;
@@ -818,41 +995,90 @@ public class RootAnalysis {
 		int thrshld = 1;
 
 		while(keepGoing){
+			thrshld += 5; // increment the threshold
 			proc = p.duplicate();
 			proc.threshold(thrshld);
+			proc.invert();
 			temp.setProcessor(proc);
 			// How many objects are in the image
 			rt.reset();
 			Analyzer.setResultsTable(rt);
 			pa = new ParticleAnalyzer(ParticleAnalyzer.CLEAR_WORKSHEET, Measurements.AREA, rt, 0, 10e9, 0, 1);
-			pa.analyze(temp);
+			pa.analyze(temp);			
 			if(rt.getCounter() == 1 || thrshld >= maxThrsld){ // If their is only one object in the image or we passed the max threshold.
 				keepGoing = false;			
 			}
-			thrshld += 2; // increment the threshold
 		}
+		
+		if(verbatim) IJ.log("Convexhull threshold is "+thrshld);
 		
 		// Return the best value
 		return thrshld;
 	}
 		
 	
+	/**
+	 * Print Local CSV header
+	 */
+	private void printROICSVHeader(){	
+		pwROI.println("image, type, x, y");			
+		pwROI.flush();
+	}	
 	
+	/**
+	 * Send local data to an CSV file
+	 */
+	private void sendROIDataToCSV(String type, double x, double y){	
+		pwROI.println(baseName +","+ type +","+ x +","+ y);
+		pwROI.flush();
+	}
 	/**
 	 * Print Local CSV header
 	 */
 	private void printLocalCSVHeader(){	
-		pwLocal.println("image, length, angle, x, y");			
+		pwLocal.println("image, type, length, angle, x, y");			
 		pwLocal.flush();
 	}
 	/**
 	 * Send local data to an CSV file
 	 */
-	private void sendLocalDataToCSV(int id){	
-		pwLocal.println(baseName +","+ length +","+ angle +","+ rx +","+ ry);
+	private void sendLocalDataToCSV(int id, String type){	
+		pwLocal.println(baseName +","+ type +","+ length +","+ angle +","+ rx +","+ ry);
 		pwLocal.flush();
 	}
 	
+	/**
+	 * Save Shape CSV header
+	 */
+	private void printShapeCSVHeader(){	
+		String toPrint = "image, ";
+		for(int i = 0; i < nCoord * 2; i++) toPrint = toPrint.concat("coord_x"+i+",coord_y"+i+",");
+		for(int i = 0; i < nCoord; i++) toPrint = toPrint.concat("diff_x"+i+",cumul_x"+i+",");
+		toPrint = toPrint.concat("index");
+		pwShape.println(toPrint);
+		pwShape.flush();
+	}
+	/**
+	 * send Shape Data To CSV
+	 */
+	private void sendShapeDataToTPS(float[] coordX, float[] coordY){	
+		pwTPS.println("ID="+baseName);
+		pwTPS.println("LM="+(nCoord*2));
+		for(int i = 0; i < coordX.length; i++) pwTPS.println(coordX[i]+" "+coordY[i]);
+		pwTPS.flush();
+	}
+	
+	/**
+	 * Print Shape CSV header
+	 */
+	private void sendShapeDataToCSV(float[] coordX, float[] coordY, float[] diff, float[] cumul){	
+		String toPrint = baseName;
+		for(int i = 0; i < coordX.length; i++) toPrint = toPrint.concat(coordX[i]+","+coordY[i]+",");
+		for(int i = 0; i < diff.length; i++) toPrint = toPrint.concat(diff[i]+","+cumul[i]+",");
+		toPrint = toPrint.concat("1");
+		pwShape.println(toPrint);
+		pwShape.flush();
+	}
 	
 	/**
 	 * Print EFD CSV header
@@ -873,7 +1099,7 @@ public class RootAnalysis {
 	 * Print EFD CSV header
 	 */
 	private void printDirectionalCSVHeader(){	
-		pwDir.println("image, x, y, angle, count");			
+		pwDir.println("image,x,y,angle,count");			
 		pwDir.flush();
 	}
 //	/**
@@ -903,7 +1129,7 @@ public class RootAnalysis {
 	 * Print Global CSV header
 	 */
 	private void printGlobalCSVHeader(){	
-		pwGlobal.println("image, area, convexhull, depth, width, circularity, ar, round, solidity, feret, feret_angle, massX, massY");			
+		pwGlobal.println("image,area,lenght,convexhull,depth,width,circularity,ar,round,solidity,feret,feret_angle,massX,massY");			
 		pwGlobal.flush();
 	}
 	
@@ -911,7 +1137,7 @@ public class RootAnalysis {
 	 * Send global data to an CSV file
 	 */
 	private void sendGlobalDataToCSV(){	
-		pwGlobal.println(baseName +","+ area +","+ convexHull+","+ depth+","+ width+","+ circ+","+ ar+","+ round+","+ solidity+","+ globalFeret+","+ globalAngle+","+ comX +","+ comY);
+		pwGlobal.println(baseName +","+ area +","+ totlength +","+ convexHull+","+ depth+","+ width+","+ circ+","+ ar+","+ round+","+ solidity+","+ globalFeret+","+ globalAngle+","+ comX +","+ comY);
 		pwGlobal.flush();
 	}	
 	
@@ -954,7 +1180,7 @@ public class RootAnalysis {
 			   coord[i][0] = x.get(i);
 			   coord[i][1] = y.get(i);
 		   }
-		   IJ.log(coord.length+"");
+		   if(verbatim) IJ.log(coord.length+"");
 		   return coord;
 		   
 	   }

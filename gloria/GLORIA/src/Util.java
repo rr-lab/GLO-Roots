@@ -43,6 +43,8 @@ public final class Util {
 	public final static int STRUCTURE = 2;
 	public final static int SOIL = 3;
 	
+	public final static boolean verbatim = false;
+	
 	final static AlphaComposite AC1 = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f);
 	final static AlphaComposite AC2 = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f);
 
@@ -284,7 +286,21 @@ public final class Util {
 		PrintWriter pw = null;
 		try{ pw = new PrintWriter(new FileWriter(folder)); }
 		catch(IOException e){
-			IJ.log("Could not save file "+folder);
+			if(verbatim) IJ.log("Could not save file "+folder);
+			return null;
+		}
+		return pw;
+	}
+	
+	/**
+	 * Initialize the TPS connection
+	 */
+	public static PrintWriter initializeTPS(String folder){	
+		// Create the connection
+		PrintWriter pw = null;
+		try{ pw = new PrintWriter(new FileWriter(folder)); }
+		catch(IOException e){
+			if(verbatim) IJ.log("Could not save file "+folder);
 			return null;
 		}
 		return pw;
@@ -301,7 +317,7 @@ public final class Util {
 	 */
 	public static Vector<Float> minimizeSTD(float[] vect, int r){
 		
-		IJ.log("total = "+vect.length+" / remove = "+r);
+		if(verbatim) IJ.log("total = "+vect.length+" / remove = "+r);
 		
 		// Create the array containing the element to keep
 		Vector<Float> bestV = new Vector<Float>();
@@ -390,8 +406,8 @@ public final class Util {
 		File dirOriginal = new File(d0.getAbsolutePath()+"/originals/");
 		File dirMask = new File(d0.getAbsolutePath()+"/masks/");
 		
-		if(!dirOriginal.exists()) try{dirOriginal.mkdir();} catch(Exception e){IJ.log("Could not create folder "+dirOriginal);}
-		if(!dirMask.exists()) try{dirMask.mkdir();} catch(Exception e){IJ.log("Could not create folder "+dirMask);}
+		if(!dirOriginal.exists()) try{dirOriginal.mkdir();} catch(Exception e){if(verbatim) IJ.log("Could not create folder "+dirOriginal);}
+		if(!dirMask.exists()) try{dirMask.mkdir();} catch(Exception e){if(verbatim) IJ.log("Could not create folder "+dirMask);}
 		
 		return d0;
 	}	
@@ -405,16 +421,16 @@ public final class Util {
 		File d0 = new File(folder);
 
 		if(global){
-			File dirMask = new File(d0.getAbsolutePath()+"/global/");
-			if(!dirMask.exists()) try{dirMask.mkdir();} catch(Exception e){IJ.log("Could not create folder "+dirMask);}
+			File dirMask = new File(d0.getAbsolutePath()+"/01-global/");
+			if(!dirMask.exists()) try{dirMask.mkdir();} catch(Exception e){if(verbatim) IJ.log("Could not create folder "+dirMask);}
 		}		
 		if(local){
-			File dirDiff = new File(d0.getAbsolutePath()+"/local/");
-			if(!dirDiff.exists()) try{dirDiff.mkdir();} catch(Exception e){IJ.log("Could not create folder "+dirDiff);}
+			File dirDiff = new File(d0.getAbsolutePath()+"/02-local/");
+			if(!dirDiff.exists()) try{dirDiff.mkdir();} catch(Exception e){if(verbatim) IJ.log("Could not create folder "+dirDiff);}
 		}
 		if(direct){
-			File dirDiff = new File(d0.getAbsolutePath()+"/dir/");
-			if(!dirDiff.exists()) try{dirDiff.mkdir();} catch(Exception e){IJ.log("Could not create folder "+dirDiff);}
+			File dirDiff = new File(d0.getAbsolutePath()+"/03-dir/");
+			if(!dirDiff.exists()) try{dirDiff.mkdir();} catch(Exception e){if(verbatim) IJ.log("Could not create folder "+dirDiff);}
 		}		
 		
 		return d0;
@@ -461,7 +477,7 @@ public final class Util {
 	 */
 	public static ImageProcessor thresholdImage(ImageProcessor ip, boolean lowContrast, boolean black, double min){
 		
-        IJ.log("Thresholding");
+        if(verbatim) IJ.log("Thresholding");
 
 		// Equalize and normalize the histogram of the image
 		ContrastEnhancer ce = new ContrastEnhancer();
@@ -476,15 +492,15 @@ public final class Util {
 			
 		// Clean the image
 		BinaryProcessor bp = new BinaryProcessor(new ByteProcessor(ip, true));	
-		if(lowContrast) bp = Util.cleanImage(bp);
+//		if(lowContrast) bp = Util.cleanImage(bp);
 		bp.threshold(120);
 
 		bp.invert();
 		ImagePlus im = new ImagePlus();
 		im.setProcessor(bp);
-			
+					
 		// Clean the image by removing the small particles. Might be redundant with the previous operation...
-		IJ.log("Cleaning the image");
+		if(verbatim) IJ.log("Cleaning the image");
 		ResultsTable rt = new ResultsTable();
 		ParticleAnalyzer pa = new ParticleAnalyzer(ParticleAnalyzer.SHOW_MASKS, Measurements.AREA, rt, min, 10e9, 0, 1);
 		pa.analyze(im);
